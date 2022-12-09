@@ -1,0 +1,14 @@
+.card.border-0.rounded-0
+  .card-body.p-0
+    %ul#sidebar-lists.list-group.list-group-flush
+      .accordion#accordionExample
+        .card.border-0.rounded-0
+          .card-header.text-left.pl-2.pr-0.py-3.border.border-left-0.border-top-0.border-bottom-0.border-success{:id => "headingdevice"}
+            签到管理
+          .card-body.py-0.pl-2.pr-0
+            = link_to wx_sign_logs_path, :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/wx_sign_log/ =~ request.path).nil? ? '' : 'text-primary'} " do
+              = fa_icon "tasks", text: Setting.sign_logs.label, class: "ml-4 mr-2"  
+            = link_to wx_workers_path, :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/wx_worker/ =~ request.path).nil? ? '' : 'text-primary'} " do
+              = fa_icon "map-marker", text: '工人管理', class: "ml-4 mr-2"  
+            = link_to wx_devices_path, :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/wx_device/ =~ request.path).nil? ? '' : 'text-primary'} " do
+              = fa_icon "sitemap", text: Setting.devices.label, class: "ml-4 mr-2"  

@@ -1,0 +1,107 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @deploy, :url => "/deploys/#{@deploy.id ? idencode(@deploy.id) : ''}", :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
+        - if @deploy.errors.any?
+          #error_explanation.alert.alert-danger.alert-dismissible.fade.show
+            %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+              %span{"aria-hidden" => "true"} x 
+            %h2= "#{pluralize(@deploy.errors.count, "错误")}:"
+            %ul
+              - @deploy.errors.full_messages.each do |msg|
+                %li= msg
+        .row
+          .col-sm-12
+            %h2.text-center
+              = image_tag "gykg.jpg"
+          .col-md-8.offset-md-2.p-5.border
+            #flash_explanation
+            .card.border-0.mb-3.rounded-0
+              .card-header.bg-transparent.border-success
+                %h5
+                  = Setting.deploys.label
+              .card-body
+                %table.w-100.table-bordered.day-pdt-table
+                  %tbody
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.name, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :name, :class => "form-control" , :required => true
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.start_time, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.datetime_select :start_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.end_time, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.datetime_select :end_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                      
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.expire, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.number_field :expire, :class => "form-control", :step => "any"  
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.appid, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :appid, :class => "form-control" 
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.secret, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :secret, :class => "form-control" 
+                      
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.key, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :key, :class => "form-control" 
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.val1, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :val1, :class => "form-control" 
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.val2, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :val2, :class => "form-control" 
+                      
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.deploys.val3, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :val3, :class => "form-control" 
+                      
+                    
+          
+          
+          
+          
+          
+            .form-group.row
+              .col-3.offset-3
+                = f.submit '保存', :class => "button  button-small button-action"
+            -#
+              .col-3.offset-1
+                = link_to '返回', deploys_path, :class => "button button-small  button-caution"

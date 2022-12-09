@@ -1,0 +1,116 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    .col-12
+      %h2.text-center
+        = image_tag "gykg.jpg"
+        = @device.name
+    .col-12
+      %table.table-bordered.day-pdt-table.w-100.mb-3
+        %tbody
+          %tr
+            %td.p-2.text-center
+              = Setting.devices.idno
+            %td.p-2.text-center{:colspan => 3}
+              = @device.idno
+        
+          %tr
+            %td.p-2.text-center
+              = Setting.devices.mdno
+            %td.p-2.text-center{:colspan => 3}
+              = @device.mdno
+        
+          %tr
+            %td.p-2.text-center
+              = Setting.devices.unit
+            %td.p-2.text-center{:colspan => 3}
+              = @device.unit
+        
+          %tr
+            %td.p-2.text-center
+              = Setting.devices.supplier
+            %td.p-2.text-center{:colspan => 3}
+              = @device.supplier
+
+          
+          %tr
+            %td.p-2.text-center
+              = Setting.devices.pos
+            %td.p-2.text-center{:colspan => 3}
+              = @device.pos
+        
+          %tr
+            %td.p-2.text-center
+              = Setting.devices.pos_no
+            %td.p-2.text-center{:colspan => 3}
+              = @device.pos_no
+        
+          %tr
+            %td.p-2.text-center
+              = Setting.devices.state
+            %td.p-2.text-center{:colspan => 3}
+              = @device.state
+
+          
+          %tr
+            -#
+              %td.p-2.text-center
+                = Setting.devices.desc
+            %td.p-2.text-left{:colspan => 4}
+              = @device.desc
+        
+    .col-12
+      = image_tag @device.avatar_url, :class => "w-100"
+      
+    .col-12
+      - @device.upholds.each do |uphold|
+        .card.border-0.mt-2.rounded-0
+          .card-header.p-0.bg-transparent.border-dark
+            %p.mb-0
+              = uphold.uphold_date
+              = Setting.upholds.cost
+              = uphold.cost
+          .card-body.p-1
+            %p.mb-1
+              %span.text-primary
+                [
+                = Setting.upholds.reason
+                ]
+              = uphold.reason
+            %p.mb-1
+              %span.text-primary
+                [
+                = Setting.upholds.content
+                ]
+              = uphold.content
+         
+-#
+  %tr
+
+    %td.p-2.text-center
+      = Setting.devices.life
+    %td.p-2.text-center
+      = @device.life
+
+  %tr
+    %td.p-2.text-center
+      = Setting.devices.out_date
+    %td.p-2.text-center{:colspan => 3}
+      = @device.out_date
+
+  
+  %tr
+    %td.p-2.text-center
+      = Setting.devices.mfcture
+    %td.p-2.text-center{:colspan => 3}
+      = @device.mfcture
+
+
+  %tr
+    %td.p-2.text-center
+      = Setting.devices.mount_date
+    %td.p-2.text-center{:colspan => 3}
+      = @device.mount_date
+
+

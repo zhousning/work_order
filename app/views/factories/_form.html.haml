@@ -1,0 +1,72 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @factory, :url => "/factories/#{idencode(@factory.id)}",  :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
+        - if @factory.errors.any?
+          #error_explanation.alert.alert-danger.alert-dismissible.fade.show
+            %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+              %span{"aria-hidden" => "true"} x 
+            %h2= "#{pluralize(@factory.errors.count, "error")} prohibited this buyer from being saved:"
+            %ul
+              - @factory.errors.full_messages.each do |msg|
+                %li= msg
+      
+        .row
+          .col-md-8.offset-md-2.p-5.border
+            .card.border-0.mb-3.rounded-0
+              .card-body
+                %table.table-bordered.day-pdt-table.w-100.mb-3
+                  %tbody
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.factories.area, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :area, :class => "form-control rounded-0" 
+                      %td.p-2.text-center
+                        = f.label Setting.factories.name, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :name, :class => "form-control rounded-0" 
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.factories.lnt, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :lnt, :class => "form-control rounded-0" 
+                      %td.p-2.text-center
+                        = f.label Setting.factories.lat, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :lat, :class => "form-control rounded-0" 
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.factories.info, :class => "text-center"
+                      %td.p-2.text-center{:colspan => "3"}
+                        = f.text_area :info, :class => "form-control rounded-0", :rows => "10" 
+                    %tr
+                      %td.p-2.text-center
+                        = f.label "图片", :class => "text-center"
+                      %td.p-2.text-center{:colspan => "3"}
+                        %label.newbutton
+                          = image_tag f.one_image("logo"), :class => "blah"
+                          = f.file_field :logo, :accept => "image/png, image/jpeg, image/gif", :class => "select-file", :onchange => "readURL(this);"
+            = f.fields_for :mudfcts do |mudfct|
+              = render 'mudfct_fields', f: mudfct 
+            .links
+              = link_to_add_association "添加污泥处置厂家", f, :mudfcts, :class => "button button-small button-primary"
+      
+      
+      
+        -#
+          .form-group.row
+            = f.label Setting.departments.label, :class => "col-3  text-right col-form-label"
+            .col-9
+              .row
+                = f.fields_for :departments do |department|
+                  = render 'department_fields', f: department 
+                .links
+                  = link_to_add_association "添加", f, :departments, :class => "button button-small button-primary"
+      
+        .form-group.row
+          .col-3.offset-3
+            = f.submit '保存', :class => "button  button-small button-action"
+        -#
+          .col-3.offset-1
+            = link_to '返回', factories_path, :class => "button button-small  button-caution"

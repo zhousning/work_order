@@ -1,0 +1,190 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @template do |f|
+        - if @template.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@template.errors.count, "error")} prohibited this buyer from being saved:"
+            %ul
+              - @template.errors.full_messages.each do |msg|
+                %li= msg
+      
+        .form-group.row
+          = f.label Setting.templates.name, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            = f.text_field :name, :class => "form-control"
+
+        .form-group.row
+          = f.label Setting.templates.cn_name, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            = f.text_field :cn_name, :class => "form-control"
+          
+        .form-group.row
+          = f.label Setting.templates.index, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :index, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :index, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+          
+        .form-group.row
+          = f.label Setting.templates.new, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :new, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :new, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+          
+        .form-group.row
+          = f.label Setting.templates.edit, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :edit, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :edit, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+          
+        .form-group.row
+          = f.label Setting.templates.show, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :show, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :show, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+          
+        .form-group.row
+          = f.label Setting.templates.form, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :form, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :form, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+            
+        .form-group.row
+          = f.label Setting.templates.one_image, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            = f.text_field :one_image, :class => "form-control", :placeholder => "多个属性间用空格如logo avatar"
+
+        .form-group.row
+          = f.label Setting.templates.one_attachment, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            = f.text_field :one_attachment, :class => "form-control", :placeholder => "多个属性间用空格如note typora"
+
+        .form-group.row
+          = f.label Setting.templates.image, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :image, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :image, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+
+        .form-group.row
+          = f.label Setting.templates.attachment, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :attachment, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :attachment, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+
+        .form-group.row
+          = f.label Setting.templates.admin, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-9
+            .form-check.form-check-inline
+              = f.radio_button :admin, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :admin, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+          
+        .form-group.row
+          = f.label Setting.templates.js, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :js, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :js, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+          
+        .form-group.row
+          = f.label Setting.templates.scss, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :scss, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :scss, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+            
+          
+        .form-group.row
+          = f.label Setting.templates.upload, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :upload, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :upload, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+          
+        .form-group.row
+          = f.label Setting.templates.download, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :download, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :download, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+      
+        .form-group.row
+          = f.label Setting.templates.current_user, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            .form-check.form-check-inline
+              = f.radio_button :current_user, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+              = f.label Setting.systems.status_yes, :class => "form-check-label"
+            .form-check.form-check-inline
+              = f.radio_button :current_user, Setting.systems.status_en_no, :class => "form-check-input"
+              = f.label Setting.systems.status_no, :class => "form-check-label"
+      
+      
+        .form-group.row
+          = f.label "属性", :class => "col-sm-3 col-form-label text-right"
+          .col-sm-9
+            = f.fields_for :natures do |nature|
+              = render 'nature_fields', f: nature 
+            .links
+              = link_to_add_association "添加", f, :natures, :class => "button button-primary"
+      
+        .form-group.row
+          = f.label "关联", :class => "col-sm-3 col-form-label text-right"
+          .col-sm-9
+            = f.fields_for :relates do |relate|
+              = render 'relate_fields', f: relate 
+            .links
+              = link_to_add_association "添加", f, :relates, :class => "button button-primary"
+      
+        .form-group.row
+          = f.label "嵌套显示属性", :class => "col-sm-3 control-form-label text-right"
+          .col-sm-9
+            = f.fields_for :nests do |nest|
+              = render 'nest_fields', f: nest 
+            .links
+              = link_to_add_association "添加", f, :nests, :class => "button button-primary"
+
+        .form-group.row
+          .col-sm-3.offset-sm-2
+            = f.submit '保存', :class => "button button-action"

@@ -1,0 +1,30 @@
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          -#- if "#{action_name}" == Setting.systems.index && (can? :create, controller_name.singularize.capitalize.constantize)
+          -#- elsif "#{action_name}" == Setting.systems.new && (can? :index, controller_name.singularize.capitalize.constantize) 
+          -#- if can? :update, controller_name.singularize.capitalize.constantize
+          - if "#{action_name}" == Setting.systems.index
+            = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+            = link_to "/#{controller_name}/new", :class => "button pull-right button-primary" do
+              = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+          - elsif "#{action_name}" == Setting.systems.new
+            = fa_icon "plus-square-o", text: t(controller_name + "." + action_name + '.title')
+            = link_to "/#{controller_name}", :class => "button pull-right button-primary" do
+              = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+          - elsif "#{action_name}" == Setting.systems.show
+            = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+            = link_to "/#{controller_name}", :class => "button pull-right button-primary" do
+              = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+            = link_to "#{request.url}/edit", :class => "button pull-right button-highlight mr-1" do
+              = fa_icon "edit", text: Setting.systems.btn_edit, right: false 
+          - elsif "#{action_name}" == Setting.systems.edit
+            = fa_icon "wpforms", text: t(controller_name + "." + action_name + '.title')
+            = link_to "#{request.url}".sub("edit", ""), :class => "button pull-right button-primary" do
+              = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        = yield :main_body 
+      = render "layouts/bootstrap/card"

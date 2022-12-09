@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <meta content = "text/html; charset=UTF-8" http-equiv = "Content-Type" />
+        <meta content = "width=device-width, initial-scale=1" name = "viewport" />
+        <meta http-equiv = "X-UA-Compatible" content = "IE=edge" />
+        <title><%= '<%= @website.name'+ '%' + '>' %></title>
+        <%= '<% if @logo'+ '%' + '>' %>
+          <link rel="shortcut icon" href="<%= '<%= "./assets/" + File.basename(@logo)' + '%' +'>' %>" type="image/x-icon" />
+        <%= '<% else'+ '%' + '>' %>
+          <link rel="shortcut icon" href="./assets/logo.png" type="image/x-icon" />
+        <%= '<% end'+ '%' + '>' %>
+        <link rel="stylesheet" href="./stylesheets/bootstrap.min.css" />
+        <link rel="stylesheet" href="./stylesheets/animate.css" />
+        <link rel="stylesheet" href="./stylesheets/previewer.css" />
+        <link rel="stylesheet" href="./stylesheets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./stylesheets/main.css" />
+        <link rel="stylesheet" href="<%= './stylesheets/<%= @file_name' + '%' + '>.css' %>" />
+        <script src="./javascripts/jquery.min.js" ></script>
+        <script src="./javascripts/bootstrap.min.js" ></script>
+        <script src="./javascripts/previewer.min.js" ></script>
+        <script src="<%= './javascripts/<%= @file_name' + '%' + '>.js' %>" ></script>
+
+    </head>
+    <body>
+      <% if @navbar %>
+        <%= @navbar.html %>
+      <% end %>
+        
+      <% if @mastheader %>
+        <%= @mastheader.html %>
+      <% end %>
+
+      <% @blocks.each do |block| %>
+      <%= '<% @blocks.each do |block|' + '%' + '>'  %>
+      <%= '<% if block.subunit == "' + block.subunit + '"%' + '>'  %>
+        <%= Subunit.find(block.subunit).html %>
+      <%= '<% end ' + '%' + '>' %>
+      <%= '<% end ' + '%' + '>' %>
+      <% end %>
+
+      <% if @footer %>
+        <%= @footer.html %>
+      <% end %>
+    </body>
+</html>

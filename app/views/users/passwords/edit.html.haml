@@ -1,0 +1,31 @@
+- provide(:title, t('.title'))
+
+= devise_error_messages!
+.container-fluid.h-100
+  .row.h-100.py-5.px-5
+    .col-sm-12
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| 
+        = devise_error_messages! 
+        = f.hidden_field :reset_password_token 
+      
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg.text-right{:for => "password"}
+            = image_tag 'session-password.png', :class => "img-thubnail"
+          .col-10
+            = f.password_field :password, autocomplete: "off", :class => "form-control border-0 form-control-lg", :placeholder => "密码"
+          .col-12
+            - if @minimum_password_length 
+              %em
+                最小长度
+                = @minimum_password_length 
+            %hr
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg.text-right{:for => "password"}
+            = image_tag 'session-password.png', :class => "img-thubnail"
+          .col-10
+            = f.password_field :password_confirmation, autocomplete: "off", :class => "form-control border-0 form-control-lg", :placeholder => "确认密码"
+          .col-12
+            %hr
+        .form-group.row.mb-5
+          .col-12
+            = f.submit "重置密码", class: "btn btn-success btn-lg btn-block "

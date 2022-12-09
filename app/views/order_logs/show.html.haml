@@ -1,0 +1,116 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-sm-12
+              %h2.text-center
+                = image_tag "gykg.jpg"
+            .col-md-8.offset-2.p-5.border
+              .card.border-0.mb-3.rounded-0
+                .card-header.bg-transparent.border-dark
+                  %h5
+                    = Setting.order_logs.label
+                .card-body
+                  %table.table-bordered.day-pdt-table.w-100.mb-3
+                    %tbody
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.order_logs.feedback
+                        %td.p-2.text-center
+                          = @order_log.feedback
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.order_logs.content
+                        %td.p-2.text-center
+                          = @order_log.content
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.order_logs.longitude
+                        %td.p-2.text-center
+                          = @order_log.longitude
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.order_logs.latitude
+                        %td.p-2.text-center
+                          = @order_log.latitude
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.order_logs.upman
+                        %td.p-2.text-center
+                          = @order_log.upman
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.order_logs.nextman
+                        %td.p-2.text-center
+                          = @order_log.nextman
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.order_logs.start_time
+                        %td.p-2.text-center
+                          = @order_log.start_time
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.order_logs.end_time
+                        %td.p-2.text-center
+                          = @order_log.end_time
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.order_logs.state
+                        %td.p-2.text-center
+                          = @order_log.state
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.order_logs.img
+                        %td.p-2.text-center
+                          = @order_log.img
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.order_logs.address
+                        %td.p-2.text-center
+                          = @order_log.address
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.order_logs.item
+                        %td.p-2.text-center
+                          = @order_log.item
+                    
+              .row
+              
+              .row
+              
+                - @order_log.enclosures.each do |e|
+                  .col-md-6
+                    = image_tag e.file_url(:small_width), :class => "w-100"
+              
+              .row
+              
+              
+              .row
+                - @order_log.attachments.each_with_index do |e, i|
+                  .col-md-12
+                    = link_to File.basename(URI.decode(e.file_url)), download_attachment_order_log_path(idencode(@order_log.id), :number => i, :ft => '')
+              
+              
+      = render "layouts/bootstrap/card"

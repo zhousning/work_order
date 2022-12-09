@@ -1,0 +1,74 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-sm-12
+              %h2.text-center
+                = image_tag "gykg.jpg"
+            .col-md-8.offset-2.p-5.border
+              .card.border-0.mb-3.rounded-0
+                .card-header.bg-transparent.border-dark
+                  %h5
+                    = Setting.<%= @mpu %>.label
+                .card-body
+                  %table.table-bordered.day-pdt-table.w-100.mb-3
+                    %tbody
+                    <% @attrs.each_with_index do |attr, index| %>
+                      <% if (index + 1)%3 == 1 %>%tr<% end %>
+                        %td.p-2.text-center
+                          = Setting.<%= @mpu %>.<%= attr %>
+                        %td.p-2.text-center
+                          = @<%= @mu %>.<%= attr %>
+                    <% end %>
+              .row
+              <% @one_enclosure.each do |e| %>
+                .col-md-6
+                  = image_tag @<%= @mu %>.<%= e %>_url, :class => "w-100"
+              <% end %>
+              .row
+              <% if @enclosure %>
+                - @<%= @mu %>.enclosures.each do |e|
+                  .col-md-6
+                    = image_tag e.file_url(:small_width), :class => "w-100"
+              <% end %>
+              .row
+              <% @one_attachment.each do |a| %>
+                .col-md-6
+                  - unless @<%= @mu %>.<%= a %>.blank?
+                    = link_to URI.decode(File.basename(@<%= @mu %>.<%= a %>_url)), download_append_<%= @mu %>_path(idencode(@<%= @mu %>.id))
+              <% end %>
+              <% if @attachment %>
+              .row
+                - @<%= @mu %>.attachments.each_with_index do |e, i|
+                  .col-md-12
+                    = link_to File.basename(URI.decode(e.file_url)), download_attachment_<%= @mu %>_path(idencode(@<%= @mu %>.id), :number => i, :ft => '')
+              <% end %>
+              <% @fields.each do |field, value| %>
+                .col-md-12
+                  .card.border-0.mb-3.rounded-0
+                    .card-header.bg-transparent.border-info
+                      %h5
+                        = Setting.<%= field.pluralize %>.label
+                    .card-body
+                      %table.table-bordered.day-pdt-table.w-100
+                        %tbody
+                          - @<%= @mu %>.<%= field.pluralize %>.each do |<%= field %>|
+                            <% value['attr'].each_with_index do |attr, index| %> 
+                            <% if (index + 1)%3 == 1 %>%tr<% end %>
+                              %td.p-3.text-center
+                                = Setting.<%= field.pluralize %>.<%= attr %>
+                              %td.p-3.text-center
+                                = <%= field %>.<%= attr %>
+                            <% end %>
+              <% end %>
+      = render "layouts/bootstrap/card"

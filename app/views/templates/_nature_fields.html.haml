@@ -1,0 +1,27 @@
+.nested-fields
+  .form-group
+    .field.d-inline
+      .form-group.row
+        .col-sm-2
+          = f.text_field :name, :class => "form-control", :placeholder => Setting.natures.name
+        .col-sm-2
+          = f.text_field :title, :class => "form-control", :placeholder => Setting.natures.title
+        .col-sm-2
+          = f.select :data_type, type_options, {:include_blank=>false}, {:class=>"form-control"}
+        .col-sm-2
+          = f.select :tag, options_for_tag, {:include_blank=>false}, {:class=>"form-control"}
+        .col-sm-2
+          必填
+          .form-check.form-check-inline
+            = f.radio_button :required, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+            = f.label Setting.systems.status_yes, :class => "form-check-label"
+          .form-check.form-check-inline
+            = f.radio_button :required, Setting.systems.status_en_no, :class => "form-check-input"
+            = f.label Setting.systems.status_no, :class => "form-check-label"
+        .col-sm-2
+          = link_to_remove_association "删除", f, :class => "btn btn-danger btn-sm d-inline"
+-#
+  = f.label Setting.natures.name, :class => "col-sm-3 text-right"
+  = f.label Setting.natures.type, :class => "col-sm-3 text-right"
+  = f.label Setting.natures.title, :class => "col-sm-3 text-right"
+  = f.label Setting.natures.tag, :class => "col-sm-3 text-right"

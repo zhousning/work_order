@@ -1,0 +1,5 @@
+config/initializers/active_admin配置
+config.register_javascript '/assets/kindeditor/kindeditor.js'
+
+
+f.kindeditor :content, :label => Setting.notices.content 

@@ -1,0 +1,147 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %ul.list-group.list-group-horizontal
+          %li.list-group-item.pl-0.border-0
+            = select_tag "fcts", options_for_my_factory(@factories), :include_blank=>false, :class=>"form-control"
+          %li.list-group-item.pl-0.border-0
+            = select_tag "qcodes", options_for_quotas, :include_blank=>false, :class=>"form-control"
+          %li.list-group-item.pl-0.border-0
+            = select_tag "year", options_for_years, :include_blank=>false, :class=>"form-control"
+
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-12
+              .card.w-100
+                .card-header.bg-white
+                  %ul.nav.nav-tabs{:role => "tablist"}
+                    %li.nav-item
+                      %a.nav-link.active{"data-toggle" => "tab", :href => "#home", :role => "tab"}
+                        月度对比
+                    -#
+                      %li.nav-item
+                        %a.nav-link{"data-toggle" => "tab", :href => "#profile", :role => "tab"}
+                          污泥分析
+                      %li.nav-item
+                        %a.nav-link{"data-toggle" => "tab", :href => "#messages", :role => "tab"}
+                          能耗分析
+                      %li.nav-item
+                        %a.nav-link{"data-toggle" => "tab", :href => "#settings", :role => "tab"}
+                          中水分析
+                .card-body
+                  .tab-content.text-center
+                    #home.sglfct-chart-ctn.tab-pane.active{:role => "tabpanel"}
+                      %ul.list-group.list-group-horizontal
+                        %li.list-group-item
+                          - months.each_pair do |k, v|
+                            %label.checkbox-inline.mr-5
+                              = check_box_tag 'months', k, nil, {array: true} 
+                              = v 
+                        %li.list-group-item
+                          %button.sglfct-statistic-search.button.button-primary.button-small{:type => "button"}
+                            查询 
+                      .row
+                        .col-12.my-5.chart-statistic-wrapper
+                          .chart-statistic-ctn.my-chart-statistic-ctn.d-none{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_cms, :'data-pos' => Setting.quota.pos_inf}
+                        .col-12.chart-statistic-wrapper
+                          .chart-statistic-ctn.my-chart-statistic-ctn.d-none{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_cms, :'data-pos' => Setting.quota.pos_eff}
+                        .col-12.chart-statistic-wrapper
+                          .chart-statistic-ctn.my-chart-statistic-ctn.d-none{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_mud, :'data-pos' => Setting.quota.pos_other}
+                        .col-12.chart-statistic-wrapper
+                          .chart-statistic-ctn.my-chart-statistic-ctn.d-none{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_power, :'data-pos' => Setting.quota.pos_other}
+                        .col-12.chart-statistic-wrapper
+                          .chart-statistic-ctn.my-chart-statistic-ctn.d-none{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_md, :'data-pos' => Setting.quota.pos_other}
+                      -#
+                        .row.mt-5
+                        .col-12
+                          .chart-statistic-ctn.d-none{:'data-chart' => Setting.charts.table, :'data-type' => Setting.quota.ctg_cms}
+                  -#
+                    #profile.sglfct-chart-ctn.tab-pane{:role => "tabpanel"}
+                      %ul.list-group.list-group-horizontal
+                        %li.list-group-item
+                          - @quota_flows.each do |q|
+                            %label.checkbox-inline.mr-5
+                              = check_box_tag 'qcodes', q.code, nil, {array: true} 
+                              = q.name
+                          - @quota_muds.each do |q|
+                            %label.checkbox-inline.mr-5
+                              = check_box_tag 'qcodes', q.code, nil, {array: true} 
+                              = q.name
+                        %li.list-group-item
+                          %button.sglfct-statistic-search.button.button-primary.button-small{:type => "button"}
+                            查询 
+                      .row
+                        .col-12
+                          .chart-statistic-ctn{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_mud, :'data-pos' => Setting.quota.pos_other, :style => "width: 1000px;height:400px;"}
+                      .row.mt-5
+                        .col-12
+                          .chart-statistic-ctn{:'data-chart' => Setting.charts.table, :'data-type' => Setting.quota.ctg_mud}
+                     
+                    #messages.sglfct-chart-ctn.tab-pane{:role => "tabpanel"}
+                      %ul.list-group.list-group-horizontal
+                        %li.list-group-item
+                          - @quota_powers.each do |q|
+                            %label.checkbox-inline.mr-5
+                              = check_box_tag 'qcodes', q.code, nil, {array: true} 
+                              = q.name
+                        %li.list-group-item
+                          %button.sglfct-statistic-search.button.button-primary.button-small{:type => "button"}
+                            查询 
+                      .row
+                        .col-12
+                          .chart-statistic-ctn{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_power, :'data-pos' => Setting.quota.pos_other, :style => "width: 1000px;height:400px;"}
+                      .row.mt-5
+                        .col-12
+                          .chart-statistic-ctn{:'data-chart' => Setting.charts.table, :'data-type' => Setting.quota.ctg_power}
+                    #settings.sglfct-chart-ctn.tab-pane{:role => "tabpanel"}
+                      %ul.list-group.list-group-horizontal
+                        %li.list-group-item
+                          - @quota_mds.each do |q|
+                            %label.checkbox-inline.mr-5
+                              = check_box_tag 'qcodes', q.code, nil, {array: true} 
+                              = q.name
+                        %li.list-group-item
+                          %button.sglfct-statistic-search.button.button-primary.button-small{:type => "button"}
+                            查询 
+                      .row
+                        .col-12
+                          .chart-statistic-ctn{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_md, :'data-pos' => Setting.quota.pos_other, :style => "width: 1000px;height:400px;"}
+                      .row.mt-5
+                        .col-12
+                          .chart-statistic-ctn{:'data-chart' => Setting.charts.table, :'data-type' => Setting.quota.ctg_md}
+
+      = render "layouts/bootstrap/card"
+
+-#
+  %h5
+    = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+    %button.button.button-primary.button-small{:type => "button"}
+      查看
+
+  -#
+    = link_to xls_download_factories_day_pdt_rpts_path(idencode(@factory.id)), :class => "button button-royal pull-right button-small mr-1" do
+      下载表格模板
+
+  -#
+    = link_to "/#{controller_name}/new", :class => "button  button-small pull-right button-primary mr-1" do
+      = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+    %button.button.button-primary.button-small.pull-right.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
+      = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+
+  -#
+    %li.list-group-item.border-0.d-flex.flex-row
+      .form-check.form-check-inline
+        = radio_button_tag 'flow', Setting.quota.inflow_c, true, class: "form-check-input"
+
+        = label_tag Setting.quota.inflow_t, nil, :class => "form-check-label"
+      .form-check.form-check-inline
+        = radio_button_tag 'flow', Setting.quota.outflow_c, false, class: "form-check-input"
+
+        = label_tag Setting.quota.outflow_t, nil, :class => "form-check-label"
+

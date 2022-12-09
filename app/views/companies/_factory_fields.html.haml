@@ -1,0 +1,30 @@
+.nested-fields.nestd-item
+  .form-group
+    .field.d-inline
+    
+      .form-group.row
+        = f.label Setting.factories.area, :class => "col-sm-5 text-right"
+        .col-sm-7
+          = f.text_field :area, :class => "form-control", :required => true 
+        
+      .form-group.row
+        = f.label Setting.factories.name, :class => "col-sm-5 text-right"
+        .col-sm-7
+          = f.text_field :name, :class => "form-control", :required => true 
+        
+      .form-group.row
+        = f.label Setting.factories.info, :class => "col-sm-5 text-right"
+        .col-sm-7
+          = f.text_area :info, :class => "form-control", :rows => "20"
+        
+      .form-group.row
+        = f.label Setting.factories.lnt, :class => "col-sm-5 text-right"
+        .col-sm-7
+          = f.text_field :lnt, :class => "form-control"
+        
+      .form-group.row
+        = f.label Setting.factories.lat, :class => "col-sm-5 text-right"
+        .col-sm-7
+          = f.text_field :lat, :class => "form-control"
+        
+    = link_to_remove_association "X", f, :class => "nestd-notify-badge"

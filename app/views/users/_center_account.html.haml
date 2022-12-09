@@ -1,0 +1,39 @@
+.card.py-3.px-3
+  - if current_user.status == Setting.users.passed
+    = link_to info_accounts_path do 
+      = image_tag 'center-account.png', :class => 'card-img-top'
+      .card-img-overlay.py-5
+        .row
+          .col-12.text-center
+            %h2.card-text.text-left.text-dark.pl-3
+              = current_user.account.number
+  - elsif current_user.status == Setting.users.opening
+    = link_to mobile_authc_new_user_path(current_user) do 
+      = image_tag 'center-account.png', :class => 'card-img-top'
+  - else
+    = link_to mobile_authc_status_user_path(current_user) do 
+      = image_tag 'center-account.png', :class => 'card-img-top'
+  .card-body
+    .row
+      .col.text-center
+        %h3
+          余额
+        %h4
+          = current_user.account.coin
+      .col.text-center
+        %h3
+          佣金
+        %h4
+          = current_user.account.commission
+      .col.text-center
+        = link_to info_citrines_path do
+          %h3.text-dark
+            茶晶
+          %h4.text-dark
+            = current_user.citrine.count
+      .col.text-center
+        = link_to level_users_path do
+          %h3.text-dark
+            等级
+          %h4.text-dark
+            = level_title(current_user.citrine.total)

@@ -1,0 +1,70 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-12
+              %table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
+                %thead
+                  %tr
+                  
+                    -#
+                      %th{:scope => "col", :'data-field' => "avatar"}
+                      头像
+                    %th{:scope => "col", :'data-field' => "index"}
+                    %th{:scope => "col", :'data-field' => "name"}
+                      姓名 
+                    %th{:scope => "col", :'data-field' => "nickname"}
+                      昵称
+                    %th{:scope => "col", :'data-field' => "phone"}
+                      电话
+                    %th{:scope => "col", :'data-field' => "sites"}
+                      负责站点
+                    %th{:scope => "col", :'data-field' => "state"}
+                      状态
+                    %th{:scope => "col", :'data-field' => "button"}
+                  
+                    -#
+                      %th{:scope => "col", :'data-field' => "password"}
+                      = Setting.inspectors.password
+                  
+                %tbody
+                  - @inspectors.each_with_index do |inspector, index|
+                    %tr
+                      -#
+                        %td
+                        = image_tag inspector.avatarurl
+                      %td
+                        = index+1
+                      %td
+                        = inspector.name
+                      %td
+                        = inspector.nickname
+                      %td
+                        = inspector.phone
+                      %td
+                        - inspector.devices.each do |d|
+                          = d.name
+                      %td
+                        - if inspector.state == Setting.states.ongoing
+                          未使用
+                        - else
+                          已使用
+                      %td
+                        .container-fluid
+                          .row.justify-content-center
+                            = link_to "通过", receive_factory_inspector_path((idencode(@factory.id)), idencode(inspector.id)), :class => "button button-primary button-small mr-3", :data => {:confirm => "确认通过吗?"}
+                            = link_to "重绑", reject_factory_inspector_path((idencode(@factory.id)), idencode(inspector.id)), :class => "button button-royal button-small mr-3", :data => {:confirm => "确定拒绝吗?"}
+
+      = render "layouts/bootstrap/card"
+
+

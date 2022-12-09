@@ -1,0 +1,119 @@
+- provide(:title, t('.title'))
+
+.signin-wrap
+  = devise_error_messages!
+  .form-signin.shadow.px-5.bg-white
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), :html => {:'data-parsley-validate' => true}) do |f|
+      -#
+        = f.hidden_field :inviter
+      .text-center.mb-4.mt-3
+        = link_to root_path do
+          = image_tag "logo.png", :width => "w-100"
+      -#
+        .form-group.row
+          %label.col-3.col-form-label.text-right{:for => "inputCompany"} 单位: 
+          .col-9
+            = select_tag "company", options_for_role, :include_blank=>false, :class=>"form-control"
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputPhone"} 手机号: 
+        .col-9
+          = f.phone_field :phone, autofocus: true, :id => "inputPhone", :class => "form-control", :placeholder => "请输入手机号", :value => "", :required => "" 
+          -#
+            = f.telephone_field :phone, autofocus: true, :id => "inputPhone", :class => "form-control", :placeholder => "请输入手机号", :value => "", :"data-parsley-pattern" => "\d{3}"
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputIdentity"} 身份证号: 
+        .col-9
+          = f.text_field :identity, autocomplete: "off", :id => "inputIdentity", :class => "form-control", :placeholder => "请输入身份证号", :value => "", :required => ""
+          -#
+            = f.text_field :identity, autocomplete: "off", :id => "inputIdentity", :class => "form-control", :placeholder => "请输入身份证号", :value => "", :required => "", :"data-parsley-trigger"=>"change", :"data-parsley-required-message"=>"该项必填", :"data-parsley-pattern"=>"^\d{17}[\d|X]|\d{15}$", :"data-parsley-pattern-message"=>"请输入正确的身份证号码"
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputPhone"} 密码: 
+        .col-9
+          = f.password_field :password, autocomplete: "off", :id => "inputPassword", :class => "form-control", :required => "", :placeholder => "请输入密码"
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputPhone"} 确认密码: 
+        .col-9
+          = f.password_field :password_confirmation, autocomplete: "off", :id => "confirmPassword", :class => "form-control", :required => "", :placeholder => "确认密码"
+      -#
+        .form-group.row
+          .col-7
+            = text_field_tag 'confirm_code', nil, :class => "form-control"
+          .col-5.pl-0.text-right
+            %button#send-confirm-code.button.button-caution.button-rounded{:type => "button"}
+              验证码
+      %p.d-flex.justify-content-end
+        = link_to "登 录", new_user_session_path, :class => "text-primary"
+      = f.submit "注 册", class: "button button-glow button-border button-rounded button-caution button-large btn-block"
+-#
+  .form-group.row.mb-5
+    .col-12
+      = link_to "登 录", new_user_session_path, :class => "btn btn-info btn-lg btn-block "
+  .help-block
+    点击注册，表明你同意我们的 
+    %a 服务条款
+    和
+    %a 隐私政策
+-#
+  .container-fluid.h-100
+  .row.pb-4.pt-4.login-header.tea-hr
+    .col-2.mt-5.pt-3.pl-5
+      = link_to new_user_session_path do
+        = image_tag 'back.png', :class => "img-thubnail"
+    .col-4.mt-5.offset-2.text-center.font-2-5rem.text-black
+      注册
+  .row.py-5.px-5
+    .col-12.px-5.mt-5
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = f.hidden_field :inviter
+        .form-group.row.mb-4.px-5
+          %label.col-2.col-form-label.col-form-label-lg.text-left{:for => "phone"}
+            = image_tag 'session-phone.png', :class => "img-thubnail login-label-img"
+          .col-10.py-0
+            = f.phone_field :phone, autofocus: true, :class => "form-control border-0 form-control-lg font-2rem h-100", :placeholder => "请输入手机号"
+          .col-12.mt-3
+            %hr.tea-hr
+        -#
+          .form-group.row.mb-5
+            %label.col-2.col-form-label.col-form-label-lg{:for => "name"}
+              = image_tag 'session-phone.png', :class => "img-thubnail"
+            .col-10
+              = f.text_field :name, :class => "form-control form-control-lg", :placeholder => "姓名"
+        .form-group.row.mb-4.px-5
+          %label.col-2.col-form-label.col-form-label-lg.text-left{:for => "password"}
+            = image_tag 'session-password.png', :class => "img-thubnail login-label-img"
+          .col-10
+            = f.password_field :password, autocomplete: "off", :class => "form-control border-0 form-control-lg font-2rem h-100", :placeholder => "请输入密码"
+          .col-12.mt-3
+            %hr.tea-hr
+        .form-group.row.mb-4.px-5
+          %label.col-2.col-form-label.col-form-label-lg.text-left{:for => "password"}
+            = image_tag 'session-password.png', :class => "img-thubnail login-label-img"
+          .col-10
+            = f.password_field :password_confirmation, autocomplete: "off", :class => "form-control border-0 form-control-lg font-2rem h-100", :placeholder => "确认密码"
+          .col-12.mt-3
+            %hr.tea-hr
+        .form-group.row.mb-4.px-5
+          %label.col-2.col-form-label.col-form-label-lg.text-left{:for => "confirm"}
+            = image_tag 'session-code.png', :class => "img-thubnail session-label-img"
+          .col-6
+            = text_field_tag 'confirm_code', nil, :class => "form-control border-0 form-control-lg font-2rem h-75"
+          .col-4
+            %button#send-confirm-code.btn.btn-block.btn-lg{:type => "button"}
+              验证码
+            -#
+              %label#send-confirm-code.col-4.col-form-label.col-form-label-lg.text-left.py-0{:for => "send-confirm"}
+                = image_tag 'confirm-code.png', :class => "img-thubnail w-100"
+          .col-12.mt-3
+            %hr.tea-hr
+        .form-group.row.mt-5.pt-5
+          .col-12
+            = f.submit "注 册", class: "button button-royal button-pill button-giant btn-block tea-button-green "
+        -#
+          .form-group.row.mb-5
+            .col-12
+              = link_to "登 录", new_user_session_path, :class => "btn btn-info btn-lg btn-block "
+          .help-block
+            点击注册，表明你同意我们的 
+            %a 服务条款
+            和
+            %a 隐私政策

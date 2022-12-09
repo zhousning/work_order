@@ -1,0 +1,13 @@
+.nested-fields
+  .form-group
+    .field.d-inline
+      .form-group.row
+        .col-sm-2
+          = f.select :relate_type, options_for_type, {:include_blank=>false}, {:class=>"form-control"}
+        .col-sm-2
+          = f.text_field :obj, :class => "form-control"
+        .col-sm-2
+          = link_to_remove_association "删除", f, :class => "btn btn-danger btn-sm d-inline"
+-#
+  = f.label Setting.relates.type, :class => "col-sm-3 text-right"
+  = f.label Setting.relates.obj, :class => "col-sm-3 text-right"

@@ -1,0 +1,39 @@
+.nested-fields.mt-2
+  .form-group
+    .field.d-inline
+      .card.border-0.mb-3.rounded-0
+        .card-header.bg-transparent.border-warning
+          %h5
+            = Setting.<%= @nest.pluralize %>.label
+            %span.text-danger
+            = link_to_remove_association "删除", f, :class => "btn btn-danger btn-sm d-inline pull-right"
+        .card-body
+          %table.w-100.table-bordered.day-pdt-table.ml-2
+            %tbody
+            <% @field_attr.each_with_index do |attr, index| %>
+              <% if (index + 1)%3 == 1 %>%tr<% end %>
+                %td.p-2.text-center
+                  = f.label Setting.<%= @nest.pluralize %>.<%= attr %>, :class => "text-center"
+                %td.p-2.text-center
+                <% if @field_tag[index] == 'text' %>  = f.text_field :<%= attr %>, :class => "form-control"<% if @field_required[index] == true %>, :required => true <% end %>
+                <% elsif @field_tag[index] == 'textarea' %>  = f.text_area :<%= attr %>, :class => "form-control", :rows => "20"<% if @field_required[index] == true %>, :required => true <% end %>
+                <% elsif @field_tag[index] == 'number' %>  = f.number_field :<%= attr %>, :class => "form-control"<% if @field_required[index] == true %>, :required => true <% end %>
+                <% elsif @field_tag[index] == 'phone' %>  = f.phone_field :<%= attr %>, :class => "form-control"<% if @field_required[index] == true %>, :required => true <% end %>
+                <% elsif @field_tag[index] == 'date' %>  = f.date_field :<%= attr %>, :class => "form-control"<% if @field_required[index] == true %>, :required => true <% end %>
+                <% elsif options[:tag][index] == 'datetime' %>  = f.datetime_select :<%= attr %>, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control rounded-0"
+                <% elsif @field_tag[index] == 'password' %>  = f.password_field :<%= attr %>, :class => "form-control"<% if @field_required[index] == true %>, :required => true <% end %>
+                <% elsif @field_tag[index] == 'phone' %> = f.phone_field :<%= attr %>, :class => "form-control"<% if @field_required[index] == true %>, :required => true <% end %>
+                <% elsif @field_tag[index] == 'email' %> = f.email_field :<%= attr %>, :class => "form-control"<% if @field_required[index] == true %>, :required => true <% end %>
+                <% elsif @field_tag[index] == 'radio' %>  .form-check.form-check-inline
+                    = f.radio_button :<%= attr %>, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+                    = f.label Setting.systems.status_yes, :class => "form-check-label"
+                  .form-check.form-check-inline
+                    = f.radio_button :<%= attr %>, Setting.systems.status_en_no, :class => "form-check-input"
+                    = f.label Setting.systems.status_no, :class => "form-check-label"
+                <% elsif @field_tag[:tag][index] == 'check' %>  .form-check.form-check-inline
+                    = f.check_box :<%= attr %>, :class => "form-check-input"
+                    = f.label Setting.systems.status_yes, :class => "form-check-label"
+                  .form-check.form-check-inline
+                    = f.check_box :<%= attr %>, :class => "form-check-input"
+                    = f.label Setting.systems.status_no, :class => "form-check-label"
+                <% elsif @field_tag[index] == 'select' %>  = f.select :<%= attr %>, options_for_<%= attr %>, {:include_blank=>false}, {:class=>"form-control"}<% end %><% end %>

@@ -1,0 +1,83 @@
+- provide(:title, t('.title'))
+
+= render 'layouts/components/sday_rpt_reports'
+
+
+-#
+  .container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+
+          
+
+          
+
+          -#
+            = link_to "/#{controller_name}/new", :class => "button  button-small pull-right button-primary mr-1" do
+              = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+            %button.button.button-primary.button-small.pull-right.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
+              = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            -#
+              .col-md-12
+              = hidden_field_tag "fct", idencode(@factory.id), :class => "fct-val"
+            .col-md-12
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
+                %thead
+                  %tr
+                    %th{:scope => "col", :'data-field' => "id"} #
+                  
+                    %th{:scope => "col", :'data-field' => "sign_date"}
+                      = Setting.sign_logs.sign_date
+                  
+                    %th{:scope => "col", :'data-field' => "wx_user_id"}
+                      = Setting.sign_logs.wx_user_id
+                  
+                    %th{:scope => "col", :'data-field' => "device_id"}
+                      = Setting.sign_logs.device_id
+                  
+                    %th{:scope => "col", :'data-field' => "button"}
+                %tbody
+                  - @sign_logs.each_with_index do |sign_log, index|
+                    %tr
+                      %td{:scope => "row"}
+                        = index+1
+                    
+                      %td
+                        = sign_log.sign_date
+                      %td
+                        = sign_log.wx_user_id
+                      %td
+                        = sign_log.device_id
+                      %td
+                        .container-fluid
+                          .row.justify-content-center
+                            = link_to "查看",  sign_log_path(idencode(sign_log.id)), :class => "button button-primary button-small mr-1" 
+                            -#
+                              = link_to "编辑", edit_sign_log_path(idencode(sign_log.id)), :class => "button button-royal button-small mr-1" 
+                              = link_to "删除",  sign_log_path(idencode(sign_log.id)), :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "button button-caution button-small" 
+              .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
+                = paginate @sign_logs, window: 2, left: 1, right: 1 
+      = render "layouts/bootstrap/card"
+
+
+
+-#
+  #newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered
+    .modal-content
+      .modal-header
+        -#
+          = image_tag "gykg.jpg"
+          %h5.text-success
+            = Setting.sign_logs.label
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} x 
+      .modal-body
+        = render 'form'

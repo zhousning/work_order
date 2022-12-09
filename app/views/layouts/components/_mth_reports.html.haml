@@ -1,0 +1,71 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      .container-fluid.px-0
+        %ul.border.bg-white.list-group.list-group-horizontal.pl-3.py-2
+          %li.list-group-item.border-0.pl-0.d-flex.flex-row
+            = date_field_tag 'start', nil, class: 'form-control mr-1', :value => Date.new(Date.today.year, Date.today.month-1, 1), :min => Date.new(2019, 01, 01), :max => Date.today-1
+            %span
+              一
+            = date_field_tag 'end', nil, class: 'form-control ml-1', :value => Date.new(Date.today.year, Date.today.month-1, -1), :min => Date.new(2019, 01, 01), :max => Date.today-1
+          %li.list-group-item.pl-0.border-0
+            %button.area-time-search.button.button-primary.button-small{:type => "button"}
+              查询 
+
+      = render 'layouts/components/fct_lists_checkboxes'
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-12
+              .card.w-100
+                .card-body
+                  .tab-content.text-center
+                    #home.tab-pane.active{:role => "tabpanel"}
+                      .row
+                        .col-12
+                          %table#mth-pdt-rpt-table.text-center.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "600", :'data-virtual-scroll' => "true", :'data-show-columns' => "true", :'data-page-size' => "15"}
+                            %thead
+                              %tr
+                                %th{:scope => "col", :'data-field' => "id"} #
+                              
+                                %th{:scope => "col", :'data-field' => "name"}
+                                  = Setting.mth_pdt_rpts.name
+                                %th{:scope => "col", :'data-field' => "ipt"}
+                                  = Setting.sday_pdts.ipt
+                                %th{:scope => "col", :'data-field' => "opt"}
+                                  = Setting.sday_pdts.opt
+                                %th{:scope => "col", :'data-field' => "power"}
+                                  = Setting.sday_pdts.power
+                                %th{:scope => "col", :'data-field' => "state"}
+                                  = Setting.mth_pdt_rpts.state
+                                %th{:scope => "col", :'data-field' => "button"}
+
+      = render "layouts/bootstrap/card"
+-#
+  = render "mth_pdt_rpts/mth_pdt_rpt_modal"
+#newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#mth-pdt-rpt-header.modal-title.text-center
+        %span.pull-right
+          -#
+            = link_to '下载word', nil, {:id => "word-download", :class => "button button-inverse button-small  mr-1"} 
+            = link_to '下载经济运行分析报告', nil, {:id => "ecm-rpt-download", :class => "button button-royal button-small  mr-1"} 
+          = link_to '下载excel', nil, {:id => "xls-download", :class => "button button-action button-small  mr-1"} 
+      .modal-body
+        //%table#mth-flow-ctn.table.table-bordered.bg-flow
+        %table#mth-cms-ctn.table.table-bordered.bg-cms
+        %table#mth-chemical-ctn.table.table-bordered.bg-chemical
+        %table#mth-power-ctn.table.table-bordered.bg-power
+        //%table#mth-mud-ctn.table.table-bordered.bg-mud
+        %table#mth-md-ctn.table.table-bordered.bg-md
+        //%img{:id => 'mth-cmc-bill', :class => "w-100"}
+
+<script>
+smth_pdt_modal();
+</script>

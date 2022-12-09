@@ -1,0 +1,19 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @role do |f|
+        .form-row
+          .form-group.col.row
+            = f.label "角色名称", :class => "col-sm-1 text-right"
+            .col-sm-3
+              = f.text_field :name, :class => "form-control"
+          = f.submit Setting.systems.btn_save, :class => "button button-border button-rounded button-action pull-right"
+        %table.table
+          %tbody
+            - @permissions.each do |permission|
+              %tr
+                %td
+                  - permission.each do |p|
+                    %label.checkbox-inline.mr-5
+                      = check_box_tag 'permissions[]', p.id, @role_permissions.include?(p.id), {array: true} 
+                      = p.name

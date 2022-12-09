@@ -1,0 +1,65 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-8.offset-2
+              .card-body
+                .container-fluid
+                  .row
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.companies.area
+                      = @company.area
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.companies.name
+                      = @company.name
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.companies.info
+                      = @company.info
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.companies.lnt
+                      = @company.lnt
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.companies.lat
+                      = @company.lat
+                  
+                  .row
+                  
+                    .col-md-6
+                      = image_tag @company.logo_url, :class => "w-100"
+                  
+                  .row
+                  
+                    - @company.factories.each do |factory|
+                       
+                      .col-md-2
+                        = factory.area
+                       
+                      .col-md-2
+                        = factory.name
+                       
+                      .col-md-2
+                        = factory.info
+                       
+                      .col-md-2
+                        = factory.lnt
+                       
+                      .col-md-2
+                        = factory.lat
+                      
+                  
+      = render "layouts/bootstrap/card"

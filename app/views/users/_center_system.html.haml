@@ -1,0 +1,62 @@
+%ul.list-group.mt-3
+  -#
+    = link_to '', :class => "list-group-item list-group-item-action py-5 px-5" do
+  = link_to invite_tasks_path, :class => "list-group-item list-group-item-action py-5 px-5" do
+    .row
+      .col-3
+        %h3
+          任务中心
+      .col-9.text-right
+        %h3
+          >
+  = link_to recharge_accounts_path, :class => "list-group-item list-group-item-action py-5 px-5" do
+    .row
+      .col-3
+        %h3
+          充值中心
+      .col-9.text-right
+        %h3
+          >
+  - if current_user.status == Setting.users.passed
+    = link_to edit_account_path(current_user.account), :class => "list-group-item list-group-item-action py-5 px-5" do
+      .row
+        .col-3
+          %h3
+            安全设置
+        .col-9.text-right
+          %h3
+            >
+  - elsif current_user.status == Setting.users.opening
+    = link_to mobile_authc_new_user_path(current_user), :class => "list-group-item list-group-item-action py-5 px-5" do 
+      .row
+        .col-3
+          %h3
+            安全设置
+        .col-9.text-right
+          %h3
+            >
+  - else
+    = link_to mobile_authc_status_user_path(current_user), :class => "list-group-item list-group-item-action py-5 px-5" do 
+      .row
+        .col-3
+          %h3
+            安全设置
+        .col-9.text-right
+          %h3
+            >
+  = link_to custom_service_home_index_path, :class => "list-group-item list-group-item-action py-5 px-5" do
+    .row
+      .col-3
+        %h3
+          客服中心
+      .col-9.text-right
+        %h3
+          >
+  = link_to help_home_index_path, :class => "list-group-item list-group-item-action py-5 px-5" do
+    .row
+      .col-3
+        %h3
+          帮助中心
+      .col-9.text-right
+        %h3
+          >

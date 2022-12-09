@@ -1,0 +1,14 @@
+:verbose: false
+:concurrency: 10 # 并发数
+:pidfile: ./tmp/pids/sidekiq.pid
+:logfile: ./log/sidekiq.log # 输出的日志地址
+:timeout: 30
+:queues:
+  - default # 写在队列参数中的, 表示让 sidekiq 处理这个 queue
+
+development:
+:concurrency: 10 
+staging:
+:concurrency: 10
+production:
+:concurrency: 10 

@@ -1,0 +1,20 @@
+.nested-fields
+  .form-group
+    .field.d-inline
+      .form-group.row
+        .col-sm-2
+          = f.text_field :name, :class => "form-control", :placeholder => Setting.natures.name
+        .col-sm-2
+          = link_to_remove_association "删除", f, :class => "btn btn-danger btn-sm d-inline"
+      .form-group.row
+        = f.label "属性", :class => "col-sm-1 control-label"
+        .col-sm-11
+          = f.fields_for :properties do |property|
+            = render 'property_fields', f: property 
+          .links
+            = link_to_add_association "添加", f, :properties, :class => "btn btn-success"
+-#
+  = f.label Setting.natures.name, :class => "col-sm-3 text-right"
+  = f.label Setting.natures.type, :class => "col-sm-3 text-right"
+  = f.label Setting.natures.title, :class => "col-sm-3 text-right"
+  = f.label Setting.natures.tag, :class => "col-sm-3 text-right"

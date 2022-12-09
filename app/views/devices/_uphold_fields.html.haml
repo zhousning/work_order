@@ -1,0 +1,43 @@
+.nested-fields.mt-2
+  .form-group
+    .field.d-inline
+      .card.border-0.mb-3.rounded-0
+        .card-header.bg-transparent.border-warning
+          %h5
+            = Setting.upholds.label
+            %span.text-danger
+            = link_to_remove_association "删除", f, :class => "btn btn-danger btn-sm d-inline pull-right"
+        .card-body
+          %table.w-100.table-bordered.day-pdt-table.ml-2
+            %tbody
+            
+              %tr
+                %td.p-2.text-center
+                  = f.label Setting.upholds.uphold_date, :class => "text-center"
+                %td.p-2.text-center
+                  = f.date_field :uphold_date, :class => "form-control", :required => true 
+                
+              
+                %td.p-2.text-center
+                  = f.label Setting.upholds.reason, :class => "text-center"
+                %td.p-2.text-center
+                  = f.text_area :reason, :class => "form-control", :rows => "20", :required => true 
+                
+              
+                %td.p-2.text-center
+                  = f.label Setting.upholds.content, :class => "text-center"
+                %td.p-2.text-center
+                  = f.number_field :content, :class => "form-control", :required => true 
+                
+              %tr
+                %td.p-2.text-center
+                  = f.label Setting.upholds.cost, :class => "text-center"
+                %td.p-2.text-center
+                  = f.number_field :cost, :class => "form-control", :required => true 
+                
+              
+                %td.p-2.text-center
+                  = f.label Setting.upholds.state, :class => "text-center"
+                %td.p-2.text-center
+                  = f.text_field :state, :class => "form-control", :required => true 
+                

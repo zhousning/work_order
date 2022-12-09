@@ -1,0 +1,30 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @property, :builder => WebsiteFormBuilder do |f|
+        - if @property.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@property.errors.count, "error")} prohibited this buyer from being saved:"
+            %ul
+              - @property.errors.full_messages.each do |msg|
+                %li= msg
+      
+        .form-group.row
+          = f.label Setting.properties.name, :class => "col-sm-3 text-right"
+          .col-sm-9
+            = f.text_field :name, :class => "form-control"
+          
+        .form-group.row
+          = f.label Setting.properties.tag, :class => "col-sm-3 text-right"
+          .col-sm-9
+            = f.select :tag, options_for_tag, {:include_blank=>false}, {:class=>"form-control"}
+      
+      
+      
+      
+      
+        .form-group.row
+          .col-sm-3.offset-sm-2
+            = f.submit '保存', :class => "btn btn-success"
+          .col-sm-3.offset-sm-1
+            = link_to '返回', properties_path, :class => "btn btn-danger"

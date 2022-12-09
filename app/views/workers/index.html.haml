@@ -1,0 +1,157 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+
+          -#
+            = link_to "/#{controller_name}/new", :class => "button  button-small pull-right button-primary mr-1" do
+              = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+            %button.button.button-primary.button-small.pull-right.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
+              = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            -#
+              .col-md-12
+              = hidden_field_tag "fct", idencode(@factory.id), :class => "fct-val"
+            .col-md-12
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "600", :'data-virtual-scroll' => "true", :'data-show-columns' => "true", :'data-page-size' => "50"}
+                %thead
+                  %tr
+                    %th{:scope => "col", :'data-field' => "id"} #
+                    -#
+                      %th{:scope => "col", :'data-field' => "number"}
+                      编号
+                    %th{:scope => "col", :'data-field' => "wxuser"}
+                      上传人微信
+                  
+                    %th{:scope => "col", :'data-field' => "name"}
+                      = Setting.workers.name
+                  
+                    %th{:scope => "col", :'data-field' => "idno"}
+                      = Setting.workers.idno
+                  
+                    %th{:scope => "col", :'data-field' => "phone"}
+                      = Setting.workers.phone
+                  
+                    %th{:scope => "col", :'data-field' => "gender"}
+                      = Setting.workers.gender
+                  
+                    %th{:scope => "col", :'data-field' => "adress"}
+                      = Setting.workers.adress
+                  
+                    %th{:scope => "col", :'data-field' => "state"}
+                      = Setting.workers.state
+
+                    %th{:scope => "col", :'data-field' => "desc", :'data-width' => '200'}
+                      错误信息
+                    %th{:scope => "col", :'data-field' => "info", :'data-width' => '300'}
+                      备注
+                  
+                    %th{:scope => "col", :'data-field' => "button"}
+              -#
+                %tbody
+                  - @workers.each_with_index do |worker, index|
+                    %tr
+                      %td{:scope => "row"}
+                        = index+1
+                      -#
+                        %td
+                        = worker.number
+                    
+                      %td
+                        = WxUser.find(worker.wx_inviter).name
+                      %td
+                        = worker.name
+                      %td
+                        = worker.idno
+                      %td
+                        = worker.phone
+                      %td
+                        = user_gender(worker.gender)
+                      %td
+                        = worker.adress
+                      %td
+                        - if worker.state == Setting.states.ongoing
+                          未验证
+                        - elsif worker.state == Setting.states.processing
+                          处理中
+                        - elsif worker.state == Setting.states.canceled
+                          处理失败
+                        - else
+                          已验证
+                      %td
+                        -if worker.state != Setting.states.completed
+                          = worker.desc
+                      %td
+                        .container-fluid
+                          .row.justify-content-center
+                            -if worker.state == Setting.states.completed
+                              = link_to "签到记录", signlogs_factory_worker_path(idencode(@factory.id), idencode(worker.id)), :class => "button button-inverse button-small mr-2" 
+                            %button.worker-show-btn.button.button-action.button-small.mr-2{:'data-id' => idencode(worker.id)}
+                              证件照
+                            -if worker.state == Setting.states.ongoing || worker.state == Setting.states.canceled
+                              = link_to "通过", receive_factory_worker_path(idencode(@factory.id), idencode(worker.id)), :class => "button button-primary button-small mr-2" 
+                              = link_to "拒绝", reject_factory_worker_path(idencode(@factory.id), idencode(worker.id)), :class => "button button-royal button-small mr-2" 
+                              -#
+                                = link_to "删除",  factory_worker_path(idencode(@factory.id), idencode(worker.id)), :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "button button-caution button-small" 
+                                = link_to "编辑", edit_worker_path(idencode(worker.id)), :class => "button button-royal button-small mr-1" 
+            -#
+              .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
+                = paginate @workers, window: 2, left: 1, right: 1 
+      = render "layouts/bootstrap/card"
+
+#newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12
+            %table#day-emq-ctn.table.text-center.table-bordered
+        .row#chart-ctn
+
+#logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#log-day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12
+            %table#log-day-emq-ctn.table.text-center.table-bordered
+
+-#
+  #newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12
+            %table#day-emq-ctn.table.text-center.table-bordered
+        .row#chart-ctn
+-#
+  - if worker.state == Setting.states.ongoing || worker.state == Setting.states.canceled
+  - if worker.state == Setting.states.completed
+-#
+  #newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered
+    .modal-content
+      .modal-header
+        -#
+          = image_tag "gykg.jpg"
+          %h5.text-success
+            = Setting.workers.label
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} x 
+      .modal-body
+        = render 'form'

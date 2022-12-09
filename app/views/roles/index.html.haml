@@ -1,0 +1,35 @@
+- provide(:title, t('.title'))
+
+- content_for :main_body do
+  .container-fluid.p-0
+    .row
+      .col-md-12
+        %table.text-center.table-bordered.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-id-table'=>"advancedTable"}
+          %thead.thead-light
+            %tr
+              %th{:scope => "col"} #
+              %th{:scope => "col"}
+                角色名
+              %th{:scope => "col"}
+          %tbody
+            - @roles.each_with_index do |role, index|
+              %tr
+                %td
+                  = index+1
+                %td
+                  = role.name
+                %td
+                  .container-fluid
+                    .row
+                      = link_to role_path(role), :class => "text-info col" do
+                        = fa_icon "search"
+                      = link_to edit_role_path(role), :class => "text-success col" do
+                        = fa_icon "edit"
+                      = link_to role, :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "text-danger col" do
+                        = fa_icon "trash"
+                    -#
+                      - if can? :show, controller_name.singularize.capitalize.constantize
+                      - if can? :update, controller_name.singularize.capitalize.constantize
+                      - if can? :destroy, controller_name.singularize.capitalize.constantize
+
+= render "layouts/control_panel"

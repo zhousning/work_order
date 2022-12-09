@@ -1,0 +1,16 @@
+- provide(:title, t('.title'))
+
+- content_for :main_body do
+  %caption
+    = @role.name
+    已获权限
+  %table.table.table-inbox.table-hover
+    %tbody
+      - @permissions.each do |permission|
+        %tr
+          %td
+            - permission.each do |p|
+              %label.mx-5
+                = p.name
+
+= render "layouts/control_panel"

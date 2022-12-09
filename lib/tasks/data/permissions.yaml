@@ -1,0 +1,44 @@
+---
+#controller的名字均为程序中controller名称的单数，如AnalysesController为Analysis，必须有对应的model,可以建空model
+-
+  controller: devices_controller
+  actions: [index, new, create, edit, update, show, uphold, destroy, xls_download, parse_excel, query_all]
+-
+  controller: inspectors_controller
+  actions: [index, receive, reject]
+-
+  controller: workers_controller
+  actions: [index, edit, update, destroy, receive, reject, query_info, signlogs, query_all, unvalidate, query_unvalidate]
+-
+  controller: sign_logs_controller
+  actions: [index, query_list, query_device]
+-
+  controller: grp_sign_logs_controller
+  actions: [index, query_list, query_device]
+-
+  controller: grp_inspectors_controller
+  actions: [index, query_unuse, delete_inspector]
+-
+  controller: grp_devices_controller
+  actions: [index, edit, update, destroy, query_all, xls_download, parse_excel]
+-
+  controller: grp_workers_controller
+  actions: [index, query_all, query_info, signlogs, destroy_worker, supervisor, query_supervisor, xls_download, parse_excel]
+-
+  controller: grp_statics_controller
+  actions: [query_device, query_by_area, xls_download, log_detail, index]
+-
+  controller: fct_statics_controller
+  actions: [query_device, query_by_area, xls_download, log_detail, index]
+-
+  controller: controls_controller
+  actions: [index]
+-
+  controller: wx_sign_logs_controller
+  actions: [index, query_list, query_device]
+-
+  controller: wx_devices_controller
+  actions: [index, query_all]
+-
+  controller: wx_workers_controller
+  actions: [index, query_all, query_info, signlogs]

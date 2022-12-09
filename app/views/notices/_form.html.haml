@@ -1,0 +1,36 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @notice do |f|
+        - if @notice.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@notice.errors.count, "error")} prohibited this buyer from being saved:"
+            %ul
+              - @notice.errors.full_messages.each do |msg|
+                %li= msg
+      
+        .form-group.row
+          = f.label Setting.notices.title, :class => "col-sm-3 text-right"
+          .col-sm-9
+            = f.text_field :title, :class => "form-control"
+          
+        .form-group.row
+          = f.label Setting.notices.content, :class => "col-sm-3 text-right"
+          .col-sm-9
+            = f.text_area :content, :class => "form-control", :rows => "20"
+          
+      
+        .form-group.row
+          = f.label "主图", :class => "col-sm-1 control-label"
+          .col-sm-11
+            = f.fields_for :enclosures do |enclosure|
+              = render 'enclosure_fields', f: enclosure
+            .links
+              = link_to_add_association "添加文件", f, :enclosures, :class => "btn btn-success"
+      
+      
+        .form-group.row
+          .col-sm-3.offset-sm-2
+            = f.submit '保存', :class => "btn btn-success"
+          .col-sm-3.offset-sm-1
+            = link_to '返回', notices_path, :class => "btn btn-danger"

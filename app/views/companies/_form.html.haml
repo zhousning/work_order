@@ -1,0 +1,65 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @company, :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
+        - if @company.errors.any?
+          #error_explanation.alert.alert-danger.alert-dismissible.fade.show
+            %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+              %span{"aria-hidden" => "true"} x 
+            %h2= "#{pluralize(@company.errors.count, "error")} prohibited this buyer from being saved:"
+            %ul
+              - @company.errors.full_messages.each do |msg|
+                %li= msg
+      
+        .form-group.row
+          = f.label Setting.companies.area, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-6
+            = f.text_field :area, :class => "form-control rounded-0" 
+          
+        .form-group.row
+          = f.label Setting.companies.name, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-6
+            = f.text_field :name, :class => "form-control rounded-0" 
+          
+        .form-group.row
+          = f.label Setting.companies.info, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-6
+            = f.text_area :info, :class => "form-control rounded-0", :rows => "20" 
+          
+        .form-group.row
+          = f.label Setting.companies.lnt, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-6
+            = f.text_field :lnt, :class => "form-control rounded-0" 
+          
+        .form-group.row
+          = f.label Setting.companies.lat, :class => "col-sm-3 col-form-label text-right"
+          .col-sm-6
+            = f.text_field :lat, :class => "form-control rounded-0" 
+          
+      
+        .form-group.row
+          = f.label "一个附图", :class => "col-sm-3 col-form-label text-right"
+          .col-sm-3
+            %label.newbutton
+              = image_tag f.one_image("logo"), :class => "blah"
+              = f.file_field :logo, :accept => "image/png, image/jpeg, image/gif", :class => "select-file", :onchange => "readURL(this);"
+      
+      
+      
+      
+      
+        .form-group.row
+          = f.label Setting.factories.label, :class => "col-3  text-right col-form-label"
+          .col-9
+            .row
+              = f.fields_for :factories do |factory|
+                = render 'factory_fields', f: factory 
+              .links
+                = link_to_add_association "添加", f, :factories, :class => "button button-small button-primary"
+      
+        .form-group.row
+          .col-3.offset-3
+            = f.submit '保存', :class => "button  button-small button-action"
+        -#
+          .col-3.offset-1
+            = link_to '返回', companies_path, :class => "button button-small  button-caution"

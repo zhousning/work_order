@@ -1,0 +1,95 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-sm-12
+              %h2.text-center
+                = image_tag "gykg.jpg"
+            .col-md-8.offset-2.p-5.border
+              .card.border-0.mb-3.rounded-0
+                .card-header.bg-transparent.border-dark
+                  %h5
+                    = Setting.deploys.label
+                .card-body
+                  %table.table-bordered.day-pdt-table.w-100.mb-3
+                    %tbody
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.deploys.name
+                        %td.p-2.text-center
+                          = @deploy.name
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.deploys.start_time
+                        %td.p-2.text-center
+                          = @deploy.start_time
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.deploys.end_time
+                        %td.p-2.text-center
+                          = @deploy.end_time
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.deploys.expire
+                        %td.p-2.text-center
+                          = @deploy.expire
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.deploys.appid
+                        %td.p-2.text-center
+                          = @deploy.appid
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.deploys.secret
+                        %td.p-2.text-center
+                          = @deploy.secret
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.deploys.key
+                        %td.p-2.text-center
+                          = @deploy.key
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.deploys.val1
+                        %td.p-2.text-center
+                          = @deploy.val1
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.deploys.val2
+                        %td.p-2.text-center
+                          = @deploy.val2
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.deploys.val3
+                        %td.p-2.text-center
+                          = @deploy.val3
+                    
+              .row
+              
+              .row
+              
+              .row
+              
+              
+              
+      = render "layouts/bootstrap/card"

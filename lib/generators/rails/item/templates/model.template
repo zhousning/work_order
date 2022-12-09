@@ -1,0 +1,29 @@
+class <%= @mc %> < ActiveRecord::Base
+<% @one_enclosure.each do |e| %>
+  mount_uploader :<%= e %>, EnclosureUploader
+<% end %>
+
+<% @one_attachment.each do |a|  %>
+  mount_uploader :<%= a %>, AttachmentUploader
+<% end %>
+<% if @enclosure %>
+  has_many :enclosures, :dependent => :destroy
+  accepts_nested_attributes_for :enclosures, reject_if: :all_blank, allow_destroy: true
+<% end %>
+<% if @attachment %>
+  has_many :attachments, :dependent => :destroy
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
+<% end %>
+<% @relates.each do |relate| %><% relate_arr = relate.split(":") %><% if relate_arr[0] == "has_many" %>
+  has_many :<%= relate_arr[1].pluralize %>, :dependent => :destroy
+  accepts_nested_attributes_for :<%= relate_arr[1].pluralize %>, reject_if: :all_blank, allow_destroy: true
+<% elsif relate_arr[0] == "belongs_to" %>
+  belongs_to :<%= relate_arr[1] %>
+<% elsif relate_arr[0] == "has_one" %>
+  has_one :<%= relate_arr[1] %>
+<% end %>
+<% end %>
+<% if @current_user %>
+  belongs_to :user
+<% end %>
+end

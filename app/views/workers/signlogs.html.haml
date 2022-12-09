@@ -1,0 +1,52 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+
+          
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-12
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
+                %thead
+                  %tr
+                    %th{:scope => "col", :'data-field' => "id"} #
+                  
+                    %th{:scope => "col", :'data-field' => "sign_date"}
+                      = Setting.sign_logs.sign_date
+                  
+                    %th{:scope => "col", :'data-field' => "wx_user_id"}
+                      = Setting.sign_logs.wx_user_id
+                  
+                    %th{:scope => "col", :'data-field' => "device_id"}
+                      = Setting.sign_logs.device_id
+
+                    %th{:scope => "col", :'data-field' => "position"}
+                      经纬度
+                  
+                    %th{:scope => "col", :'data-field' => "avatar"}
+                %tbody
+                  - @sign_logs.each_with_index do |sign_log, index|
+                    %tr
+                      %td{:scope => "row"}
+                        = index+1
+                    
+                      %td
+                        = sign_log.created_at.strftime('%Y-%m-%d %H:%M:%S')
+                      %td
+                        = WxUser.find(sign_log.wx_user_id).name
+                      %td
+                        = Device.find(sign_log.device_id).name
+                      %td
+                        = sign_log.longitude + ', ' + sign_log.latitude
+                      %td
+                        = image_tag sign_log.avatar_url, :class => "h-100px"
+      = render "layouts/bootstrap/card"
+

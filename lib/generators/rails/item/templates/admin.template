@@ -1,0 +1,55 @@
+ActiveAdmin.register <%= @mc %>  do
+
+  permit_params <% @attrs.each_with_index do |attr, index| %> :<%= attr %><%= index == @attrs.size-1 ? '' : ','%><% end %>
+
+  menu label: Setting.<%= @mpu %>.label
+  config.per_page = 20
+  config.sort_order = "id_asc"
+
+  <% @attrs.each do |attr| %>
+  filter :<%= attr %>, :label => Setting.<%= @mpu %>.<%= attr %><% end %>
+  filter :created_at
+
+  index :title=>Setting.<%= @mpu %>.label + "管理" do
+    selectable_column
+    id_column
+    <% @attrs.each do |attr| %>
+    column Setting.<%= @mpu %>.<%= attr %>, :<%= attr %><% end %>
+
+    column "创建时间", :created_at, :sortable=>:created_at do |f|
+      f.created_at.strftime('%Y-%m-%d %H:%M:%S')
+    end
+    column "更新时间", :updated_at do |f|
+      f.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+    end
+    actions
+  end
+
+  form do |f|
+    f.inputs "添加" + Setting.<%= @mpu %>.label do
+      <% @attrs.each do |attr| %>
+      f.input :<%= attr %>, :label => Setting.<%= @mpu %>.<%= attr %> <% end %>
+    end
+    f.actions
+  end
+
+  show :title=>Setting.<%= @mpu %>.label + "信息" do
+    attributes_table do
+      row "ID" do
+        <%= @mu %>.id
+      end
+      <% @attrs.each do |attr| %>
+      row Setting.<%= @mpu %>.<%= attr %> do
+        <%= @mu %>.<%= attr %>
+      end<% end %>
+
+      row "创建时间" do
+        <%= @mu %>.created_at.strftime('%Y-%m-%d %H:%M:%S')
+      end
+      row "更新时间" do
+        <%= @mu %>.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+      end
+    end
+  end
+
+end

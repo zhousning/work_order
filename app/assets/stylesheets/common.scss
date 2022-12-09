@@ -1,0 +1,130 @@
+.ztree li span.button.add {
+  margin-left:2px; 
+  margin-right: -1px; 
+  background-position:-144px 0; 
+  vertical-align:top; 
+  *vertical-align:middle;
+}
+
+html,body {
+  height: 100%;
+  font-size: 14px;
+}
+th, td {
+  font-weight: unset;
+}
+body {
+  background: #F1F2FA;
+}
+.bg-ec0303 {
+  background: #ec0303;
+}
+.bg-1B1B27 {
+  background: #1B1B27;
+}
+.bg-19212E {
+  background: #19212E;
+}
+.bg-212634 {
+  background: #6761e9;
+}
+.line-height-45{
+  line-height: 45px;
+}
+.font-1rem{
+  font-size: 1rem;
+}
+.font-1-5rem{
+  font-size: 1.5rem;
+}
+.font-2rem{
+  font-size: 2rem;
+}
+.font-2-5rem{
+  font-size: 2.5rem;
+}
+.font-3rem{
+  font-size: 3rem;
+}
+.font-4rem{
+  font-size: 4rem;
+}
+.tea-button-green{
+  background: #51B79c;
+  font-size: 2rem;
+  height: 5.9rem;
+}
+.tea-hr{
+  border: 1px solid #dddddd;
+}
+.h-700 {
+  height: 700px;
+}
+.h-500 {
+  height: 500px;
+}
+.min-height-450 {
+  min-height: 450px;
+}
+.min-height-700 {
+  min-height: 700px;
+}
+#invite-qrcode table {
+  border-width: 0;
+  border-style: none;
+  border-color: #0000ff;
+  border-collapse: collapse;
+}
+
+ #invite-qrcode td {
+  border-left: solid 10px #000;
+  padding: 0; 
+  margin: 0; 
+  width: 0px; 
+  height: 10px; 
+}
+
+#invite-qrcode td.black { border-color: #000; }
+#invite-qrcode td.white { border-color: #fff; }
+
+
+
+
+body.document-editor {
+    width: 15.8cm;
+    min-height: 21cm;
+    padding: 1cm 2cm 2cm;
+    margin: 0.5cm auto;
+    border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+body.document-editor, body.document-editor td, body.document-editor th {
+    font-size: 0.9em;
+}
+
+body.document-editor table {
+    margin-top: 0.5cm;
+}
+
+body.document-editor table td > p {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 4px 0 3px 5px;
+}
+
+body.document-editor h1 {
+    margin-bottom: 1cm;
+}
+
+body.document-editor ol, body.document-editor ul, body.document-editor dl {
+    padding: 0 20px;
+}
+
+body.document-editor p {
+    margin-top: 0;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}

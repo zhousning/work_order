@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <g fill="none">
+    <rect width="128" height="128"/>
+    <circle cx="64.5" cy="64.5" r="50.5" fill="#8FD4FF" opacity=".4"/>
+    <path fill="#FFF" d="M68.7136805,90.1829986 L59.172345,105.476697 L49.1170553,84.765987 L26.0693563,78.3950097 L110.856445,26.5905679 L88.9060615,95.7646926 L68.7136805,90.1829986 Z"/>
+    <polyline stroke="#053157" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="45.428 80.207 22.442 73.861 107.229 22.057 85.279 91.231 59.247 84.035"/>
+    <polyline stroke="#053157" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" points="107.229 22.057 59.101 83.963 56.968 94.148 55.545 100.943"/>
+    <path stroke="#053157" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M55.5453965 100.943012L45.4862816 80.2244226M47.8025023 78.042336L107 23M55.5453965 100.943012L65.1960706 85.9447595"/>
+    <path stroke="#053157" stroke-dasharray="1 3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.0851355 75.2823831C15.9616515 77.5686098 10.5166063 79.9669951 3.75 82.4775391M84.2853641 93.8062976C82.7722085 98.3767825 79.948544 103.730341 75.8143705 109.866973"/>
+  </g>
+</svg>

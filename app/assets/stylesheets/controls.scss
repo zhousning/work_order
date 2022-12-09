@@ -1,0 +1,22 @@
+.control-work-state {
+  position: absolute;
+  z-index: 1000;
+}
+.control-navbar-logo {
+  width: 10%;
+}
+.bg-header-box {
+  //background: image-url("banner-bg.png") no-repeat ;
+  background: #0b7a97;
+}
+.sidebar-text-active {
+  background: #2b3f4e;
+  color: white;
+}
+#sidebar-lists .sidebar-text-font {
+  font: 14px;
+  color: RGB(24,24,24);
+}
+.bg-sidebar {
+  background: image-url("sidebar-bg.png") no-repeat ;
+}

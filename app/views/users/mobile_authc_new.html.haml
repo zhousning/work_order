@@ -1,0 +1,33 @@
+.container-fluid.h-100
+  .row.h-100.pt-5.px-5
+    .col-12
+      = form_for @user, :url => mobile_authc_create_user_path, :method => :post do |f|
+        .form-group.row.justify-content-center.mb-5
+          = image_tag 'logo.png', :class => "img-thubnail"
+        .form-group.row.mb-5
+          %h3.text-white.text-center.bg-info.w-100.py-3
+            提示：实名信息必须与支付宝关联信息一致
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg{:for => "name"} 真实姓名 
+          .col-10
+            = f.text_field :name, :class => "form-control form-control-lg", :placeholder => "真实姓名"
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg{:for => "identity"} 身份证 
+          .col-10
+            = f.text_field :identity, :class => "form-control form-control-lg", :placeholder => "身份证"
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg{:for => "alipay"} 支付宝 
+          .col-10
+            = f.text_field :alipay, :class => "form-control form-control-lg", :placeholder => "支付宝帐号"
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg{:for => "alipay"} 安全密码 
+          .col-10
+            = password_field_tag 'account_password', nil, :autocomplete => false, :class => "form-control form-control-lg", :placeholder => "安全密码"
+        .form-group.row.mb-5
+          %h3.text-white.text-center.bg-info.w-100.py-3
+            提示：支付宝账户将成为您的收款帐号
+        .form-group.row.mb-5
+          .col-12
+            = f.submit '支付1元认证', :class => "btn btn-success btn-lg btn-block "
+
+= render 'protocol'

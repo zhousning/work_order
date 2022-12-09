@@ -1,0 +1,203 @@
+class <%= @mpc %>Controller < ApplicationController
+  layout "application_control"
+  before_filter :authenticate_user!
+  #authorize_resource
+
+  <% if @index %> 
+  def index
+    @<%= @mu %> = <%= @mc %>.new
+  <% if @current_user %> 
+    #@<%= @mpu %> = current_user.<%= @mpu %>.page( params[:page]).per( Setting.systems.per_page )
+  <% else %> 
+    #@<%= @mpu %> = <%= @mc %>.all.page( params[:page]).per( Setting.systems.per_page )
+  <% end %> 
+  end
+  <% end %> 
+
+  def query_all 
+    items = <%= @mc %>.all
+   
+    obj = []
+    items.each do |item|
+      obj << {
+        #:factory => idencode(factory.id),
+        :id => idencode(item.id),
+      <% @attrs.each_with_index do |attr, index| %> 
+        :<%= attr %> => item.<%= attr %><%= index == @attrs.size-1 ? '' : ','%>
+      <% end %>
+      }
+    end
+    respond_to do |f|
+      f.json{ render :json => obj.to_json}
+    end
+  end
+
+
+
+  <% if @show %> 
+  def show
+  <% if @current_user %> 
+    @<%= @mu %> = <%= @mc %>.where(:user => current_user, :id => iddecode(params[:id])).first
+  <% else %> 
+    @<%= @mu %> = <%= @mc %>.find(iddecode(params[:id]))
+  <% end %> 
+  end
+  <% end %> 
+
+  <% if @new %> 
+  def new
+    @<%= @mu %> = <%= @mc %>.new
+    <% @fields.each do |field, value| %>
+    @<%= @mu %>.<%= field.pluralize %>.build
+    <% end %>
+  end
+  <% end %> 
+
+  <% if @new %> 
+  def create
+    @<%= @mu %> = <%= @mc %>.new(<%= @mu %>_params)
+    <% if @current_user %> 
+    @<%= @mu %>.user = current_user
+    <% end %> 
+    if @<%= @mu %>.save
+      redirect_to :action => :index
+    else
+      render :new
+    end
+  end
+  <% end %> 
+
+  <% if @edit %> 
+  def edit
+  <% if @current_user %> 
+    @<%= @mu %> = <%= @mc %>.where(:user => current_user, :id => iddecode(params[:id])).first
+  <% else %> 
+    @<%= @mu %> = <%= @mc %>.find(iddecode(params[:id]))
+  <% end %> 
+  end
+  <% end %> 
+
+  <% if @edit %> 
+  def update
+  <% if @current_user %> 
+    @<%= @mu %> = <%= @mc %>.where(:user => current_user, :id => iddecode(params[:id])).first
+  <% else %> 
+    @<%= @mu %> = <%= @mc %>.find(iddecode(params[:id]))
+  <% end %> 
+    if @<%= @mu %>.update(<%= @mu %>_params)
+      redirect_to <%= @mu %>_path(idencode(@<%= @mu %>.id)) 
+    else
+      render :edit
+    end
+  end
+  <% end %> 
+
+  <% if @index %> 
+  def destroy
+  <% if @current_user %> 
+    @<%= @mu %> = <%= @mc %>.where(:user => current_user, :id => iddecode(params[:id])).first
+  <% else %> 
+    @<%= @mu %> = <%= @mc %>.find(iddecode(params[:id]))
+  <% end %> 
+    @<%= @mu %>.destroy
+    redirect_to :action => :index
+  end
+  <% end %> 
+
+  <% if @attachment %>
+    def download_attachment 
+    <% if @current_user %> 
+      @<%= @mu %> = <%= @mc %>.where(:user => current_user, :id => iddecode(params[:id])).first
+    <% else %> 
+      @<%= @mu %> = <%= @mc %>.find(iddecode(params[:id]))
+    <% end %> 
+      @attachment_id = params[:number].to_i
+      @attachment = @<%= @mu %>.attachments[@attachment_id]
+
+      if @attachment
+        send_file File.join(Rails.root, "public", URI.decode(@attachment.file_url)), :type => "application/force-download", :x_sendfile=>true
+      end
+    end
+  <% end %>
+
+  <% @one_attachment.each do |att| %>
+    def download_append
+    <% if @current_user %> 
+      @<%= @mu %> = <%= @mc %>.where(:user => current_user, :id => iddecode(params[:id])).first
+    <% else %> 
+      @<%= @mu %> = <%= @mc %>.find(iddecode(params[:id]))
+    <% end %> 
+      @<%= att %> = @<%= @mu %>.<%= att %>_url
+
+      if @<%= att %>
+        send_file File.join(Rails.root, "public", URI.decode(@<%= att %>)), :type => "application/force-download", :x_sendfile=>true
+      end
+    end
+  <% end %>
+
+  <%if @download %>
+  def xls_download
+    send_file File.join(Rails.root, "templates", "表格模板.xlsx"), :filename => "表格模板.xlsx", :type => "application/force-download", :x_sendfile=>true
+  end
+  <% end %>
+  
+  <%if @upload %>
+  def parse_excel
+    excel = params["excel_file"]
+    tool = ExcelTool.new
+    results = tool.parseExcel(excel.path)
+
+    a_str = ""
+    b_str = ""
+    c_str = "" 
+    d_str = ""
+    e_str = ""
+    f_str = ""
+    g_str = ""
+
+    results["Sheet1"][1..-1].each do |items|
+      items.each do |k, v|
+        if !(/A/ =~ k).nil?
+          a_str = v.nil? ? "" : v 
+        elsif !(/B/ =~ k).nil?
+          b_str = v.nil? ? "" : v 
+        elsif !(/C/ =~ k).nil?
+          c_str = v.nil? ? "" : v 
+        elsif !(/D/ =~ k).nil?
+          d_str = v.nil? ? "" : v 
+        elsif !(/E/ =~ k).nil?
+          e_str = v.nil? ? "" : v 
+        elsif !(/F/ =~ k).nil?
+          f_str = v.nil? ? "" : v 
+        elsif !(/G/ =~ k).nil?
+          g_str = v.nil? ? "" : v 
+          break
+        end
+      end
+    end
+
+    redirect_to :action => :index
+  end 
+  <% end %>
+
+  private
+    def <%= @mu %>_params
+      params.require(:<%= @mu %>).permit(<% @attrs.each_with_index do |attr, index| %> :<%= attr %><%= index == @attrs.size-1 ? '' : ','%><% end %><% @one_enclosure.each do |e| %> , :<%= e %><% end %><% @one_attachment.each do |a| %> , :<%= a %><% end %><% if @attachment %> , attachments_attributes: attachment_params<% end %><% if @enclosure %> , enclosures_attributes: enclosure_params<% end %><% @fields.each do |field, value| %>, <%= field.pluralize %>_attributes: <%= field %>_params<% end %>)
+    end
+  <% if @enclosure %>
+    def enclosure_params
+      [:id, :file, :_destroy]
+    end
+  <% end %>
+  <% if @attachment %>
+    def attachment_params
+      [:id, :file, :_destroy]
+    end
+  <% end %>
+  <% @fields.each do |field, value| %>
+    def <%= field %>_params
+      [:id<% value['attr'].each do |attr| %>, :<%= attr %><% end %> ,:_destroy]
+    end
+  <% end %>
+end
+

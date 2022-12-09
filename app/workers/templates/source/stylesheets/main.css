@@ -1,0 +1,40 @@
+.row-title {
+  margin-bottom: 20px;
+  font-weight: 300;
+  font-size: 33px;
+  text-transform: uppercase;
+  letter-spacing: 5PX;
+  line-height: 1.2;
+}
+
+.feature-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 1.2px;
+}
+.title-one-font-45 {
+  font-size: 45px;
+  color: #182028;
+  font-weight: 600;
+}
+
+.title-two-font-30 {
+  color: #182028;
+  font-size: 30px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.line-height-5px {
+ line-height: 5px;
+}
+.line-height-36px {
+ line-height: 36px;
+}
+.gradient-orange {
+  background: #fb2c61;
+  background: -webkit-linear-gradient(left bottom, #fb2c61 , #fac362);
+  background: linear-gradient(left bottom, #fb2c61 , #fac362);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

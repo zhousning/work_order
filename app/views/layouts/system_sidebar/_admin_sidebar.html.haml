@@ -1,0 +1,49 @@
+.card.border-0.rounded-0
+  .card-body.p-0
+    %ul#sidebar-lists.list-group.list-group-flush
+    -#
+      .accordion#accordionExample
+      - current_user.factories.each_with_index do |fct, index|
+        .card.border-0.rounded-0
+          .card-header.text-left.pl-2.pr-0.py-3.border.border-left-0.border-top-0.border-bottom-0.border-success{:id => "heading#{index}", :'data-toggle' => "collapse", :'data-target' => "#collapse#{index}", :'aria-expanded' => "true", :'aria-controls' => "collapse#{index}"}
+            = fct.name
+          .collapse{:id => "collapse#{index}", :'aria-labelledby' => "heading#{index}", :"data-parent" => "#accordionExample", :class => index == 0 ? 'show' : ''}
+            .card-body.py-0.pl-2.pr-0.border.border-danger
+              = link_to factory_day_pdts_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0" do
+                = fa_icon "codepen", text: "日运营数据填报"
+              = link_to factory_mth_pdt_rpts_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0" do
+                = fa_icon "codepen", text: "月报表填报"
+              
+              = link_to verify_index_factory_day_pdts_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0" do
+                = fa_icon "object-group", text: "日运营数据审核"
+              = link_to verify_index_factory_mth_pdt_rpts_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0" do
+                = fa_icon "object-group", text: "月报表审核"
+              = link_to factory_day_pdt_rpts_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0" do
+                = fa_icon "diamond", text: "日报表"
+              = link_to mth_report_finish_index_factory_mth_pdt_rpts_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0" do
+                = fa_icon "diamond", text: "月报表"
+              = link_to factory_emp_infs_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 sidebar-text-font px-0 #{(/ocr/ =~ request.path).nil? ? '' : 'sidebar-text-active' }" do
+                = fa_icon "sign-in", text: "环境监测进水口"
+              = link_to factory_emp_effs_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 sidebar-text-font px-0 #{(/ocr/ =~ request.path).nil? ? '' : 'sidebar-text-active' }" do
+                = fa_icon "sign-out", text: "环境监测出水口"
+               
+      .card.border-0.rounded-0
+        .card-header.text-left.pl-2.pr-0.py-3.border.border-left-0.border-top-0.border-bottom-0.border-success{:id => "headingAnalyse", :'data-toggle' => "collapse", :'data-target' => "#collapseAnalyse", :'aria-expanded' => "true", :'aria-controls' => "collapseAnalyse"}
+          综合分析
+        .collapse{:id => "collapseAnalyse", :'aria-labelledby' => "headingAnalyse", :"data-parent" => "#accordionExample"}
+          .card-body.py-0
+            = link_to sglfct_statistic_day_pdt_rpts_path, :class => "list-group-item list-group-item-action border-0 sidebar-text-font px-0 #{(/ocr/ =~ request.path).nil? ? '' : 'sidebar-text-active' }" do
+              = fa_icon "cubes", text: "数据立方"
+            = link_to compare_analyses_path, :class => "list-group-item list-group-item-action border-0 sidebar-text-font px-0 #{(/ocr/ =~ request.path).nil? ? '' : 'sidebar-text-active' }" do
+              = fa_icon "object-ungroup", text: "指标对比"
+            = link_to area_time_analyses_path, :class => "list-group-item list-group-item-action border-0 sidebar-text-font px-0 #{(/ocr/ =~ request.path).nil? ? '' : 'sidebar-text-active' }" do
+              = fa_icon "object-ungroup", text: "厂间分析"
+      .card.border-0.rounded-0
+        .card-header.text-left.pl-2.pr-0.py-3.border.border-left-0.border-top-0.border-bottom-0.border-success{:id => "headingReport", :'data-toggle' => "collapse", :'data-target' => "#collapseReport", :'aria-expanded' => "true", :'aria-controls' => "collapseReport"}
+          报表管理
+        .collapse{:id => "collapseReport", :'aria-labelledby' => "headingReport", :"data-parent" => "#accordionExample"}
+          .card-body.py-0
+            = link_to day_report_reports_path, :class => "list-group-item list-group-item-action border-0 sidebar-text-font px-0 #{(/ocr/ =~ request.path).nil? ? '' : 'sidebar-text-active' }" do
+              = fa_icon "cubes", text: "日报表"
+            = link_to mth_report_reports_path, :class => "list-group-item list-group-item-action border-0 sidebar-text-font px-0 #{(/ocr/ =~ request.path).nil? ? '' : 'sidebar-text-active' }" do
+              = fa_icon "object-ungroup", text: "月报表"

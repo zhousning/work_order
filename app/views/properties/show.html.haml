@@ -1,0 +1,27 @@
+- provide(:title, t('.title'))
+
+- content_for :main_body do
+  .container-fluid
+    .row
+      .col-md-12
+        %table.table.text-center.table-bordered
+          %thead
+            %tr
+            
+              %th 
+                = Setting.properties.name
+              %th 
+                = Setting.properties.tag
+          %tbody
+            %tr
+            
+              %td
+                = @property.name
+              %td
+                = @property.tag
+    
+    
+    
+    
+
+= render "layouts/control_panel"

@@ -1,0 +1,8 @@
+.alert.alert-success.alert-dismissible.fade.show{:role => "alert"}
+  %span.alert-inner--icon
+    %i.ni.ni-like-2
+  %span.alert-inner--text
+    %strong
+      = flash[:notice]
+  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    %span{"aria-hidden" => "true"} X 

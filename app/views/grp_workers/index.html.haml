@@ -1,0 +1,111 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-12
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
+                %thead
+                  %tr
+                    %th{:scope => "col", :'data-field' => "id"} #
+
+                    %th{:scope => "col", :'data-field' => "name"}
+                      = Setting.workers.name
+                  
+                    %th{:scope => "col", :'data-field' => "idno"}
+                      = Setting.workers.idno
+                  
+                    %th{:scope => "col", :'data-field' => "phone"}
+                      = Setting.workers.phone
+
+                    %th{:scope => "col", :'data-field' => "fct"}
+                      公司
+                  
+                    %th{:scope => "col", :'data-field' => "state"}
+                      = Setting.workers.state
+                  
+                    %th{:scope => "col", :'data-field' => "desc"}
+                      错误信息
+
+                    %th{:scope => "col", :'data-field' => "info", :'data-width' => '300'}
+                      备注
+                  
+                    %th{:scope => "col", :'data-field' => "button"}
+
+                    -#
+                      %th{:scope => "col", :'data-field' => "gender"}
+                      = Setting.workers.gender
+                      %th{:scope => "col", :'data-field' => "adress"}
+                      = Setting.workers.adress
+              -#
+                %tbody
+                  - @workers.each_with_index do |item, index|
+                    %tr
+                      %td
+                        = index + 1
+                      %td
+                        = item.name
+                      %td
+                        = item.idno 
+                      %td
+                        = item.phone
+                      %td
+                        = Factory.find(item.factory).name
+                      %td
+                        - if item.state == Setting.states.ongoing
+                          未验证
+                        - elsif item.state == Setting.states.processing
+                          处理中
+                        - elsif item.state == Setting.states.canceled
+                          处理失败
+                        - elsif item.state == Setting.states.deleting
+                          删除中
+                        - else
+                          已验证
+                      %td
+                        -if item.state != Setting.states.completed
+                          = item.desc
+                      %td
+                        %button{:class => "button button-royal button-small mr-1 log-show-btn", :type => 'button', :'data-id' => idencode(item.id)}
+                          签到记录
+                        %button{:class => 'button button-primary button-small mr-1 worker-show-btn', :type => 'button', :'data-id' => idencode(item.id)}
+                          证件照
+                        = link_to "删除", destroy_worker_grp_worker_path(idencode(item.id)), :class => "button button-caution button-small mr-2", :data => {:confirm => "确定删除吗?"}
+                      -#
+                        %td
+                        = item.gender
+                        %td
+                        = item.address
+
+      = render "layouts/bootstrap/card"
+
+
+#newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12
+            %table#day-emq-ctn.table.text-center.table-bordered
+        .row#chart-ctn
+
+#logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#log-day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12
+            %table#log-day-emq-ctn.table.text-center.table-bordered

@@ -1,0 +1,103 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @<%= @mu %>, :url => "/<%= @mpu %>/#{@<%= @mu %>.id ? idencode(@<%= @mu %>.id) : ''}", :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
+        - if @<%= @mu %>.errors.any?
+          #error_explanation.alert.alert-danger.alert-dismissible.fade.show
+            %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+              %span{"aria-hidden" => "true"} x 
+            %h2= "#{pluralize(@<%= @mu %>.errors.count, "错误")}:"
+            %ul
+              - @<%= @mu %>.errors.full_messages.each do |msg|
+                %li= msg
+        .row
+          .col-sm-12
+            %h2.text-center
+              = image_tag "gykg.jpg"
+          .col-md-8.offset-md-2.p-5.border
+            #flash_explanation
+            .card.border-0.mb-3.rounded-0
+              .card-header.bg-transparent.border-success
+                %h5
+                  = Setting.<%= @mpu %>.label
+              .card-body
+                %table.w-100.table-bordered.day-pdt-table
+                  %tbody
+                    <% @attrs.each_with_index do |attr, index| %>
+                    <% if (index + 1)%3 == 1 %>%tr<% end %>
+                      %td.p-2.text-center
+                        = f.label Setting.<%= @mpu %>.<%= attr %>, :class => "text-center"
+                      %td.p-2.text-center
+                      <% if options[:tag][index] == 'text' %>  = f.text_field :<%= attr %>, :class => "form-control" <% if options[:required][index] == 'true' %>, :required => true<% end %>
+                      <% elsif options[:tag][index] == 'textarea' %>  = f.text_area :<%= attr %>, :class => "form-control", :rows => "10" <% if options[:required][index] == 'true' %>, :required => true<% end %>
+                      <% elsif options[:tag][index] == 'number' %>  = f.number_field :<%= attr %>, :class => "form-control", :step => "any"  <% if options[:required][index] == 'true' %>, :required => true<% end %>
+                      <% elsif options[:tag][index] == 'phone' %>  = f.phone_field :<%= attr %>, :class => "form-control" <% if options[:required][index] == 'true' %>, :required => true<% end %>
+                      <% elsif options[:tag][index] == 'date' %>  = f.date_field :<%= attr %>, :class => "form-control" <% if options[:required][index] == 'true' %>, :required => true<% end %>
+                      <% elsif options[:tag][index] == 'datetime' %>  = f.datetime_select :<%= attr %>, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                      <% elsif options[:tag][index] == 'password' %>  = f.password_field :<%= attr %>, :class => "form-control" <% if options[:required][index] == 'true' %>, :required => true<% end %>
+                      <% elsif options[:tag][index] == 'phone' %>  = f.phone_field :<%= attr %>, :class => "form-control" <% if options[:required][index] == 'true' %>, :required => true<% end %>
+                      <% elsif options[:tag][index] == 'email' %> = f.email_field :<%= attr %>, :class => "form-control" <% if options[:required][index] == 'true' %>, :required => true<% end %>
+                      <% elsif options[:tag][index] == 'radio' %>  .form-check.form-check-inline
+                          = f.radio_button :<%= attr %>, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+                          = f.label Setting.systems.status_yes, :class => "form-check-label"
+                        .form-check.form-check-inline
+                          = f.radio_button :<%= attr %>, Setting.systems.status_en_no, :class => "form-check-input"
+                          = f.label Setting.systems.status_no, :class => "form-check-label"
+                      <% elsif options[:tag][index] == 'check' %>  .form-check.form-check-inline
+                          = f.check_box :<%= attr %>, :class => "form-check-input"
+                          = f.label Setting.systems.status_yes, :class => "form-check-label"
+                        .form-check.form-check-inline
+                          = f.check_box :<%= attr %>, :class => "form-check-input"
+                          = f.label Setting.systems.status_no, :class => "form-check-label"
+                      <% elsif options[:tag][index] == 'select' %>  = f.select :<%= attr %>, options_for_<%= attr %>, {:include_blank=>false}, {:class=>"form-control"}
+                      <% end %>
+                    <% end %>
+          <% @one_enclosure.each do |e| %>
+            .form-group.row
+              = f.label "一个附图", :class => "col-2 col-form-label text-right"
+              .col-10
+                %label.newbutton
+                  = image_tag f.one_image("<%= e %>"), :class => "blah"
+                  = f.file_field :<%= e %>, :accept => "image/png, image/jpeg, image/gif", :class => "select-file", :onchange => "readURL(this);"
+          <% end %>
+          <% @one_attachment.each do |a| %>
+            .form-group.row
+              = f.label "一个附件", :class => "col-2 text-right col-form-label col-form-label text-right text-primary"
+              .col-9
+                %label.newbutton.button.button-primary
+                  %p.append-url
+                    = f.one_attachment("<%= a %>")
+                  = f.file_field :<%= a %>, :class => "select-file", :onchange => "readFileName(this);", :accept => ".doc,.docx"
+          <% end %>
+          <% if @enclosure %>
+            .form-group.row
+              = f.label "附图", :class => "col-2 text-right col-form-label col-form-label"
+              .col-10
+                .row
+                  = f.fields_for :enclosures do |enclosure|
+                    = render 'enclosure_fields', f: enclosure
+                  .links
+                    = link_to_add_association "添加文件", f, :enclosures, :class => "button button-small button-primary"
+          <% end %>
+          <% if @attachment %>
+            .form-group.row
+              = f.label "附件", :class => "col-2 text-right col-form-label"
+              .col-10
+                .row
+                  = f.fields_for :attachments do |attachment|
+                    = render 'attachment_fields', f: attachment
+                  .links
+                    = link_to_add_association "添加文件", f, :attachments, :class => "button button-small button-primary"
+          <% end %>
+          <% @fields.each do |field, value| %>
+            = f.fields_for :<%= field.pluralize %> do |<%= field %>|
+              = render '<%= field %>_fields', f: <%= field %> 
+            .links.mt-3
+              = link_to_add_association "添加", f, :<%= field.pluralize %>, :class => "button button-small button-primary"
+          <% end %>
+            .form-group.row
+              .col-3.offset-3
+                = f.submit '保存', :class => "button  button-small button-action"
+            -#
+              .col-3.offset-1
+                = link_to '返回', <%= @mpu %>_path, :class => "button button-small  button-caution"

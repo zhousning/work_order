@@ -1,0 +1,99 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+        .row
+          .col-12
+            .card.mx-1.w-100
+              .card-header.border-bottom-0.bg-white
+                %ul.nav.nav-tabs{:role => "tablist"}
+                  %li.nav-item
+                    %a.nav-link.active{"data-toggle" => "tab", :href => "#sdzjtbz", :role => "tab"}
+                      已使用
+                  %li.nav-item
+                    %a.nav-link{"data-toggle" => "tab", :href => "#jnzsbz", :role => "tab"}
+                      未使用
+              .card-body
+                .tab-content
+                  #sdzjtbz.sglfct-chart-ctn.tab-pane.active{:role => "tabpanel"}
+                    .container-fluid
+                      .row
+                        .col-md-12
+                          %table.text-center.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "600", :'data-virtual-scroll' => "true", :'data-show-columns' => "true", :'data-page-size' => "15"}
+                            %thead
+                              %tr
+                                %th{:scope => "col", :'data-field' => "index"}
+                                %th{:scope => "col", :'data-field' => "company"}
+                                  公司
+                                %th{:scope => "col", :'data-field' => "name"}
+                                  姓名 
+                                %th{:scope => "col", :'data-field' => "nickname"}
+                                  昵称
+                                %th{:scope => "col", :'data-field' => "phone"}
+                                  电话
+                                %th{:scope => "col", :'data-field' => "sites", :'data-width' => '400'}
+                                  负责站点
+                              
+                            %tbody
+                              - @useinspectors.each_with_index do |inspector, index|
+                                %tr
+                                  %td
+                                    = index+1
+                                  %td
+                                    = inspector.factories.first.name
+                                  %td
+                                    = inspector.name
+                                  %td
+                                    = inspector.nickname
+                                  %td
+                                    = inspector.phone
+                                  %td
+                                    - inspector.devices.each do |d|
+                                      = d.name
+
+                  #jnzsbz.sglfct-chart-ctn.tab-pane{:role => "tabpanel"}
+                    .container-fluid
+                      .row
+                        .col-md-12
+                          %table#grp-jnzsbz.text-center.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "600", :'data-virtual-scroll' => "true", :'data-show-columns' => "true", :'data-page-size' => "15"}
+                            %thead
+                              %tr
+                                %th{:scope => "col", :'data-field' => "index"}
+                                %th{:scope => "col", :'data-field' => "name"}
+                                  姓名 
+                                %th{:scope => "col", :'data-field' => "nickname"}
+                                  昵称
+                                %th{:scope => "col", :'data-field' => "phone"}
+                                  电话
+                                %th{:scope => "col", :'data-field' => "sites", :'data-width' => '400'}
+                                  负责站点
+                                %th{:scope => "col", :'data-field' => "button"}
+                              
+                          -#
+                            %tbody
+                              - @uninspectors.each_with_index do |inspector, index|
+                                %tr
+                                  %td
+                                    = index+1
+                                  %td
+                                    = inspector.name
+                                  %td
+                                    = inspector.nickname
+                                  %td
+                                    = inspector.phone
+                                  %td
+                                    - inspector.devices.each do |d|
+                                      = d.name
+                                  %td
+                                    %button{:class => "button button-caution button-small mr-3 inspector-delete-btn", :data => {:confirm => "该签到负责人负责的签到记录都会被删除，确定删除吗?"}, :'data-id' => idencode(inspector.id)}
+
+
+      = render "layouts/bootstrap/card"
+
+

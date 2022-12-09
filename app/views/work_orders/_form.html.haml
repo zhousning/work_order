@@ -1,0 +1,119 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @work_order, :url => "/factories/#{idencode(@factory.id)}/work_orders/#{@work_order.id ? idencode(@work_order.id) : ''}", :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
+        - if @work_order.errors.any?
+          #error_explanation.alert.alert-danger.alert-dismissible.fade.show
+            %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+              %span{"aria-hidden" => "true"} x 
+            %h2= "#{pluralize(@work_order.errors.count, "错误")}:"
+            %ul
+              - @work_order.errors.full_messages.each do |msg|
+                %li= msg
+        .row
+          .col-sm-12
+            %h2.text-center
+              = image_tag "gykg.jpg"
+              = Setting.work_orders.label
+          .col-md-10.offset-md-1.p-5.border
+            #flash_explanation
+            .card.border-0.mb-3.rounded-0
+              .card-body
+                %table.w-100.table-bordered.day-pdt-table
+                  %tbody
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.title, :class => "text-center"
+                      %td.p-2.text-center{:colspan => 3}
+                        = f.text_field :title, :class => "form-control" , :required => true
+                      
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.person, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :person, :class => "form-control" , :required => true
+                      
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.phone, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :phone, :class => "form-control" , :required => true
+
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.address, :class => "text-center"
+                      %td.p-2.text-center{:colspan => 3}
+                        = f.text_field :address, :class => "form-control" 
+                      
+                      
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.pdt_time, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.datetime_select :pdt_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.urgent, :class => "text-center"
+                      %td.p-2.text-center
+                        .form-check.form-check-inline
+                          = f.radio_button :urgent, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+                          = f.label Setting.systems.status_yes, :class => "form-check-label"
+                        .form-check.form-check-inline
+                          = f.radio_button :urgent, Setting.systems.status_en_no, :class => "form-check-input"
+                          = f.label Setting.systems.status_no, :class => "form-check-label"
+
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.order_time, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.datetime_select :order_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.limit_time, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.datetime_select :limit_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                      
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.content, :class => "text-center"
+                      %td.p-2.text-center{:colspan => 3}
+                        = f.text_area :content, :class => "form-control", :rows => "10" , :required => true
+                      
+                    
+                    
+                    -#
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.img, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_area :img, :class => "form-control", :rows => "10" 
+                      
+                    
+          
+          
+          
+            .form-group.row
+              = f.label "附图", :class => "col-2 text-right col-form-label col-form-label"
+              .col-10
+                .row
+                  = f.fields_for :enclosures do |enclosure|
+                    = render 'enclosure_fields', f: enclosure
+                  .links
+                    = link_to_add_association "添加文件", f, :enclosures, :class => "button button-small button-primary"
+          
+          
+            -#
+              .form-group.row
+              = f.label "附件", :class => "col-2 text-right col-form-label"
+              .col-10
+                .row
+                  = f.fields_for :attachments do |attachment|
+                    = render 'attachment_fields', f: attachment
+                  .links
+                    = link_to_add_association "添加文件", f, :attachments, :class => "button button-small button-primary"
+          
+          
+            .form-group.row
+              .col-3.offset-3
+                = f.submit '保存', :class => "button  button-small button-action"
+            -#
+              .col-3.offset-1
+                = link_to '返回', work_orders_path, :class => "button button-small  button-caution"

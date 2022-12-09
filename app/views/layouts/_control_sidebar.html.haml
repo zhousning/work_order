@@ -1,0 +1,15 @@
+%nav.col-md-1.d-none.d-md-block.bg-white.sidebar.shadow
+  -#
+    = link_to controls_path, :class => "navbar-brand bg-transparent shadow-none" do
+      = image_tag "logo.svg", :width => "100px"
+  #accordionExample.pt-5
+    = render 'layouts/system_sidebar/control_sidebar'
+    -#
+      - if current_user.has_role?(Setting.roles.labour)
+        = render 'layouts/labour_sidebar/_sidebar'
+      - elsif current_user.has_role?(Setting.roles.agentor)
+        = render 'layouts/agentor_sidebar/_sidebar'
+      - else
+
+      = link_to table_templates_path, :class => "list-group-item list-group-item-action border-0 text-left pl-4" do
+        = fa_icon "area-chart", text: Setting.table_templates.label, class: "mx-3"

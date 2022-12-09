@@ -1,0 +1,32 @@
+- provide(:title, t('.title'))
+
+.card.w-100
+  = image_tag 'center-header.png', :class => "card-img"
+  .card-img-overlay.py-5
+    .row
+      .col-12.text-center.py-5
+        = image_tag 'logo.png', :class => "img-thubnail"
+        %h2.card-text.text-white
+          = current_user.name
+        %h3.card-text.text-white
+          一杯茶开启茶源生活
+
+= render 'center_account'
+
+= render 'center_trade_order'
+
+= render 'center_trade'
+
+= render 'center_authc'
+
+= render 'center_system'
+
+%ul.list-group.mt-3.mb-5.pb-5
+  = link_to destroy_user_session_path, :class => "list-group-item list-group-item-action py-5 px-5 mb-5", :"data-method"=>"delete" do
+    .row
+      .col-3
+        %h3
+          退出系统
+      .col-9.text-right
+        %h3
+          >

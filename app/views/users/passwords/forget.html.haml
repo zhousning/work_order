@@ -1,0 +1,79 @@
+- provide(:title, t('.title'))
+
+.signin-wrap
+  = devise_error_messages!
+  .form-signin.shadow.px-5.bg-white
+    = form_for(@user, url: update_password_path(@user), html: {method: :patch, :'data-parsley-validate' => true}) do |f|
+      -#
+        = f.hidden_field :inviter
+      %p.text-danger
+        = flash[:error]
+      .text-center.mb-4.mt-3
+        = link_to root_path do
+          = image_tag "logo.png", :width => "w-100"
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputPhone"} 手机号: 
+        .col-9
+          = f.phone_field :phone, autofocus: true, :id => "inputPhone", :class => "form-control", :placeholder => "请输入手机号", :value => "", :required => ""
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputIdentity"} 身份证号: 
+        .col-9
+          = f.text_field :identity, autocomplete: "off", :id => "inputIdentity", :class => "form-control", :placeholder => "请输入身份证号", :value => "", :required => ""
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputPhone"} 新密码: 
+        .col-9
+          = f.password_field :password, autocomplete: "off", :id => "inputPassword", :class => "form-control", :required => "", :placeholder => "请输入密码"
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputPhone"} 确认密码: 
+        .col-9
+          = f.password_field :password_confirmation, autocomplete: "off", :id => "confirmPassword", :class => "form-control", :required => "", :placeholder => "确认密码"
+      -#
+        .form-group.row
+          .col-7
+            = text_field_tag 'confirm_code', nil, :class => "form-control"
+          .col-5.pl-0.text-right
+            %button#send-confirm-code.button.button-royal.button-rounded{:type => "button"}
+              验证码
+      %p.d-flex.justify-content-end
+        = link_to "登 录", new_user_session_path, :class => "text-primary"
+      = f.submit "重 置", class: "button button-glow button-border button-rounded button-royal button-large btn-block"
+-#
+  = devise_error_messages!
+  .container-fluid.h-100
+  .row.h-100.py-5.px-5
+    .col-12
+      = form_for(@user, url: update_password_path(@user), html: {method: :patch}) do |f|
+        .form-group.row.justify-content-center.mb-5
+          = image_tag 'logo.png', :class => "img-thubnail"
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg.text-right{:for => "phone"}
+            = image_tag 'session-phone.png', :class => "img-thubnail"
+          .col-10
+            = f.phone_field :phone, :class => "form-control border-0 form-control-lg", :placeholder => "手机号"
+          .col-12
+            %hr
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg.text-right{:for => "password"}
+            = image_tag 'session-password.png', :class => "img-thubnail"
+          .col-10
+            = f.password_field :password, autocomplete: "off", :class => "form-control border-0 form-control-lg", :placeholder => "密码"
+          .col-12
+            %hr
+        .form-group.row.mb-5
+          %label.col-2.col-form-label.col-form-label-lg.text-right{:for => "password"}
+            = image_tag 'session-password.png', :class => "img-thubnail"
+          .col-10
+            = f.password_field :password_confirmation, autocomplete: "off", :class => "form-control border-0 form-control-lg", :placeholder => "确认密码"
+          .col-12
+            %hr
+        .form-group.row.mb-5
+          .col-8
+            = text_field_tag 'confirm_code', nil, :class => "form-control border-0 form-control-lg"
+          .col-4
+            %button#send-confirm-code.btn.btn-block.btn-lg.btn-primary{:type => "button"}
+              验证码
+          .col-12
+            %hr
+        .form-group.row.mb-5
+          .col-12
+            = f.submit "重置密码", class: "btn btn-success btn-lg btn-block "

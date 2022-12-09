@@ -1,0 +1,28 @@
+.container-fluid.px-0
+  %ul.border.bg-white.list-group.list-group-horizontal.pl-3.py-2
+    %li.list-group-item.pl-0.border-0
+      = select_tag "fct", options_for_my_factory(@factories), :include_blank=>false, :class=>"form-control"
+    %li.list-group-item.border-0.pl-0.d-flex.flex-row
+      = date_field_tag 'start', nil, class: 'form-control mr-1', :value => Date.today-7, :min => Date.new(2019, 01, 01), :max => Date.today-1
+      %span
+        一
+      = date_field_tag 'end', nil, class: 'form-control ml-1', :value => Date.today, :min => Date.new(2019, 01, 01), :max => Date.today-1
+    %li.list-group-item.pl-0.border-0
+      %button.area-time-search.button.button-primary.button-small{:type => "button"}
+        查询 
+
+
+<script>
+
+//与日期选择区间搭配时用这个函数
+function fct_date_event(table, url) {
+$(".area-time-search").on('click', function(e) {
+var start = $("#start").val();
+var end = $("#end").val();
+var fct = $("#fct").val();
+
+request_params = {start: start, end: end, fct: fct}
+loadDataToBstpTable(table, url, request_params)
+})
+}
+</script>

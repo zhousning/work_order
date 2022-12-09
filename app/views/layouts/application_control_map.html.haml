@@ -1,0 +1,24 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+    %meta{:name => "viewport", :content => "width=device-width, user-scalable=no,initial-scale=1"}
+    %meta{"http-equiv" => "X-UA-Compatible", :content => "IE=edge"}
+    %title= "#{yield(:title)} - #{t('.site_title')}"
+    :javascript
+      window._AMapSecurityConfig = {
+        // 例如 ：serviceHost:'http://1.1.1.1:80/_AMapService',
+        serviceHost: "#{Setting.systems.host}" + '/_AMapService',  
+      }
+    %script{:type => "text/javascript", :src => "http://webapi.amap.com/maps?v=2.0&key=f4448b66ec8780bb657b985dad806fc4"}
+    %script{:type => "text/javascript", :src => "http://webapi.amap.com/ui/1.1/main.js?v=1.1.1"}
+    = javascript_include_tag 'application'
+    = stylesheet_link_tag    'application', media: 'all'
+    = csrf_meta_tags
+    = include_gon
+
+  %body{:class=>"#{controller_name} #{action_name}"}
+
+    = render "layouts/control_header"
+
+    = yield

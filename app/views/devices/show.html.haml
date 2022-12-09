@@ -1,0 +1,157 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/factories/#{idencode(@factory.id)}/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+          = link_to "/factories/#{idencode(@factory.id)}/#{controller_name}/#{idencode(@device.id)}/edit", :class => "button button-small  pull-right button-royal mr-1" do
+            = Setting.systems.btn_edit
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-sm-12
+              %h2.text-center
+                = image_tag "gykg.jpg"
+                = @device.name
+                = Setting.devices.label
+            .col-md-8.offset-2.p-5.border
+              .card.border-0.mb-3.rounded-0
+                .card-body
+                  %table.table-bordered.day-pdt-table.w-100.mb-3
+                    %tbody
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.devices.mdno
+                        %td.p-2.text-center
+                          = @device.mdno
+                        %td.p-2.text-center
+                          = Setting.devices.unit
+                        %td.p-2.text-center
+                          = @device.unit
+                        %td.p-2.text-center
+                          = Setting.devices.supplier
+                        %td.p-2.text-center
+                          = @device.supplier
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.devices.idno
+                        %td.p-2.text-center
+                          = @device.idno
+                        %td.p-2.text-center
+                          = Setting.devices.name
+                        %td.p-2.text-center
+                          = @device.name
+                        %td.p-2.text-center
+                          = Setting.devices.state
+                        %td.p-2.text-center
+                          = @device.state
+                    
+                      
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.devices.pos
+                        %td.p-2.text-center
+                          = @device.pos
+
+                        %td.p-2.text-center
+                          = Setting.devices.pos_no
+                        %td.p-2.text-center
+                          = @device.pos_no
+                        %td.p-2.text-center{:colspan =>2}
+                    
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.devices.desc
+                        %td.p-2{:colspan => 5}
+                          = @device.desc
+                    
+                      
+
+                  .row
+                    .col-8
+                      = image_tag @device.avatar_url, :class => "w-100"
+                    .col-4
+                      - if @device.qrcode
+                        = image_tag @device.qrcode.url, :class => "w-100"
+                      - else
+                        %p
+                          二维码正在生成中，请稍后刷新查看...
+
+      = render "layouts/bootstrap/card"
+-#
+  .col-md-12
+    .card.border-0.mb-3.rounded-0
+      .card-header.bg-transparent.border-info
+        %h5
+          = Setting.upholds.label
+      .card-body
+        %table.table-bordered.day-pdt-table.w-100
+          %tbody
+            - @device.upholds.each do |uphold|
+               
+              %tr
+                %td.p-3.text-center
+                  = Setting.upholds.uphold_date
+                %td.p-3.text-center
+                  = uphold.uphold_date
+               
+              
+                %td.p-3.text-center
+                  = Setting.upholds.reason
+                %td.p-3.text-center
+                  = uphold.reason
+               
+              
+                %td.p-3.text-center
+                  = Setting.upholds.content
+                %td.p-3.text-center
+                  = uphold.content
+               
+              %tr
+                %td.p-3.text-center
+                  = Setting.upholds.cost
+                %td.p-3.text-center
+                  = uphold.cost
+               
+              
+                %td.p-3.text-center
+                  = Setting.upholds.state
+                %td.p-3.text-center
+                  = uphold.state
+              
+
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.devices.life
+                        %td.p-2.text-center
+                          = @device.life
+                      
+                        %td.p-2.text-center
+                          = Setting.devices.mfcture
+                        %td.p-2.text-center
+                          = @device.mfcture
+                    
+                        %td.p-2.text-center
+                          = Setting.devices.out_date
+                        %td.p-2.text-center
+                          = @device.out_date
+                    
+                      -#
+                        %tr
+                        %td.p-2.text-center
+                          = Setting.devices.state
+                        %td.p-2.text-center
+                          = @device.state
+                        %td.p-2.text-center
+                          = Setting.devices.mount_date
+                        %td.p-2.text-center
+                          = @device.mount_date
+                    

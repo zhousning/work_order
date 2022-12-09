@@ -1,0 +1,8 @@
+#search_update_worker:
+#  cron: "30 2 * * *"
+#  class: "SearchUpdateWorker"
+#  queue: default
+#produce_mth_pdt_rpt:
+#  cron: "30 3 6 * *"
+#  class: "MthPdtRptWorker"
+#  queue: default

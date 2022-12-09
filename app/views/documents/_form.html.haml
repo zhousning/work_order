@@ -1,0 +1,38 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @document do |f|
+        - if @document.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@document.errors.count, "error")} prohibited this buyer from being saved:"
+            %ul
+              - @document.errors.full_messages.each do |msg|
+                %li= msg
+      
+        .form-group.row
+          = f.label Setting.documents.title, :class => "col-sm-3 text-right"
+          .col-sm-9
+            = f.text_field :title, :class => "form-control"
+          
+        .form-group.row
+          = f.label Setting.documents.erb_link, :class => "col-sm-3 text-right"
+          .col-sm-9
+            = f.text_field :erb_link, :class => "form-control"
+          
+        .form-group.row
+          = f.label Setting.documents.html_link, :class => "col-sm-3 text-right"
+          .col-sm-9
+            = f.text_field :html_link, :class => "form-control"
+          
+        .form-group.row
+          = f.label Setting.documents.status, :class => "col-sm-3 text-right"
+          .col-sm-9
+            = f.number_field :status, :class => "form-control"
+          
+      
+      
+        .form-group.row
+          .col-sm-3.offset-sm-2
+            = f.submit '保存', :class => "btn btn-success"
+          .col-sm-3.offset-sm-1
+            = link_to '返回', documents_path, :class => "btn btn-danger"

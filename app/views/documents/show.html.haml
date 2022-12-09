@@ -1,0 +1,77 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-9.ml-sm-auto.col-lg-10.p-3{:role => "main"}
+      .card.shadow.rounded-0.mb-3
+        .card-header.bg-info.text-white.rounded-0
+          %h5
+            = link_to website_documents_path, :class => "button button-border button-rounded button-caution pull-right  bg-white" do
+              = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+        .card-body
+          .container-fluid
+            .row
+              #document_link.col-md-12
+                .repalce_content
+              #document_status.col-md-12
+                .repalce_content
+                  - if @document.status == Setting.documents.status_none or @document.status == Setting.documents.status_process
+                    .gearbox.mx-auto
+                      .gear.one
+                        .gear-inner
+                          .bar
+                          .bar
+                          .bar
+                      .gear.two
+                        .gear-inner
+                          .bar
+                          .bar
+                          .bar
+                      .gear.three
+                        .gear-inner
+                          .bar
+                          .bar
+                          .bar
+                      .gear.four.large
+                        .gear-inner
+                          .bar
+                          .ba.r
+                          .bar
+                          .bar
+                          .bar
+                          .bar
+                    %h3
+                      天启正在处理版本:
+                      = @document.title
+                  -elsif @document.status == Setting.documents.status_success
+                    %table.table.text-center.table-bordered
+                      %thead
+                        %tr
+                        
+                          %th 
+                            = Setting.documents.title
+                          %th 
+                            = Setting.documents.erb_link
+                          %th 
+                            = Setting.documents.html_link
+                          %th 
+                            = Setting.documents.status
+                          %th 
+                      %tbody
+                        %tr
+                        
+                          %td
+                            = @document.title
+                          %td
+                            = @document.erb_link
+                          %td
+                            = @document.html_link
+                          %td
+                            = @document.status
+                          %td
+                            = link_to '下载', download_website_document_path(@website, @document_id, :ft => 'html')
+                            = link_to '预览', "/websites/" + File.basename(@document.html_link, ".zip") + "/shouye.html?previewer", :target => "_blank"
+                  -else @document.status == Setting.documents.status_fail
+                    %h3
+                      生成失败,请联系客服

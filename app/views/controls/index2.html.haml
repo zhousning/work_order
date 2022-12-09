@@ -1,0 +1,33 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-12
+              .card.w-100
+                .card-header.bg-white
+                  %ul.nav.nav-tabs{:role => "tablist"}
+                    - @factories.each_with_index do |fct, index|
+                      %li.nav-item
+                        %a.nav-link{:class => index == 0 ? "active" : "", "data-toggle" => "tab", :href => "#tab#{index}", :role => "tab"}
+                          = fct.name
+                  .card-body
+                    .tab-content.text-center
+                      - @factories.each_with_index do |fct, index|
+                        .sglfct-chart-ctn.tab-pane{:class => index == 0 ? "active" : "",:role => "tabpanel", :id => "tab#{index}"}
+                          .row
+                            .col-6.d-flex.justify-content-center
+                              .chart-statistic-ctn{:'data-chart' => Setting.charts.radar, :'data-type' => Setting.quota.ctg_cms, :'data-pos' => Setting.quota.pos_inf, :style => "width: 500px;height:400px;", :'data-fct' => idencode(fct.id)}
+                            .col-6.d-flex.justify-content-center
+                              .chart-statistic-ctn{:'data-chart' => Setting.charts.radar, :'data-type' => Setting.quota.ctg_cms, :'data-pos' => Setting.quota.pos_eff, :style => "width: 500px;height:400px;", :'data-fct' => idencode(fct.id)}
+                          .row.mt-5
+                            - @other_quotas.each do |quota|
+                              .col-3
+                                .chart-gauge-ctn{:'data-chart' => Setting.charts.gauge, :'data-code' => quota, :'data-fct' => idencode(fct.id), :style => "width: 300px;height:300px;"}
+
+      = render "layouts/bootstrap/card"

@@ -1,0 +1,26 @@
+- provide(:title, t('.title'))
+
+.signin-wrap
+  = devise_error_messages!
+  .form-signin.shadow.px-5.bg-white
+    = form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:'data-parsley-validate' => true}) do |f|
+      .text-center.mb-4.mt-3
+        = link_to root_path do
+          = image_tag "logo.png", :class => "w-100"
+      .form-group.row
+        %label.col-3.col-form-label.text-right{:for => "inputPhone"} 账号: 
+        .col-9
+          = f.phone_field :phone, autofocus: true, :id => "inputPhone", :class => "form-control", :placeholder => "请输入账号", :value => "", :required => ""
+      .form-group.row.my-5
+        %label.col-3.col-form-label.text-right{:for => "inputPhone"} 密码: 
+        .col-9
+          = f.password_field :password, autocomplete: "off", :id => "inputPassword", :class => "form-control", :required => "", :placeholder => "请输入密码", :required => ""
+      -#
+        %p.d-flex.justify-content-end
+          = link_to "注 册", new_user_registration_path, :class => "text-danger mr-3"
+          = link_to "忘记密码?", forget_path, :class => "text-primary"
+      = f.submit "登 录", class: "button button-glow button-border button-rounded button-primary button-large btn-block"
+      - if devise_mapping.rememberable?
+        .form-check
+          %label.form-check-label
+            = f.check_box :remember_me, :checked=>true, class: "form-check-input d-none"

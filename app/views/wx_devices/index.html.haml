@@ -1,0 +1,44 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+          
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-12
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
+                %thead
+                  %tr
+                    %th{:scope => "col", :'data-field' => "id"} #
+
+                    %th{:scope => "col", :'data-field' => "fct"}
+                      公司
+                  
+                    -#
+                      %th{:scope => "col", :'data-field' => "idno"}
+                      = Setting.devices.idno
+                    %th{:scope => "col", :'data-field' => "name"}
+                      = Setting.devices.name
+                    %th{:scope => "col", :'data-field' => "mdno"}
+                      = Setting.devices.mdno
+                    %th{:scope => "col", :'data-field' => "unit"}
+                      = Setting.devices.unit
+                    %th{:scope => "col", :'data-field' => "supplier"}
+                      = Setting.devices.supplier
+                    %th{:scope => "col", :'data-field' => "state"}
+                      = Setting.devices.state
+                    %th{:scope => "col", :'data-field' => "pos"}
+                      = Setting.devices.pos
+                    %th{:scope => "col", :'data-field' => "pos_no"}
+                      = Setting.devices.pos_no
+                    %th{:scope => "col", :'data-field' => "search"}
+      = render "layouts/bootstrap/card"
+
+

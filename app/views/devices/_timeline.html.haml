@@ -1,0 +1,33 @@
+.timeline
+  .container-fluid
+    .row
+      .col-12
+        .timeline-container#prc-ctn
+          .timeline-continue
+            - @device.upholds.each do |uphold|
+              .row.timeline-right
+                .col-md-2
+                  %p.timeline-date
+                    = uphold.uphold_date
+                .col-md-10
+                  .timeline-box
+                    .timeline-icon
+                      %i.fa.fa-gift
+                    .timeline-text
+                      %p.text-success
+                        = Setting.upholds.cost
+                        = uphold.cost
+                        元
+                    .row
+                      .col-12
+                        %span.font-weight-bold
+                          [
+                          = Setting.upholds.reason
+                          ]
+                        = uphold.reason
+                      .col-12
+                        %span.font-weight-bold
+                          [
+                          = Setting.upholds.content
+                          ]
+                        = uphold.content

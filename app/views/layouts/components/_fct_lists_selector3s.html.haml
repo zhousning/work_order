@@ -1,0 +1,22 @@
+.container-fluid.px-0
+  %ul.border.bg-white.list-group.list-group-horizontal.pl-3.py-2
+    %li.list-group-item.pl-0.border-0
+      %select#fct.form-control{:name => 'device'}
+    %li.list-group-item.border-0.pl-0.d-flex.flex-row
+      = date_field_tag 'start', nil, class: 'form-control mr-1', :value => Date.today, :max => Date.today
+    %li.list-group-item.pl-0.border-0
+      %button.area-time-search.button.button-primary.button-small{:type => "button"}
+        查询 
+
+
+<script>
+
+
+function loadSelectData(url) {
+$.get(url).done(function (obj) {
+$("#fct").select2({
+data: obj.results
+});
+})
+}
+</script>

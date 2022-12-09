@@ -1,0 +1,18 @@
+.nested-fields.w-100.mb-0.pt-0.nestd-item
+  .form-group.mb-0
+    .field.d-inline
+      %table.table-bordered.day-pdt-table.w-100.mb-3
+        %tbody
+          %tr
+            %td.p-2.text-center
+              = f.label Setting.mudfcts.name, :class => "text-right"
+            %td.p-2.text-center
+              = f.text_field :name, :class => "form-control", :required => true 
+            -#
+              %td.p-2.text-center
+              = link_to_remove_association "删除", f, :class => "btn btn-danger btn-sm d-inline pull-right"
+      -#
+        .form-group.row
+        = f.label Setting.mudfcts.ability, :class => "col-sm-5 text-right"
+        .col-sm-7
+          = f.number_field :ability, :class => "form-control", :rows => "20"

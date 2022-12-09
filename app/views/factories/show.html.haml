@@ -1,0 +1,61 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-8.offset-2
+              .card-body
+                .container-fluid
+                  .row
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.factories.area
+                      = @factory.area
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.factories.name
+                      = @factory.name
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.factories.info
+                      = @factory.info
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.factories.lnt
+                      = @factory.lnt
+                  
+                    .col-md-6.mb-3.mr-3
+                      = Setting.factories.lat
+                      = @factory.lat
+                  
+                  .row
+                  
+                    .col-md-6
+                      = image_tag @factory.logo_url, :class => "w-100"
+                  
+                  .row
+                  
+                  .row
+                  
+                  
+                  .row
+                  
+                    - @factory.departments.each do |department|
+                       
+                      .col-md-2
+                        = department.name
+                       
+                      .col-md-2
+                        = department.info
+                      
+                  
+      = render "layouts/bootstrap/card"

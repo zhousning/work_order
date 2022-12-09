@@ -1,0 +1,37 @@
+.container-fluid.px-0
+  %ul.border.bg-white.list-group.list-group-horizontal.pl-3.py-2
+    %li.list-group-item.border-0.pl-0.d-flex.flex-row
+      = date_field_tag 'period_start', nil, class: 'form-control mr-1', :value => Date.today-7, :min => Date.new(2022, 07, 01), :max => Date.today-1
+      %span
+        一
+      = date_field_tag 'period_end', nil, class: 'form-control ml-1', :value => Date.today, :min => Date.new(2022, 07, 01), :max => Date.today-1
+    %li.list-group-item.pl-0.border-0
+      %button.period-time-search.button.button-primary.button-small{:type => "button"}
+        查询 
+    %li.list-group-item.pl-0.border-0
+      %button.period-time-report.button.button-inverse.button-small{:type => "button"}
+        下载报表
+
+
+<script>
+
+//与日期选择区间搭配时用这个函数
+function date_event(table, url) {
+$(".period-time-search").on('click', function(e) {
+var period_start = $("#period_start").val();
+var period_end = $("#period_end").val();
+
+request_params = {start: period_start, end: period_end}
+loadDataToBstpTable(table, url, request_params)
+})
+}
+
+function date_report(url) {
+$(".period-time-report").on('click', function(e) {
+var period_start = $("#period_start").val();
+var period_end = $("#period_end").val();
+
+location.href = url + '?start=' + period_start + '&end=' + period_end;
+})
+}
+</script>

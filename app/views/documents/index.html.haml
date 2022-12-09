@@ -1,0 +1,50 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-9.ml-sm-auto.col-lg-10.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = link_to examines_path, :class => "button pull-right button-highlight" do
+            = fa_icon "chevron-left", text: Setting.systems.btn_back
+
+      - content_for :card_body do
+        .container-fluid.p-0
+          .row
+            .col-md-12
+              %table.text-center.table-bordered.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable"}
+                %thead
+                  %tr
+                    %th{:scope => "col"} #
+                  
+                    %th{:scope => "col"}
+                      = Setting.documents.title
+                    %th{:scope => "col"}
+                      = Setting.documents.status
+                    %th{:scope => "col"}
+                %tbody
+                  - @documents.each_with_index do |document, index|
+                    %tr
+                      %td{:scope => "row"}
+                        = index+1
+                    
+                      %td
+                        = document.title
+                      - if document.status == Setting.documents.status_process || document.status == Setting.documents.status_none
+                        %td
+                          正在处理,稍后刷新查看...
+                        %td
+                      - elsif document.status == Setting.documents.status_success
+                        %td
+                          成功
+                        %td
+                          .container-fluid
+                            .row
+                              = link_to "下载", download_examine_document_path(@examine, document.id), :class => "text-info col" 
+                      - elsif document.status == Setting.documents.status_fail
+                        %td
+                          失败
+                        %td
+
+      = render "layouts/bootstrap/card"

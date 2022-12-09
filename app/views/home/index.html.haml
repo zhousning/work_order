@@ -1,0 +1,16 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      -#
+        - content_for :card_header do
+        %h5
+          = fa_icon "list", text:  t(controller_name + "." + action_name + '.title')
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-12
+
+      = render "layouts/bootstrap/card"

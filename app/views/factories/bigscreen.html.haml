@@ -1,0 +1,36 @@
+- provide(:title, t('.title'))
+
+#bigscreen
+  %header#bigscreen-header
+    = link_to controls_url do
+      %h4.header-title
+        = Setting.systems.company_name
+    -#
+      = image_tag "gykg.jpg", :class => "control-navbar-logo mr-2"
+      
+  #bigscreen-container
+    #flexCon
+      .flex-row
+        .flex-cell.flex-cell-l
+          .chart-wrapper
+            .chart-div.chart-statistic-ctn{:'data-chart' => Setting.charts.radar, :'data-type' => Setting.quota.ctg_cms, :'data-pos' => Setting.quota.pos_inf, :'data-fct' => idencode(@factory.id)}
+        .flex-cell.flex-cell-c
+          .chart-wrapper
+            #bigscreen-cms.chart-div{:'data-chart' => Setting.charts.line, :'data-type' => Setting.quota.ctg_cms, :'data-pos' => Setting.quota.pos_inf, :'data-fct' => idencode(@factory.id)}
+        .flex-cell.flex-cell-r
+          .chart-wrapper
+            .chart-div.chart-statistic-ctn{:'data-chart' => Setting.charts.radar, :'data-type' => Setting.quota.ctg_cms, :'data-pos' => Setting.quota.pos_eff, :'data-fct' => idencode(@factory.id)}
+      .flex-row
+        .flex-cell.flex-cell-lc.row
+          - @other_quotas.each do |quota|
+            .col-3.chart-wrapper
+              .chart-div.chart-gauge-ctn{:'data-chart' => Setting.charts.gauge, :'data-code' => quota, :'data-fct' => idencode(@factory.id)}
+        .flex-cell.flex-cell-r
+          .chart-wrapper
+            #map-container
+          -#
+            .chart-div.chart-done
+              .chart-loader
+                .loader
+
+<script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=GusLUt5fOvUDQrjz9LWNMjPzX1FA4X6g"></script>

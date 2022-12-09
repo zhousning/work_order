@@ -1,0 +1,28 @@
+- provide(:title, t('.title'))
+
+- content_for :main_body do
+  .container-fluid
+    .row
+      .col-md-12
+        %table.table.text-center.table-bordered
+          %thead
+            %tr
+            
+              %th 
+                = Setting.notices.title
+              %th 
+                = Setting.notices.content
+          %tbody
+            %tr
+            
+              %td
+                = @notice.title
+              %td
+                = @notice.content
+    
+      .col-md-12
+        - @notice.enclosures.each do |e|
+          = image_tag e.file_url(:small_width)
+    
+
+= render "layouts/control_panel"

@@ -1,0 +1,34 @@
+class Create<%= @mpc %> < ActiveRecord::Migration
+  def change
+    create_table :<%= @mpu %> do |t|
+    <% @columns.each do |column| %><% column_arr = column.split(":") %><% if column_arr[1] == "string" %>
+      t.<%= column_arr[1] %> :<%= column_arr[0] %>,  null: false, default: Setting.systems.default_str
+    <% elsif column_arr[1] == "text" %>
+      t.<%= column_arr[1] %> :<%= column_arr[0] %>
+    <% elsif column_arr[1] == "integer" || column_arr[1] == "float" %>
+      t.<%= column_arr[1] %> :<%= column_arr[0] %>,  null: false, default: Setting.systems.default_num 
+    <% elsif column_arr[1] == "boolean" %>
+      t.<%= column_arr[1] %> :<%= column_arr[0] %>,  null: false, default: Setting.systems.default_boolean
+    <% else %>
+      t.<%= column_arr[1] %> :<%= column_arr[0] %>
+    <% end %><% end %>
+
+    <% @one_enclosure.each do |e| %>
+      t.string :<%= e %>,  null: false, default: Setting.systems.default_str
+    <% end %>
+
+    <% @one_attachment.each do |a|  %>
+      t.string :<%= a %>,  null: false, default: Setting.systems.default_str
+    <% end %>
+
+    <% @relates.each do |relate| %><% relate_arr = relate.split(":") %><% if relate_arr[0] == "belongs_to" %>
+      t.references :<%= relate_arr[1].underscore %>
+    <% end %><% end %>
+
+    <% if @current_user %>
+      t.references :user
+    <% end %>
+      t.timestamps null: false
+    end
+  end
+end

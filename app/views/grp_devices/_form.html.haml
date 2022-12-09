@@ -1,0 +1,133 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @device, :url => "/grp_devices/#{@device.id ? idencode(@device.id) : ''}", :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
+        - if @device.errors.any?
+          #error_explanation.alert.alert-danger.alert-dismissible.fade.show
+            %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+              %span{"aria-hidden" => "true"} x 
+            %h2= "#{pluralize(@device.errors.count, "错误")}:"
+            %ul
+              - @device.errors.full_messages.each do |msg|
+                %li= msg
+        .row
+          .col-sm-12
+            %h2.text-center
+              = image_tag "gykg.jpg"
+              = @device.name
+          .col-md-8.offset-md-2.p-5.border
+            #flash_explanation
+            .card.border-0.mb-3.rounded-0
+              .card-body
+                %table.w-100.table-bordered.day-pdt-table
+                  %tbody
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.devices.mdno, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :mdno, :class => "form-control" , :required => true
+                      
+                      %td.p-2.text-center
+                        = f.label Setting.devices.unit, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :unit, :class => "form-control" , :required => true
+                      %td.p-2.text-center
+                        = f.label Setting.devices.supplier, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :supplier, :class => "form-control" , :required => true 
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.devices.idno, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :idno, :class => "form-control" 
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.devices.name, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :name, :class => "form-control" , :required => true
+                      
+                      %td.p-2.text-center
+                        = f.label Setting.devices.state, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.select :state, options_for_device_state, {:include_blank=>false}, {:class=>"form-control"}
+                      
+                      
+                    
+                    
+                    %tr
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.devices.pos, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :pos, :class => "form-control" 
+                      
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.devices.pos_no, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :pos_no, :class => "form-control" 
+                      %td.p-2.text-center{:colspan =>2}
+                      
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.devices.desc, :class => "text-center"
+                      %td.p-2.text-center{:colspan => 5}
+                        = f.text_area :desc, :class => "form-control", :rows => 10, :placeholder => '备注信息' 
+                      
+                    
+          
+            -#
+              .form-group.row
+              = f.label "站点图片", :class => "col-2 col-form-label text-right"
+              .col-10
+                %label.newbutton
+                  = image_tag f.one_image("avatar"), :class => "blah"
+                  = f.file_field :avatar, :accept => "image/png, image/jpeg, image/gif", :class => "select-file", :onchange => "readURL(this);"
+          
+          
+           
+          
+          
+          
+            -#
+              = f.fields_for :upholds do |uphold|
+                = render 'uphold_fields', f: uphold 
+              .links.mt-3
+                = link_to_add_association "添加", f, :upholds, :class => "button button-small button-primary"
+          
+            .form-group.row
+              .col-3.offset-3
+                = f.submit '保存', :class => "button  button-small button-action"
+            -#
+              .col-3.offset-1
+                = link_to '返回', devices_path, :class => "button button-small  button-caution"
+                    
+              %tr
+                
+                %td.p-2.text-center
+                  = f.label Setting.devices.life, :class => "text-center"
+                %td.p-2.text-center
+                  = f.number_field :life, :class => "form-control", :step => "any"  
+                
+              %tr
+              
+              
+                %td.p-2.text-center
+                  = f.label Setting.devices.mfcture, :class => "text-center"
+                %td.p-2.text-center
+                  = f.text_field :mfcture, :class => "form-control" 
+                
+                %td.p-2.text-center
+                  = f.label Setting.devices.out_date, :class => "text-center"
+                %td.p-2.text-center
+                  = f.date_field :out_date, :class => "form-control" 
+                
+                %td.p-2.text-center
+                  = f.label Setting.devices.mount_date, :class => "text-center"
+                %td.p-2.text-center
+                  = f.date_field :mount_date, :class => "form-control" 
+              

@@ -1,0 +1,40 @@
+%nav#home-nav.navbar.navbar-dark.navbar-expand-lg.sticky-top.p-0.bg-header-box
+  -#
+    %nav#home-nav.navbar.navbar-dark.navbar-expand-lg.sticky-top.bg-212634.p-0
+  -if current_user.has_role?(Setting.roles.role_fct)
+    %a.navbar-brand.col-sm-3.col-md-2{:href => root_path}
+      = image_tag "gykg.jpg", :class => "control-navbar-logo mr-2"
+      = Setting.systems.company_name
+  -elsif current_user.has_role?(Setting.roles.role_wx)
+    %a.navbar-brand.col-sm-3.col-md-2{:href => root_path}
+      = image_tag "gykg.jpg", :class => "control-navbar-logo mr-2"
+      = Setting.systems.company_name
+  -elsif current_user.has_role?(Setting.roles.role_grp) || current_user.has_role?(Setting.roles.role_cpy)
+    -#
+      %a.navbar-brand.col-sm-3.col-md-2{:href => controls_path}
+    %a.navbar-brand.col-sm-3.col-md-2.text-white
+      = image_tag "gykg.jpg", :class => "control-navbar-logo mr-2"
+      = Setting.systems.company_name
+  -elsif current_user.has_role?(Setting.roles.super_admin)
+    %a.navbar-brand.col-sm-3.col-md-2{:href => controls_path}
+      = image_tag "gykg.jpg", :class => "control-navbar-logo mr-2"
+      = Setting.systems.company_name
+
+  %ul.w-100.navbar-nav.justify-content-end.px-3
+    - unless user_signed_in?
+      %li.nav-item
+        = link_to new_user_registration_path, :class => "nav-link text-white" do
+          注册
+      %li.nav-item
+        = link_to "登录", new_user_session_path, :class => "nav-link text-white"
+    - else
+      %li.nav-item
+        - if !current_user.name.blank?
+          = link_to "欢迎您：" + current_user.name, nil, :class => "nav-link text-white"
+        - else
+          = link_to "欢迎您：" + current_user.phone, nil, :class => "nav-link text-white"
+      %li.nav-item
+        %a.nav-link.text-white{:href=>destroy_user_session_path, "data-method"=>"delete"} 退出 
+      - if current_user.super_admin?
+        %li.nav-item
+          = link_to "后台管理", jackadmin_root_path, :class => "nav-link text-white"

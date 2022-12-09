@@ -1,0 +1,60 @@
+- provide(:title, t('.title'))
+
+- content_for :main_body do
+  .container-fluid
+    .row
+      .col-md-12
+        %table.table.text-center.table-bordered
+          %thead
+            %tr
+            
+              %th 
+                = Setting.templates.name
+              %th 
+                = Setting.templates.nest
+              %th 
+                = Setting.templates.image
+              %th 
+                = Setting.templates.index
+              %th 
+                = Setting.templates.new
+              %th 
+                = Setting.templates.edit
+              %th 
+                = Setting.templates.show
+              %th 
+                = Setting.templates.form
+              %th 
+                = Setting.templates.js
+              %th 
+                = Setting.templates.scss
+              %th 
+                = Setting.templates.admin
+          %tbody
+            %tr
+            
+              %td
+                = @template.name
+              %td
+                = @template.nest
+              %td
+                = @template.image
+              %td
+                = @template.index
+              %td
+                = @template.new
+              %td
+                = @template.edit
+              %td
+                = @template.show
+              %td
+                = @template.form
+              %td
+                = @template.js
+              %td
+                = @template.scss
+              %td
+                = @template.admin
+    
+
+= render "layouts/control_panel"

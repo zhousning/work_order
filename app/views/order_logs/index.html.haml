@@ -1,0 +1,125 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+
+          
+
+          
+
+          -#
+            = link_to "/#{controller_name}/new", :class => "button  button-small pull-right button-primary mr-1" do
+              = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+          %button.button.button-primary.button-small.pull-right.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
+            = fa_icon "plus", text: Setting.systems.btn_new, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            -#
+              .col-md-12
+              = hidden_field_tag "fct", idencode(@factory.id), :class => "fct-val"
+            .col-md-12
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
+                %thead
+                  %tr
+                    %th{:scope => "col", :'data-field' => "id"} #
+                  
+                    %th{:scope => "col", :'data-field' => "feedback"}
+                      = Setting.order_logs.feedback
+                  
+                    %th{:scope => "col", :'data-field' => "content"}
+                      = Setting.order_logs.content
+                  
+                    %th{:scope => "col", :'data-field' => "longitude"}
+                      = Setting.order_logs.longitude
+                  
+                    %th{:scope => "col", :'data-field' => "latitude"}
+                      = Setting.order_logs.latitude
+                  
+                    %th{:scope => "col", :'data-field' => "upman"}
+                      = Setting.order_logs.upman
+                  
+                    %th{:scope => "col", :'data-field' => "nextman"}
+                      = Setting.order_logs.nextman
+                  
+                    %th{:scope => "col", :'data-field' => "start_time"}
+                      = Setting.order_logs.start_time
+                  
+                    %th{:scope => "col", :'data-field' => "end_time"}
+                      = Setting.order_logs.end_time
+                  
+                    %th{:scope => "col", :'data-field' => "state"}
+                      = Setting.order_logs.state
+                  
+                    %th{:scope => "col", :'data-field' => "img"}
+                      = Setting.order_logs.img
+                  
+                    %th{:scope => "col", :'data-field' => "address"}
+                      = Setting.order_logs.address
+                  
+                    %th{:scope => "col", :'data-field' => "item"}
+                      = Setting.order_logs.item
+                  
+                    %th{:scope => "col", :'data-field' => "button"}
+              -#
+                %tbody
+                  - @order_logs.each_with_index do |order_log, index|
+                    %tr
+                      %td{:scope => "row"}
+                        = index+1
+                    
+                      %td
+                        = order_log.feedback
+                      %td
+                        = order_log.content
+                      %td
+                        = order_log.longitude
+                      %td
+                        = order_log.latitude
+                      %td
+                        = order_log.upman
+                      %td
+                        = order_log.nextman
+                      %td
+                        = order_log.start_time
+                      %td
+                        = order_log.end_time
+                      %td
+                        = order_log.state
+                      %td
+                        = order_log.img
+                      %td
+                        = order_log.address
+                      %td
+                        = order_log.item
+                      %td
+                        .container-fluid
+                          .row.justify-content-center
+                            = link_to "编辑", edit_order_log_path(idencode(order_log.id)), :class => "button button-royal button-small mr-1" 
+                            = link_to "查看",  order_log_path(idencode(order_log.id)), :class => "button button-primary button-small mr-1" 
+                            = link_to "删除",  order_log_path(idencode(order_log.id)), :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "button button-caution button-small" 
+            -#
+              .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
+                = paginate @order_logs, window: 2, left: 1, right: 1 
+      = render "layouts/bootstrap/card"
+
+
+
+#newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered
+    .modal-content
+      .modal-header
+        -#
+          = image_tag "gykg.jpg"
+          %h5.text-success
+            = Setting.order_logs.label
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} x 
+      .modal-body
+        = render 'form'

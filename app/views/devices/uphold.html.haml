@@ -1,0 +1,57 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/factories/#{idencode(@factory.id)}/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-sm-12
+              %h2.text-center
+                = image_tag "gykg.jpg"
+                = @device.name + Setting.upholds.label
+            .col-md-12
+              = render "devices/timeline"
+              -#
+                %table.table-bordered.day-pdt-table.w-100
+                %tbody
+                  - @device.upholds.each do |uphold|
+                     
+                    %tr
+                      %td.p-3.text-center
+                        = Setting.upholds.uphold_date
+                      %td.p-3.text-center
+                        = uphold.uphold_date
+                     
+                    
+                      %td.p-3.text-center
+                        = Setting.upholds.reason
+                      %td.p-3.text-center
+                        = uphold.reason
+                     
+                    
+                      %td.p-3.text-center
+                        = Setting.upholds.content
+                      %td.p-3.text-center
+                        = uphold.content
+                     
+                    %tr
+                      %td.p-3.text-center
+                        = Setting.upholds.cost
+                      %td.p-3.text-center
+                        = uphold.cost
+                     
+                    
+                      %td.p-3.text-center
+                        = Setting.upholds.state
+                      %td.p-3.text-center
+                        = uphold.state
+                            
+              
+      = render "layouts/bootstrap/card"

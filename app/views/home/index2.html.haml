@@ -1,0 +1,202 @@
+- provide(:title, t('.title'))
+
+%main
+  #carouselExampleIndicators.carousel.slide{"data-ride" => "carousel"}
+    %ol.carousel-indicators
+      %li.active{"data-slide-to" => "0", "data-target" => "#carouselExampleIndicators"}
+      %li{"data-slide-to" => "1", "data-target" => "#carouselExampleIndicators"}
+      %li{"data-slide-to" => "2", "data-target" => "#carouselExampleIndicators"}
+    .carousel-inner.rounded-0
+      .carousel-item.active
+        %img.d-block.w-100{:src => "assets/carousel.jpg"}
+      .carousel-item
+        %img.d-block.w-100{:src => "assets/carousel.jpg"}
+      .carousel-item
+        %img.d-block.w-100{:src => "assets/carousel.jpg"}
+    %a.carousel-control-prev{"data-slide" => "prev", :href => "#carouselExampleIndicators", :role => "button"}
+      %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+      %span.sr-only Previous
+    %a.carousel-control-next{"data-slide" => "next", :href => "#carouselExampleIndicators", :role => "button"}
+      %span.carousel-control-next-icon{"aria-hidden" => "true"}
+      %span.sr-only Next
+= link_to '文字识别', ocrs_path, :class => 'btn btn-primary'
+  
+#info.container-fluid.my-5
+  .container
+    .row
+      .col-md-12
+        .row-title 
+          一列样式
+    .row
+      .col-sm-5.col-md-5.info-text-holder
+        %h3 Direct Brands
+        %p
+          We have worked with multiple brands across industries and have helped them to grow their businesses.
+          Our solutions are based upon your business strategy and campaign objective. Our algorithm is able
+          to identify and track campaign performance across multiple platforms. Hence management and campaign
+          optimization are much more efficient. They have not only leveraged our expertise with integrated
+          marketing but also the technology that helps us in making strategic business calls.
+      .col-sm-7.col-md-7.info-img-holder{:style => "text-align: right;"}
+        %img.info-img{:alt => "info", :src => "assets/info1.png"}
+    .row
+      .col-sm-7.col-md-7.info-img-holder{:style => "text-align: left;"}
+        %img.info-img{:alt => "info", :src => "assets/info2.png"}
+      .col-sm-5.col-md-5.info-text-holder
+        %h3 Agencies/ Networks
+        %p
+          We help agencies and networks to manage and monitor campaigns effectively. With the assistance of our
+          advanced marketing technologies, we have successfully provided campaign insights and data. This has
+          optimized the campaigns to drive more engagement and sales. Along with these measuring parameters,
+          the budget has been optimally put into use. Social Frontier's precise reporting system has provided
+          the agencies with a comprehensive data and trends with which major marketing decisions have been
+          made.
+
+
+.section.features.my-5
+  .container
+    .section__title
+      %h2
+        两列分布
+        = succeed "Amazon" do
+          %br.hidden-md-down/
+    .features__list
+      .features__item
+        %img{:alt => "", :src => "assets/s3.svg"}
+        %h2 SQL Select
+        %p Data processing platforms like Spark, Presto, Hive, and Flink can analyze data with SQL select queries without downloading the entire object. It supports Parquet, JSON and CSV formats, as well as zipped and encrypted objects.
+      .features__item
+        %img{:alt => "", :src => "assets/encryption.svg"}
+        %h2 Encryption &amp; WORM
+        %p MinIO provides confidentiality, integrity and authenticity assurances by encrypting data with negligible performance overhead.
+      .features__item
+        %img{:alt => "", :src => "assets/federation.svg"}
+        %h2 Multi-Site Federation
+        %p Federation combines an unlimited number of MinIO instances to form a unified global namespace.
+      .features__item
+        %img{:alt => "", :src => "assets/lambda.svg"}
+        %h2 Lambda Compute
+        %p MinIO Server triggers Lambda functions through its AWS SNS/SQS compatible event notification service. Supported targets include message queues such as Kafka, NATS, AMQP, MQTT, Webhooks, and databases such as Elasticsearch, Redis, Postgres, and MySQL.
+      .features__item
+        %img{:alt => "", :src => "assets/identity.svg"}
+        %h2 Identity &amp; Access Management
+        %p The MinIO Server integrates with Identity Providers WSO2, Keycloak, Okta, Ping Identity, Active Directory and others to authenticate applications and users.
+      .features__item
+        %img{:alt => "", :src => "assets/erasure.svg"}
+        %h2 Erasure Code &amp; Bitrot Protection
+        %p MinIO’s advanced capabilities in erasure code and bitrot detection mean that you can lose up to half the servers, and half the drives, and continue to serve data. Data protection code is accelerated using SIMD instructions on x64 and ARM CPUs.
+
+#features.container-fluid.my-5
+  .container
+    .row
+      .col-md-12
+        .row-title
+          三列样式
+      .col-md-4
+        .feature-box
+          .feature-icon
+            %img{:alt => "analyse", :src => "assets/Analyze.png", :style => "height: auto;width: 2em;"}
+          .feature-title 360-degree campaign integration
+          .feature-details{:style => "text-align: justify"}
+            All projects undertaken by social frontier are initiated after a complete research and analysis.
+            Our customers are able to achieve their objectives with ease because of our 360-degree campaign
+            integration approach. Campaign strategy is formulated keeping in mind the digital platforms,
+            customer behavior, and campaign objective.
+      .col-md-4
+        .feature-box
+          .feature-icon
+            %img{:alt => "analyse", :src => "assets/key.png", :style => "height: auto;width: 2em;"}
+          .feature-title Integrated Content Marketing
+          .feature-details{:style => "text-align: justify"}
+            We ensure that the campaign message is in harmony with the brand communication and personality. Our
+            content team does a thorough research on keywords and builds the campaigns accordingly. Across
+            all platforms and campaigns, the audience will come across rich content and valuable ad experience.
+      .col-md-4
+        .feature-box
+          .feature-icon
+            %img{:alt => "analyse", :src => "assets/creaqte-content.png", :style => "height: auto;width: 2em;"}
+          .feature-title Advanced Technical Tracking &amp; Analytics
+          .feature-details{:style => "text-align: justify"}
+            Social Frontier has developed an advanced algorithm that is able to track the campaigns running across
+            digital platforms. This algorithm does not only compare the campaign performance but also provide
+            suggestions in order to optimize the campaigns. With the help of this technology we are able
+            to have a highly efficient team, optimized budget allocation, and 3X better results.
+
+%section.py-5
+  .container-fluid
+    .row.my-5
+      .col-12
+        %h2.text-center
+          Why choose Cluvio?
+    .row.text-center
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "Sql analytics", :src => "assets/sql-analytics.svg"}
+        %h3 SQL-based analytics
+        %p Write SQL, get charts, share dashbos.8;You won’t find an easier tool than Cluvio.
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "Usability design", :src => "assets/usability-design.svg"}
+        %h3 Great usability and design
+        %p Cluvio dashboards are a pleasure to look at and you will see how easy and clear it is to use.
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "Dashboards", :src => "assets/dashboards.svg"}
+        %h3 Interactive dashboards
+        %p You can easily make dashboards in Cluvio interactive with time-based and custom filters.
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "Sql editor", :src => "assets/sql-editor.svg"}
+        %h3 Best SQL editor ever
+        %p Typing lots of SQL can actually be fun—you have to try it to believe how productive you can be.
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "R language", :src => "assets/r-language.svg"}
+        %h3 R (programming language)
+        %p The combined expressiveness of SQL and R makes the Cluvio analysis pipeline extremely powerful.
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "Recommendations", :src => "assets/recommendations.svg"}
+        %h3 Intelligent recommendations
+        %p Get automatic suggestions for SQL queries and intelligent chart recommendations.
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "Scalable", :src => "assets/scalable.svg"}
+        %h3 Grows with you
+        %p We designed our pricing so that companies of any size can use it, even cash-strapped startups.
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "Unlimited viewers", :src => "assets/unlimited-viewers.svg"}
+        %h3 Unlimited viewers
+        %p With Cluvio pro and business plans you can invite an unlimited number of your employees for free.
+      .col-sm-6.col-md-4.col-lg-4
+        %img{:alt => "Sql alerts", :src => "assets/sql-alerts.svg"}
+        %h3 SQL alerts
+        %p You can turn anything that can be expressed in SQL and R into a watchdog service within minutes.
+
+%section#usps
+  .row
+    .usp.col-6
+      %img{:alt => "Listen", :src => "assets/listen.svg"}
+      %h2 Listen to your data
+      %p There is a wealth of information hiding in the data in your database just waiting to be discovered.
+    .usp.col-6
+      %img{:alt => "Wall", :src => "assets/wall.svg"}
+      %h2 Put your data on the wall
+      %p See your most important KPIs on interactive, real-time dashboards anywhere, anytime.
+  .row
+    .usp.col-6
+      %img{:alt => "Notifications", :src => "assets/notifications.svg"}
+      %h2 Push notifications for your data
+      %p Receive alerts for conditions that you define—a sudden drop in number of orders, increased error rates, or achieved revenue goals.
+    .usp.col-6
+      %img{:alt => "Curiosity", :src => "assets/curiosity.svg"}
+      %h2 Make everyone curious
+      %p Defining and exposing reality based on actual data makes everyone in your company more curious and engaged in your company’s success.
+%section#databases
+  %h2 Cluvio works with your database...
+  .logo-list.row
+    %img.logo.col-2{:alt => "Postgresql", :src => "assets/postgresql.svg"}
+    %img.logo.col-2{:alt => "Mysql", :src => "assets/mysql.svg"}
+    %img.logo.col-2{:alt => "Redshift", :src => "assets/redshift.svg"}
+    %img.logo.col-2{:alt => "Bigquery", :src => "assets/bigquery.svg"}
+    %img.logo.col-2{:alt => "Mariadb", :src => "assets/mariadb.svg"}
+    %img.logo.col-2{:alt => "Ms sql", :src => "assets/ms_sql.svg"}
+  .logo-list.row
+    %img.logo.col-2{:alt => "Amazon web services", :src => "assets/amazon_web_services.svg"}
+    %img.logo.col-2{:alt => "Google cloud", :src => "assets/google_cloud.svg"}
+    %img.logo.col-2{:alt => "Oracle", :src => "assets/oracle.svg"}
+    %img.logo.col-2{:alt => "Exasol", :src => "assets/exasol.svg"}
+    %img.logo.col-2{:alt => "Snowflake", :src => "assets/snowflake.svg"}
+    %img.logo.col-2{:alt => "Vertica", :src => "assets/vertica.svg"}

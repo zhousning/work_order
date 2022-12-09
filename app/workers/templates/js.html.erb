@@ -1,0 +1,15 @@
+<% if @navbar %>
+  <%= @navbar.js %>
+<% end %>
+
+<% if @mastheader %>
+  <%= @mastheader.js %>
+<% end %>
+
+<% if @footer %>
+  <%= @footer.js %>
+<% end %>
+
+<% @subunits.each do |subunit| %>
+  <%= subunit.js %>
+<% end %>

@@ -1,0 +1,8 @@
+.nested-fields.col-12.nestd-item
+  .form-group
+    .field.d-inline
+      %label.newbtn
+        %p.append-url
+          = URI.decode(f.attachment_url)
+        = f.file_field :file, :class => "select-file", :onchange => "readFileName(this);"
+    = link_to_remove_association "X", f, :class => "nestd-notify-badge"

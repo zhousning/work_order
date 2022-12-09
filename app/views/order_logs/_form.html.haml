@@ -1,0 +1,144 @@
+.container-fluid
+  .row.justify-content-sm-center
+    .col-sm-12
+      = form_for @order_log, :url => "/order_logs/#{@order_log.id ? idencode(@order_log.id) : ''}", :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
+        - if @order_log.errors.any?
+          #error_explanation.alert.alert-danger.alert-dismissible.fade.show
+            %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+              %span{"aria-hidden" => "true"} x 
+            %h2= "#{pluralize(@order_log.errors.count, "错误")}:"
+            %ul
+              - @order_log.errors.full_messages.each do |msg|
+                %li= msg
+        .row
+          .col-sm-12
+            %h2.text-center
+              = image_tag "gykg.jpg"
+          .col-md-8.offset-md-2.p-5.border
+            #flash_explanation
+            .card.border-0.mb-3.rounded-0
+              .card-header.bg-transparent.border-success
+                %h5
+                  = Setting.order_logs.label
+              .card-body
+                %table.w-100.table-bordered.day-pdt-table
+                  %tbody
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.feedback, :class => "text-center"
+                      %td.p-2.text-center
+                        .form-check.form-check-inline
+                          = f.radio_button :feedback, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+                          = f.label Setting.systems.status_yes, :class => "form-check-label"
+                        .form-check.form-check-inline
+                          = f.radio_button :feedback, Setting.systems.status_en_no, :class => "form-check-input"
+                          = f.label Setting.systems.status_no, :class => "form-check-label"
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.content, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_area :content, :class => "form-control", :rows => "10" , :required => true
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.longitude, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :longitude, :class => "form-control" 
+                      
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.latitude, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :latitude, :class => "form-control" 
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.upman, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.number_field :upman, :class => "form-control", :step => "any"  
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.nextman, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.number_field :nextman, :class => "form-control", :step => "any"  
+                      
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.start_time, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.datetime_select :start_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.end_time, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.datetime_select :end_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.state, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :state, :class => "form-control" , :required => true
+                      
+                    
+                    %tr
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.img, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_area :img, :class => "form-control", :rows => "10" 
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.address, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_area :address, :class => "form-control", :rows => "10" 
+                      
+                    
+                    
+                      %td.p-2.text-center
+                        = f.label Setting.order_logs.item, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.text_field :item, :class => "form-control" 
+                      
+                    
+          
+          
+          
+            .form-group.row
+              = f.label "附图", :class => "col-2 text-right col-form-label col-form-label"
+              .col-10
+                .row
+                  = f.fields_for :enclosures do |enclosure|
+                    = render 'enclosure_fields', f: enclosure
+                  .links
+                    = link_to_add_association "添加文件", f, :enclosures, :class => "button button-small button-primary"
+          
+          
+            .form-group.row
+              = f.label "附件", :class => "col-2 text-right col-form-label"
+              .col-10
+                .row
+                  = f.fields_for :attachments do |attachment|
+                    = render 'attachment_fields', f: attachment
+                  .links
+                    = link_to_add_association "添加文件", f, :attachments, :class => "button button-small button-primary"
+          
+          
+            .form-group.row
+              .col-3.offset-3
+                = f.submit '保存', :class => "button  button-small button-action"
+            -#
+              .col-3.offset-1
+                = link_to '返回', order_logs_path, :class => "button button-small  button-caution"

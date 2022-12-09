@@ -1,0 +1,62 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-12
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
+                %thead
+                  %tr
+                    %th{:scope => "col", :'data-field' => "id"} #
+
+                    %th{:scope => "col", :'data-field' => "name"}
+                      = Setting.workers.name
+                  
+                    %th{:scope => "col", :'data-field' => "idno"}
+                      = Setting.workers.idno
+                  
+                    %th{:scope => "col", :'data-field' => "phone"}
+                      = Setting.workers.phone
+                  
+                    %th{:scope => "col", :'data-field' => "gender"}
+                      = Setting.workers.gender
+                  
+                    %th{:scope => "col", :'data-field' => "adress"}
+                      = Setting.workers.adress
+
+                    %th{:scope => "col", :'data-field' => "fct"}
+                      公司
+                  
+                    %th{:scope => "col", :'data-field' => "button"}
+      = render "layouts/bootstrap/card"
+
+
+#newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12
+            %table#day-emq-ctn.table.text-center.table-bordered
+        .row#chart-ctn
+
+#logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#log-day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12
+            %table#log-day-emq-ctn.table.text-center.table-bordered

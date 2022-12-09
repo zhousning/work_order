@@ -1,0 +1,29 @@
+.container-fluid.h-100
+  .row.py-5
+    .col-12
+      - if @user.status == Setting.users.pending
+        = image_tag iconic('timer'), :class => "d-block mx-auto img-thubnail w-25 mb-5"
+        %h2.text-center
+          认证已提交，待审核
+      - elsif @user.status == Setting.users.rejected
+        = image_tag iconic('warning'), :class => "d-block mx-auto img-thubnail w-25 mb-5"
+        %h3.text-center
+          不通过
+        = link_to "重新认证", mobile_authc_new_user_path(current_user), :class => "btn btn-lg btn-block btn-success"
+      - elsif @user.status == Setting.users.passed
+        = image_tag 'logo.png', :class => "d-block m-auto img-thubnail"
+        %h3.text-center
+          认证通过
+        %ul.list-group.mx-auto.w-50.mt-5
+          %li.list-group-item.border-0.text-left
+            %h5.mt-3
+              = Setting.users.name
+              = @user.name
+          %li.list-group-item.border-0.text-left
+            %h5.mt-3
+              = Setting.users.phone
+              = @user.phone
+          %li.list-group-item.border-0.text-left
+            %h5.mt-3
+              = Setting.users.alipay
+              = @user.alipay

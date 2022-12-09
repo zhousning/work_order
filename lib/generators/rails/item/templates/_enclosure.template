@@ -1,0 +1,7 @@
+.nested-fields.col-4.nestd-item
+  .form-group
+    .field.d-inline
+      %label.newbtn
+        = image_tag f.enclosure_image, :class => "blah"
+        = f.file_field :file, :accept => "image/png, image/jpeg, image/gif", :class => "select-file", :onchange => "readURL(this);"
+    = link_to_remove_association "X", f, :class => "nestd-notify-badge"

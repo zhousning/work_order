@@ -1,0 +1,56 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-sm-12
+              %h2.text-center
+                = image_tag "gykg.jpg"
+            .col-md-8.offset-2.p-5.border
+              .card.border-0.mb-3.rounded-0
+                .card-header.bg-transparent.border-dark
+                  %h5
+                    = Setting.sign_logs.label
+                .card-body
+                  %table.table-bordered.day-pdt-table.w-100.mb-3
+                    %tbody
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.sign_logs.sign_date
+                        %td.p-2.text-center
+                          = @sign_log.sign_date
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.sign_logs.wx_user_id
+                        %td.p-2.text-center
+                          = @sign_log.wx_user_id
+                    
+                      
+                        %td.p-2.text-center
+                          = Setting.sign_logs.device_id
+                        %td.p-2.text-center
+                          = @sign_log.device_id
+                    
+              .row
+              
+                .col-md-6
+                  = image_tag @sign_log.avatar_url, :class => "w-100"
+              
+              .row
+              
+              .row
+              
+              
+              
+      = render "layouts/bootstrap/card"

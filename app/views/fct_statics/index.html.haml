@@ -1,0 +1,60 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      -#
+        - content_for :card_header do
+        %h5
+          = fa_icon "list", text:  t(controller_name + "." + action_name + '.title')
+      - content_for :card_body do
+        .row
+          .col-12
+            .card.mx-1.w-100
+              .card-header.border-bottom-0.bg-white
+                %ul.nav.nav-tabs{:role => "tablist"}
+                  %li.nav-item
+                    %a.nav-link.active{"data-toggle" => "tab", :href => "#sdzjtbz", :role => "tab"}
+                      考勤明细
+                  %li.nav-item
+                    %a.nav-link{"data-toggle" => "tab", :href => "#jnzsbz", :role => "tab"}
+                      单日查询
+              .card-body
+                .tab-content
+                  #sdzjtbz.sglfct-chart-ctn.tab-pane.active{:role => "tabpanel"}
+                    = render 'layouts/components/fct_lists_selector4s'
+                    .container-fluid
+                      .row
+                        .col-md-12
+                          %table#log-pdt-rpt-table.text-center.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "600", :'data-virtual-scroll' => "true", :'data-show-columns' => "true", :'data-page-size' => "15"}
+                            %thead
+                              %tr
+                                %th{:scope => "col", :'data-field' => "id", :'data-width' => '5%'} #
+                              
+                                %th{:scope => "col", :'data-field' => "mdno", :'data-width' => '5%'}
+                                  = Setting.devices.mdno
+                              
+                                %th{:scope => "col", :'data-field' => "unit", :'data-width' => '5%'}
+                                  = Setting.devices.unit
+
+                                %th{:scope => "col", :'data-field' => "name", :'data-width' => '5%'}
+                                  = Setting.devices.name
+
+                                %th{:scope => "col", :'data-field' => "wx_user_id", :'data-width' => '5%'}
+                                  = Setting.sign_logs.wx_user_id
+                              
+                                %th{:scope => "col", :'data-field' => "count", :'data-width' => '5%', :'data-sortable' => "true" }
+                                  考勤人数
+                              
+                                %th{:scope => "col", :'data-field' => "workers", :'data-width' => '70%'}
+                                  考勤明细
+
+                  #jnzsbz.sglfct-chart-ctn.tab-pane{:role => "tabpanel"}
+                    = render 'layouts/components/fct_lists_selector3s'
+                    .container-fluid
+                      .row
+                        .col-md-3
+                          %table#day-pdt-rpt-table.table.table-bordered.text-center
+
+      = render "layouts/bootstrap/card"

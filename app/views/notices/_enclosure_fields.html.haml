@@ -1,0 +1,5 @@
+.nested-fields
+  .form-group
+    .field.d-inline
+      = f.file_field :file, :accept => "image/png, image/jpeg, image/gif", :class => "select-file"
+    = link_to_remove_association "删除", f, :class => "btn btn-danger btn-sm d-inline"
