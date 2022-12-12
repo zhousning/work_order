@@ -61,6 +61,26 @@ class WorkOrdersController < ApplicationController
    
   end
 
+  def query_info 
+    @factory = my_factory
+    item = @factory.work_orders.find(iddecode(params[:id]))
+   
+    obj = {
+      Setting.work_orders.title => item.title,
+      Setting.work_orders.pdt_time => item.pdt_time,
+      Setting.work_orders.content => item.content,
+      Setting.work_orders.address => item.address,
+      Setting.work_orders.urgent => item.urgent,
+      Setting.work_orders.order_time => item.order_time,
+      Setting.work_orders.limit_time => item.limit_time,
+      Setting.work_orders.person => item.person,
+      Setting.work_orders.phone => item.phone,
+    }
+    respond_to do |f|
+      f.json{ render :json => {:obj => obj}.to_json}
+    end
+  end
+   
   def query_all 
     @factory = my_factory
     items = @factory.work_orders

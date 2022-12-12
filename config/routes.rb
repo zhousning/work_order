@@ -53,9 +53,13 @@ Rails.application.routes.draw do
   #resources :selectors
 
   resources :factories, :only => [] do
+    resources :wxusers, :only => []  do
+      get :query_list, :on => :collection
+    end
     resources :work_orders do
       get :download_attachment, :on => :member
       get :download_append, :on => :member
+      get :query_info, :on => :member
       post :parse_excel, :on => :collection
       get :xls_download, :on => :collection
       get :query_all, :on => :collection

@@ -27,8 +27,7 @@
       - content_for :card_body do
         .container-fluid
           .row
-            -#
-              .col-md-12
+            .col-md-12
               = hidden_field_tag "fct", idencode(@factory.id), :class => "fct-val"
             .col-md-12
               %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
@@ -70,44 +69,6 @@
                       = Setting.work_orders.img
                   
                     %th{:scope => "col", :'data-field' => "button"}
-              -#
-                %tbody
-                  - @work_orders.each_with_index do |work_order, index|
-                    %tr
-                      %td{:scope => "row"}
-                        = index+1
-                    
-                      %td
-                        = work_order.title
-                      %td
-                        = work_order.pdt_time
-                      %td
-                        = work_order.content
-                      %td
-                        = work_order.address
-                      %td
-                        = work_order.urgent
-                      %td
-                        = work_order.state
-                      %td
-                        = work_order.order_time
-                      %td
-                        = work_order.limit_time
-                      %td
-                        = work_order.person
-                      %td
-                        = work_order.phone
-                      %td
-                        = work_order.img
-                      %td
-                        .container-fluid
-                          .row.justify-content-center
-                            = link_to "编辑", edit_work_order_path(idencode(work_order.id)), :class => "button button-royal button-small mr-1" 
-                            = link_to "查看",  work_order_path(idencode(work_order.id)), :class => "button button-primary button-small mr-1" 
-                            = link_to "删除",  work_order_path(idencode(work_order.id)), :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "button button-caution button-small" 
-            -#
-              .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
-                = paginate @work_orders, window: 2, left: 1, right: 1 
       = render "layouts/bootstrap/card"
 
 
@@ -144,11 +105,66 @@
   .modal-dialog.modal-xl.modal-dialog-centered
     .modal-content
       .modal-header
-        -#
-          = image_tag "gykg.jpg"
-          %h5.text-success
-            = Setting.work_orders.label
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} x 
       .modal-body
         = render 'form'
+
+#assignModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "assignModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        工单分配
+      .modal-body
+        .row
+          .col-12
+            %table#day-emq-ctn.table.text-center.table-bordered
+
+#logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#log-day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12
+            %table#log-day-emq-ctn.table.text-center.table-bordered
+
+-#
+  %tbody
+    - @work_orders.each_with_index do |work_order, index|
+      %tr
+        %td{:scope => "row"}
+          = index+1
+      
+        %td
+          = work_order.title
+        %td
+          = work_order.pdt_time
+        %td
+          = work_order.content
+        %td
+          = work_order.address
+        %td
+          = work_order.urgent
+        %td
+          = work_order.state
+        %td
+          = work_order.order_time
+        %td
+          = work_order.limit_time
+        %td
+          = work_order.person
+        %td
+          = work_order.phone
+        %td
+          = work_order.img
+        %td
+          .container-fluid
+            .row.justify-content-center
+              = link_to "编辑", edit_work_order_path(idencode(work_order.id)), :class => "button button-royal button-small mr-1" 
+              = link_to "查看",  work_order_path(idencode(work_order.id)), :class => "button button-primary button-small mr-1" 
+              = link_to "删除",  work_order_path(idencode(work_order.id)), :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "button button-caution button-small" 
+
+  .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
+  = paginate @work_orders, window: 2, left: 1, right: 1 
