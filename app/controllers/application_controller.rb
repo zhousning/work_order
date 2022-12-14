@@ -3,6 +3,7 @@ require 'restclient'
 
 class ApplicationController < ActionController::Base
   include CanCan::ControllerAdditions
+  include StateModule
   before_action :configure_permitted_parameters_name, if: :devise_controller?
 
   protect_from_forgery with: :exception
@@ -69,23 +70,6 @@ class ApplicationController < ActionController::Base
       (value.to_i/3 - 4933)/99 
     end
 
-    def months
-      {
-        Setting.months.one    => Setting.months.one_t, 
-        Setting.months.two    => Setting.months.two_t, 
-        Setting.months.three  => Setting.months.three_t,
-        Setting.months.four   => Setting.months.four_t, 
-        Setting.months.five   => Setting.months.five_t,
-        Setting.months.six    => Setting.months.six_t,
-        Setting.months.seven  => Setting.months.seven_t,
-        Setting.months.eight  => Setting.months.eight_t,
-        Setting.months.nine   => Setting.months.nine_t, 
-        Setting.months.ten    => Setting.months.ten_t,
-        Setting.months.eleven => Setting.months.eleven_t,
-        Setting.months.twelve => Setting.months.twelve_t
-      }
-
-    end
   
     def wxuser_exist?
       @wxuser = WxUser.find_by(:openid => params[:id])
@@ -96,15 +80,6 @@ class ApplicationController < ActionController::Base
         end
         return
       end
-    end
-
-    def chemicals_hash
-      hash = Hash.new
-      ctgs = ChemicalCtg.all
-      ctgs.each do |f|
-        hash[f.code] = f.name
-      end
-      hash
     end
 
     def mudfcts_hash(factory)
@@ -122,32 +97,6 @@ class ApplicationController < ActionController::Base
 
     def my_cpy_factory
       @factory = current_user.factories.first
-    end
-
-    def user_gender(gender)
-      flag = ''
-      if gender == Setting.systems.man_no
-        flag = Setting.systems.man
-      else gender == Setting.systems.woman_no
-        flag = Setting.systems.woman
-      end
-
-    end
-
-    def worker_state(state)
-      str = ''
-      if state == Setting.states.ongoing
-        str = '未验证'
-      elsif state == Setting.states.processing
-        str = '处理中'
-      elsif state == Setting.states.canceled ||  state == Setting.states.error
-        str = '处理失败'
-      elsif state == Setting.states.deleting
-        str = '删除中'
-      elsif state == Setting.states.completed
-        str = '已验证'
-      end
-      str
     end
 
     def wexin_token
@@ -170,4 +119,5 @@ class ApplicationController < ActionController::Base
       end
       return access_token 
     end
+
 end

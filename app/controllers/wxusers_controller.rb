@@ -5,9 +5,9 @@ class WxusersController < ApplicationController
   
   def query_list
     @factory = my_factory
-    @workers = @factory.wx_users.where(:state => Setting.states.completed).order('created_at DESC')
+    @wxusers = @factory.wx_users.where(:state => Setting.states.completed).order('created_at DESC')
     obj = []
-    @workers.each do |item|
+    @wxusers.each do |item|
       button = "<button class = 'button button-inverse button-small mr-1 assign-btn' type = 'button' data-id ='" + idencode(item.id).to_s + "'>分配</button>"
       obj << {
         :name => item.name,

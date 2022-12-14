@@ -8,6 +8,104 @@ class WxTasksController < ApplicationController
     @tasks = @factory.tasks.all.page( params[:page]).per( Setting.systems.per_page )
   end
    
+  def query_info
+    wxuser = WxUser.find_by(:openid => params[:id])
+    obj = {}
+    if wxuser.state == Setting.states.completed
+      @workorder = wxuser.work_orders.find(iddecode(params[:taskid]))
+      infos = [ 
+        Setting.work_orders.pdt_time + ': ' + @workorder.pdt_time,
+        Setting.work_orders.person + ': ' + @workorder.person,
+        Setting.work_orders.phone + ': ' + @workorder.phone,
+        Setting.work_orders.content + ': ' + @workorder.content,
+        Setting.work_orders.address + ': ' + @workorder.address
+      ] 
+      img = [] 
+      @workorder.enclosures.each do |enclosure|
+        img << enclosure.url
+      end
+      @workorder.imgs.split(',').each do |image|
+        img << image
+      end
+      obj = {
+        :number => @workorder.number,
+        :infos => infos,
+        :imgs => img
+      }
+    end
+
+    respond_to do |f|
+      f.json{ render :json => obj.to_json}
+    end
+  end
+
+  def query_pend
+    wxuser = WxUser.find(:openid => params[:id])
+    arr = []
+    if wxuser.state == Setting.states.completed
+      work_order_ids = OrderLog.where(:state => Setting.states.unaccept, :wx_user => wxuser).pluck(:work_order_id)
+      @workorders = WorkOrder.find(work_order_ids)
+      @workorders.each do |workorder|
+        obj = {}
+        infos = [ 
+          Setting.work_orders.pdt_time + ': ' + workorder.pdt_time,
+          Setting.work_orders.person + ': ' + workorder.person,
+          Setting.work_orders.phone + ': ' + workorder.phone,
+          Setting.work_orders.content + ': ' + workorder.content,
+          Setting.work_orders.address + ': ' + workorder.address
+        ] 
+        obj = {
+          :number => workorder.number,
+          :infos => infos
+        }
+        arr << obj
+      end
+    end
+
+    respond_to do |f|
+      f.json{ render :json => arr.to_json}
+    end
+  end
+
+  def query_rate
+    wxuser = WxUser.find(:openid => params[:id])
+    arr = []
+    if wxuser.state == Setting.states.completed
+      order_logs = OrderLog.where(:wx_user => wxuser, :work_order_id => iddecode(params[:taskid]))
+      order_logs.each do |order_log|
+        arr << {:state => order_log_state(order_log.state), :user => order_log.wx_user.name + ' ' + order_log.create_at.strftime("%Y-%m-%d %H:%M")}
+      end
+    end
+
+    respond_to do |f|
+      f.json{ render :json => arr.to_json}
+    end
+  end
+
+  def query_record
+    wxuser = WxUser.find(:openid => params[:id])
+    arr = []
+    if wxuser.state == Setting.states.completed
+      order_logs = OrderLog.where(:wx_user => wxuser, :work_order_id => iddecode(params[:taskid]), :state => Setting.states.processed)
+      order_logs.each do |order_log|
+        img = []
+        order_log.img.split(',').each do |image|
+          img << image
+        end
+        arr << {
+          :state => order_log_state(order_log.state), 
+          :user => order_log.wx_user.name,
+          :time => order_log.create_at.strftime("%Y-%m-%d %H:%M")},
+          :content => order_log.content,
+          :imgs => img
+        }
+      end
+    end
+
+    respond_to do |f|
+      f.json{ render :json => arr.to_json}
+    end
+  end
 
   def query_all 
     wxuser = WxUser.find_by(:openid => params[:id])

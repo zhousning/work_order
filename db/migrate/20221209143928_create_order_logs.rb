@@ -1,7 +1,8 @@
 class CreateOrderLogs < ActiveRecord::Migration
   def change
     create_table :order_logs do |t|
-      t.integer :worker_order_id
+      t.integer :work_order_id
+
       t.integer :wx_user_id
     
       t.boolean :feedback,  null: false, default: Setting.systems.default_boolean
@@ -20,7 +21,7 @@ class CreateOrderLogs < ActiveRecord::Migration
     
       t.datetime :end_time
     
-      t.string :state,  null: false, default: Setting.systems.default_str
+      t.string :state,  null: false, default: Setting.states.opening
     
       t.text :img
     

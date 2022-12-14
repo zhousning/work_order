@@ -117,6 +117,7 @@
         工单分配
       .modal-body
         .row
+          = hidden_field_tag "order", nil, :id => "order-val"
           .col-12
             %table#day-emq-ctn.table.text-center.table-bordered
 

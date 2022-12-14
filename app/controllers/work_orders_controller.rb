@@ -2,6 +2,22 @@ class WorkOrdersController < ApplicationController
   layout "application_control"
   before_filter :authenticate_user!
   #authorize_resource
+  
+
+  def assign
+    @work_order = WorkOrder.find(iddecode(params[:id]))
+    @wxuser = WxUser.find(iddecode(params[:worker]))
+    @order_log = OrderLog.new(:work_order => @work_order, :wx_user => @wxuser)
+    if @order_log.save
+      respond_to do |f|
+        f.json{ render :json => {:state => 'success'}.to_json}
+      end
+    else
+      respond_to do |f|
+        f.json{ render :json => {:state => 'error'}.to_json}
+      end
+    end
+  end
 
   def index
     @factory = my_factory

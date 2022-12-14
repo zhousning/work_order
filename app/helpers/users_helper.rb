@@ -12,14 +12,4 @@ module UsersHelper
      end
      raw(str)
    end
-
-   def user_gender(gender)
-     flag = ''
-     if gender == Setting.systems.man_no
-       flag = Setting.systems.man
-     else gender == Setting.systems.woman_no
-       flag = Setting.systems.woman
-     end
-
-   end
 end

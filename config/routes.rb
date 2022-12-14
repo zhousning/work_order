@@ -159,6 +159,10 @@ Rails.application.routes.draw do
   end
   resources :wx_tasks, only: [] do
     collection do
+      get 'query_info'
+      get 'query_pend'
+      get 'query_rate'
+      get 'query_record'
       get 'query_all'
       get 'query_finish'
       get 'query_plan'
@@ -185,6 +189,9 @@ Rails.application.routes.draw do
   resources :deploys do
     get :download_append, :on => :member
     get :query_all, :on => :collection
+  end
+  resources :work_orders, :only => [] do
+    get :assign, :on => :member
   end
   resources :order_logs do
     get :download_attachment, :on => :member

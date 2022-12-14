@@ -31,25 +31,27 @@ function worker_order_bind_event() {
       $("#log-day-emq-ctn").html(emq_table);
     });
   });
+
   $("#item-table").on('click', 'button.worker-show-btn', function(e) {
     $('#assignModal').modal();
     var that = e.target
     var data_id = that.dataset['rpt'];
-    var data_fct = $('#fct').val();
-    var url = "/factories/" + data_fct + "/wxusers/" + "query_list";
+    $('#order-val').val(data_id);
+
+    get_wxworkers();
+  });
+  $("#day-emq-ctn").on('click', 'button.assign-btn', function(e) {
+    var that = e.target
+    var data_worker = that.dataset['id'];
+    var data_order = $("#order-val").val(); 
+
+    var url = "/work_orders/" + data_order + "/assign?worker=" + data_worker;
     $.get(url).done(function (data) {
-      var emq = data.info;
-      
-      var emq_table = '<tr><th>用户名</th><th>电话</th><th>状态</th><th>操作</th></tr>';
-      for (var i=0; i<emq.length; i++) {
-        emq_table += '<tr>'; 
-        emq_table += "<td>" + emq[i]['name'] + "</td>"; 
-        emq_table += "<td>" + emq[i]['phone'] + "</td>"; 
-        emq_table += "<td>" + "</td>"; 
-        emq_table += "<td>" + emq[i]['search'] + "</td>"; 
-        emq_table += '</tr>'; 
+      if (data.state == 'success') {
+        get_wxworkers();
+      } else {
+        alert('分配任务失败');
       }
-      $("#day-emq-ctn").html(emq_table);
     });
   });
   $("#item-table").on('click', 'button.worker-delete-btn', function(e) {
@@ -65,6 +67,26 @@ function worker_order_bind_event() {
     });
   });
 }
+
+function get_wxworkers() {
+  var data_fct = $('#fct').val();
+  var url = "/factories/" + data_fct + "/wxusers/" + "query_list";
+
+  $.get(url).done(function (data) {
+    var emq = data.info;
+    var emq_table = '<tr><th>用户名</th><th>电话</th><th>状态</th><th>操作</th></tr>';
+    for (var i=0; i<emq.length; i++) {
+      emq_table += '<tr>'; 
+      emq_table += "<td>" + emq[i]['name'] + "</td>"; 
+      emq_table += "<td>" + emq[i]['phone'] + "</td>"; 
+      emq_table += "<td>" + "</td>"; 
+      emq_table += "<td>" + emq[i]['search'] + "</td>"; 
+      emq_table += '</tr>'; 
+    }
+    $("#day-emq-ctn").html(emq_table);
+  });
+}
+
 
 function get_work_orders(method) {
   var $table = $('#item-table');

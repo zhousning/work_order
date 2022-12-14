@@ -2,15 +2,7 @@ class Enclosure < ActiveRecord::Base
   mount_uploader :file, EnclosureUploader
 
   belongs_to :notice
-  belongs_to :article
-  belongs_to :website
-  belongs_to :page
-  belongs_to :block_content
-  belongs_to :format
-  belongs_to :carousel
-  belongs_to :ocr
 
-  belongs_to :day_pdt
   belongs_to :task
   belongs_to :task_report
   belongs_to :work_order
