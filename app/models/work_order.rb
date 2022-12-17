@@ -11,55 +11,9 @@ class WorkOrder < ActiveRecord::Base
   has_many :attachments, :dependent => :destroy
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
+  has_many :task_logs
 
 
-  STATESTR = %w(opening assign processing transfer awaiting unsettled completed processed)
-  STATE = [Setting.states.opening, Setting.states.assign, Setting.states.processing, Setting.states.transfer, Setting.states.awaiting, Setting.states.unsettled, Setting.states.completed, Setting.states.processed]
-  validates_inclusion_of :state, :in => STATE
-  state_hash = {
-    STATESTR[0] => Setting.states.opening, 
-    STATESTR[1] => Setting.states.assign, 
-    STATESTR[2] => Setting.states.processing, 
-    STATESTR[3] => Setting.states.transfer, 
-    STATESTR[4] => Setting.states.awaiting, 
-    STATESTR[5] => Setting.states.unsettled, 
-    STATESTR[6] => Setting.states.completed,
-    STATESTR[7] => Setting.states.processed 
-  }
-
-  STATESTR.each do |state|
-    define_method "#{state}?" do
-      self.state == state_hash[state]
-    end
-  end
-
-  def assign 
-    update_attribute :state, Setting.states.assign
-  end
-
-  def processing 
-    update_attribute :state, Setting.states.processing
-  end
-
-  def transfer 
-    update_attribute :state, Setting.states.transfer
-  end
-
-  def awaiting 
-    update_attribute :state, Setting.states.awaiting
-  end
-
-  def unsettled 
-    update_attribute :state, Setting.states.unsettled
-  end
-
-  def completed
-    update_attribute :state, Setting.states.completed
-  end
-
-  def processed
-    update_attribute :state, Setting.states.processed
-  end
 
   before_save :store_unique_number
   def store_unique_number
@@ -68,5 +22,38 @@ class WorkOrder < ActiveRecord::Base
     end
   end
 
+  after_create :build_default_data
+  def build_default_data
+    TaskLog.create!(:work_order => self)
+  end
+
+  def assign(wx_user_id) 
+    TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.assign)
+    OrderLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.unaccept)
+  end
+
+  def processing(wx_user_id) 
+    TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.processing)
+  end
+
+  def transfer(wx_user_id) 
+    TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.transfer)
+  end
+
+  def awaiting(wx_user_id) 
+    TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.awaiting)
+  end
+
+  def unsettled(wx_user_id) 
+    TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.unsettled)
+  end
+
+  def completed(wx_user_id)
+    TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.completed)
+  end
+
+  def processed(wx_user_id)
+    TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.processed)
+  end
 
 end

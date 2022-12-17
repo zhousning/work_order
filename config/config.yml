@@ -132,7 +132,7 @@ defaults:
     subject_class: controller单数名称
     action: action
     description: 描述
-  systems: &41
+  systems: &40
     poundage: 0.1
     commision: 0.1
     authc_pay: 1
@@ -372,26 +372,26 @@ defaults:
     latitude: 维度
     state: 运行状态
     question: 问题
-  task_logs: &35
+  task_logs: &41
     label: 巡检日志
     start_time: 开始时间
     end_time: 结束时间
     state: 状态
-  gdservices: &36
+  gdservices: &35
     label: 北斗定位终端
     key: key
     name: name
     sid: sid
-  gdteminals: &37
+  gdteminals: &36
     label: 北斗地图终端
     name: name
     tid: tid
     desc: desc
-  gdtraces: &38
+  gdtraces: &37
     label: 北斗地图轨迹管理
     trid: trid
     trname: trname
-  workers: &39
+  workers: &38
     label: 工人管理
     name: 姓名
     idno: 身份证
@@ -409,7 +409,7 @@ defaults:
     supervisor_title: 监理
     manager: '2'
     manager_title: 总包
-  sign_logs: &40
+  sign_logs: &39
     label: 签到记录
     sign_date: 签到日期
     wx_user_id: 签到负责人
@@ -451,13 +451,16 @@ development:
   patrolers: *32
   tasks: *33
   task_reports: *34
-  task_logs: *35
-  gdservices: *36
-  gdteminals: *37
-  gdtraces: *38
-  workers: *39
-  sign_logs: *40
-  systems: *41
+  task_logs:
+    label: 工单日志
+    wx_user_id: 办理人员
+    state: 进度
+  gdservices: *35
+  gdteminals: *36
+  gdtraces: *37
+  workers: *38
+  sign_logs: *39
+  systems: *40
   deploys:
     label: 系统配置
     name: 名称
@@ -497,18 +500,18 @@ development:
     img: 照片
     address: 地址
     item: 备用
-  state_tags: 
-    opening: 待分配 
-    completed: 已完成 
-    canceled: 已取消 
-    awaiting: 待确认 
-    assign: 已分配 
+  state_tags:
+    opening: 待分配
+    completed: 已完成
+    canceled: 已取消
+    awaiting: 待确认
+    assign: 已分配
     transfer: 已转单
-    unsettled: 未解决 
-    processing: 处理中 
+    unsettled: 未解决
+    processing: 处理中
     processed: 已处理
-    unaccept: 待接单 
-    accept: 已接单 
+    unaccept: 待接单
+    accept: 已接单
 test: 
 production:
   notices: *1
@@ -524,7 +527,7 @@ production:
   users: *11
   roles: *12
   permissions: *13
-  systems: *41
+  systems: *40
   states: *14
   trade_orders: *15
   extract_cashes: *16
@@ -546,9 +549,9 @@ production:
   patrolers: *32
   tasks: *33
   task_reports: *34
-  task_logs: *35
-  gdservices: *36
-  gdteminals: *37
-  gdtraces: *38
-  workers: *39
-  sign_logs: *40
+  task_logs: *41
+  gdservices: *35
+  gdteminals: *36
+  gdtraces: *37
+  workers: *38
+  sign_logs: *39

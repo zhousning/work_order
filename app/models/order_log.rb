@@ -28,7 +28,6 @@ class OrderLog < ActiveRecord::Base
 
   def accept 
     update_attribute :state, Setting.states.accept
-    self.work_order.processing
   end
 
   def unaccept 
@@ -37,7 +36,6 @@ class OrderLog < ActiveRecord::Base
 
   def processed 
     update_attribute :state, Setting.states.processed
-    self.work_order.processed
   end
 
   def transfer 

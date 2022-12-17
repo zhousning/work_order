@@ -13,18 +13,27 @@ class WxTasksController < ApplicationController
     if wxuser.state == Setting.states.completed
       @workorder = wxuser.work_orders.find(params[:taskid])
       @order_log = OrderLog.where(:state => Setting.states.accept, :wx_user => wxuser, :work_order => @workorder).last
-      @order_log.update_attributes!({
-        :feedback => params[:feedback],
-        :content => params[:content],
-        :img => params[:imgs].join(',')
-      })
-      if @order_log.processed
-        respond_to do |f|
-          f.json{ render :json => {:state => 'success'}.to_json}
+      if @order_log 
+        @order_log.update_attributes!(:feedback => params[:feedback], :content => params[:content], :img => params[:imgs].join(','), :state => Setting.states.processed)
+        if @workorder.processed(wxuser.id)
+          respond_to do |f|
+            f.json{ render :json => {:state => 'success'}.to_json}
+          end
+        else
+          respond_to do |f|
+            f.json{ render :json => {:state => 'error'}.to_json}
+          end
         end
       else
-        respond_to do |f|
-          f.json{ render :json => {:state => 'error'}.to_json}
+        order_log = OrderLog.new(:state => Setting.states.processed, :wx_user => wxuser, :work_order => @workorder, :feedback => params[:feedback], :content => params[:content], :img => params[:imgs].join(','))
+        if order_log.save && @workorder.processed(wxuser.id)
+          respond_to do |f|
+            f.json{ render :json => {:state => 'success'}.to_json}
+          end
+        else
+          respond_to do |f|
+            f.json{ render :json => {:state => 'error'}.to_json}
+          end
         end
       end
     end
@@ -38,7 +47,7 @@ class WxTasksController < ApplicationController
       @workorder = wxuser.work_orders.find(params[:taskid])
       @order_log = OrderLog.where(:wx_user => wxuser, :work_order => @workorder).last
       @order_log.accept
-
+      @workorder.processing(wxuser.id)
       respond_to do |f|
         f.json{ render :json => {:state => 'success'}.to_json}
       end
@@ -84,10 +93,11 @@ class WxTasksController < ApplicationController
     wxuser = WxUser.find_by(:openid => params[:id])
     arr = []
     if wxuser.state == Setting.states.completed
-      work_order_ids = OrderLog.where(:state => [Setting.states.unaccept, Setting.states.accept],:wx_user => wxuser).pluck(:work_order_id)
+      work_order_ids = OrderLog.where(:state => [Setting.states.unaccept, Setting.states.accept, Setting.states.processed],:wx_user => wxuser).pluck(:work_order_id)
       @workorders = WorkOrder.find(work_order_ids)
       @workorders.each do |workorder|
         obj = {}
+        task_log = workorder.task_logs.last
         infos = [ 
           Setting.work_orders.pdt_time + ': ' + workorder.pdt_time.strftime("%Y-%m-%d %H:%M"),
           Setting.work_orders.person + ': ' + workorder.person,
@@ -99,7 +109,7 @@ class WxTasksController < ApplicationController
           :id => workorder.id,
           :number => workorder.number,
           :infos => infos,
-          :task_finish => workorder.state == Setting.states.processing ? true : false
+          :task_finish => task_log.state == Setting.states.processing || task_log.state == Setting.states.processed ? true : false
         }
         arr << obj
       end
@@ -142,9 +152,12 @@ class WxTasksController < ApplicationController
     wxuser = WxUser.find_by(:openid => params[:id])
     arr = []
     if wxuser.state == Setting.states.completed
-      order_logs = OrderLog.where(:wx_user => wxuser, :work_order_id => params[:taskid])
-      order_logs.each do |order_log|
-        arr << {:state => order_log_state(order_log.state), :user => order_log.wx_user.name + ' ' + order_log.created_at.strftime("%Y-%m-%d %H:%M")}
+      @workorder = WorkOrder.find(params[:taskid])
+      task_logs = @workorder.task_logs.order('created_at DESC')
+      task_logs.each do |task_log|
+        wxuserid = task_log.wx_user_id
+        name = wxuserid ? WxUser.find(wxuserid).name : ''
+        arr << {:state => order_state(task_log.state), :user => name + ' ' + task_log.created_at.strftime("%Y-%m-%d %H:%M")}
       end
     end
 

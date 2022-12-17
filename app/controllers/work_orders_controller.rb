@@ -7,8 +7,7 @@ class WorkOrdersController < ApplicationController
   def assign
     @work_order = WorkOrder.find(iddecode(params[:id]))
     @wxuser = WxUser.find(iddecode(params[:worker]))
-    @order_log = OrderLog.new(:work_order => @work_order, :wx_user => @wxuser, :state => Setting.states.unaccept)
-    if @order_log.save
+    if @work_order.assign(@wxuser.id)
       respond_to do |f|
         f.json{ render :json => {:state => 'success'}.to_json}
       end

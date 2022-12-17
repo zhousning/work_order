@@ -48,6 +48,7 @@ module StateModule
       Setting.states.opening    => Setting.state_tags.opening, 
       Setting.states.assign     => Setting.state_tags.assign, 
       Setting.states.processing => Setting.state_tags.processing, 
+      Setting.states.processed    => Setting.state_tags.processed, 
       Setting.states.transfer   => Setting.state_tags.transfer, 
       Setting.states.awaiting   => Setting.state_tags.awaiting, 
       Setting.states.unsettled  => Setting.state_tags.unsettled, 
