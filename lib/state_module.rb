@@ -45,23 +45,23 @@ module StateModule
 
   def order_state(state)
     state_hash = {
-      Setting.states.opening    => Setting.state_labels.opening, 
-      Setting.states.assign     => Setting.state_labels.assign, 
-      Setting.states.processing => Setting.state_labels.processing, 
-      Setting.states.transfer   => Setting.state_labels.transfer, 
-      Setting.states.awaiting   => Setting.state_labels.awaiting, 
-      Setting.states.unsettled  => Setting.state_labels.unsettled, 
-      Setting.states.completed  => Setting.state_labels.completed
+      Setting.states.opening    => Setting.state_tags.opening, 
+      Setting.states.assign     => Setting.state_tags.assign, 
+      Setting.states.processing => Setting.state_tags.processing, 
+      Setting.states.transfer   => Setting.state_tags.transfer, 
+      Setting.states.awaiting   => Setting.state_tags.awaiting, 
+      Setting.states.unsettled  => Setting.state_tags.unsettled, 
+      Setting.states.completed  => Setting.state_tags.completed
     }
     state_hash[state]
   end
 
   def order_log_state(state)
     state_hash = {
-      Setting.states.unaccept    => Setting.state_labels.unaccept, 
-      Setting.states.accept    => Setting.state_labels.accept, 
-      Setting.states.processed    => Setting.state_labels.processed, 
-      Setting.states.transfer    => Setting.state_labels.transfer, 
+      Setting.states.unaccept    => Setting.state_tags.unaccept, 
+      Setting.states.accept    => Setting.state_tags.accept, 
+      Setting.states.processed    => Setting.state_tags.processed, 
+      Setting.states.transfer    => Setting.state_tags.transfer, 
     }
     state_hash[state]
   end

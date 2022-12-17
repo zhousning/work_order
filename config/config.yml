@@ -136,7 +136,7 @@ defaults:
     poundage: 0.1
     commision: 0.1
     authc_pay: 1
-    host: http://dtxcx.swgysw.com
+    host: http://192.168.31.20:3000
     status_en_yes: true
     status_en_no: false
     status_yes: 是
@@ -172,18 +172,6 @@ defaults:
     man: 男
     woman_no: '1'
     woman: 女
-  state_tags: &14
-    opening: 待分配 
-    completed: 已完成 
-    canceled: 已取消 
-    awaiting: 待确认 
-    assign: 已分配 
-    transfer: 已转单
-    unsettled: 未解决 
-    processing: 处理中 
-    processed: 已处理
-    unaccept: 待接单 
-    accept: 已接单 
   states: &14
     opening: opening
     selecting: selecting
@@ -509,6 +497,18 @@ development:
     img: 照片
     address: 地址
     item: 备用
+  state_tags: 
+    opening: 待分配 
+    completed: 已完成 
+    canceled: 已取消 
+    awaiting: 待确认 
+    assign: 已分配 
+    transfer: 已转单
+    unsettled: 未解决 
+    processing: 处理中 
+    processed: 已处理
+    unaccept: 待接单 
+    accept: 已接单 
 test: 
 production:
   notices: *1

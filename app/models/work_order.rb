@@ -13,8 +13,8 @@ class WorkOrder < ActiveRecord::Base
 
 
 
-  STATESTR = %w(opening assign processing transfer awaiting unsettled completed)
-  STATE = [Setting.states.opening, Setting.states.assign, Setting.states.processing, Setting.states.transfer, Setting.states.awaiting, Setting.states.unsettled, Setting.states.completed]
+  STATESTR = %w(opening assign processing transfer awaiting unsettled completed processed)
+  STATE = [Setting.states.opening, Setting.states.assign, Setting.states.processing, Setting.states.transfer, Setting.states.awaiting, Setting.states.unsettled, Setting.states.completed, Setting.states.processed]
   validates_inclusion_of :state, :in => STATE
   state_hash = {
     STATESTR[0] => Setting.states.opening, 
@@ -23,7 +23,8 @@ class WorkOrder < ActiveRecord::Base
     STATESTR[3] => Setting.states.transfer, 
     STATESTR[4] => Setting.states.awaiting, 
     STATESTR[5] => Setting.states.unsettled, 
-    STATESTR[6] => Setting.states.completed
+    STATESTR[6] => Setting.states.completed,
+    STATESTR[7] => Setting.states.processed 
   }
 
   STATESTR.each do |state|
@@ -54,6 +55,10 @@ class WorkOrder < ActiveRecord::Base
 
   def completed
     update_attribute :state, Setting.states.completed
+  end
+
+  def processed
+    update_attribute :state, Setting.states.processed
   end
 
   before_save :store_unique_number

@@ -18,7 +18,7 @@
 
 class WxUser < ActiveRecord::Base
   has_many :order_logs, :dependent => :destroy
-  has_many :worker_orders, :through => :order_logs
+  has_many :work_orders, :through => :order_logs
 
   has_many :fct_wxusers, :dependent => :destroy
   has_many :factories, :through => :fct_wxusers

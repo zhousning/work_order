@@ -21,7 +21,7 @@ class CreateOrderLogs < ActiveRecord::Migration
     
       t.datetime :end_time
     
-      t.string :state,  null: false, default: Setting.states.opening
+      t.string :state,  null: false, default: Setting.states.unaccept
     
       t.text :img
     
