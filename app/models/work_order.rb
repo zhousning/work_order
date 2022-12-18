@@ -48,8 +48,9 @@ class WorkOrder < ActiveRecord::Base
     TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.unsettled)
   end
 
-  def completed(wx_user_id)
-    TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.completed)
+  def completed
+    self.update_attributes!(:state => Setting.states.completed)
+    TaskLog.create!(:work_order => self, :state => Setting.states.completed)
   end
 
   def processed(wx_user_id)

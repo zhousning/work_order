@@ -14,7 +14,7 @@
           .col-sm-12
             %h2.text-center
               = image_tag "gykg.jpg"
-              = Setting.work_orders.label
+              = Setting.work_orders.label + '填写'
           .col-md-10.offset-md-1.p-5.border
             #flash_explanation
             .card.border-0.mb-3.rounded-0
@@ -22,7 +22,8 @@
                 %table.w-100.table-bordered.day-pdt-table
                   %tbody
                     
-                    %tr
+                    -#
+                      %tr
                       %td.p-2.text-center
                         = f.label Setting.work_orders.title, :class => "text-center"
                       %td.p-2.text-center{:colspan => 3}
@@ -48,28 +49,29 @@
                       
                     %tr
                       %td.p-2.text-center
-                        = f.label Setting.work_orders.pdt_time, :class => "text-center"
+                        = f.label Setting.work_orders.limit_time, :class => "text-center"
                       %td.p-2.text-center
-                        = f.datetime_select :pdt_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
+                        = f.datetime_select :limit_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, default: 3.days.from_now, :class => "form-control"
                       %td.p-2.text-center
                         = f.label Setting.work_orders.urgent, :class => "text-center"
                       %td.p-2.text-center
                         .form-check.form-check-inline
-                          = f.radio_button :urgent, Setting.systems.status_en_yes, :class => "form-check-input", :checked => "checked"
+                          = f.radio_button :urgent, Setting.systems.status_en_yes, :class => "form-check-input"
                           = f.label Setting.systems.status_yes, :class => "form-check-label"
                         .form-check.form-check-inline
-                          = f.radio_button :urgent, Setting.systems.status_en_no, :class => "form-check-input"
+                          = f.radio_button :urgent, Setting.systems.status_en_no, :class => "form-check-input", :checked => "checked"
                           = f.label Setting.systems.status_no, :class => "form-check-label"
 
-                    %tr
+                    -#
+                      %tr
+                      %td.p-2.text-center
+                        = f.label Setting.work_orders.pdt_time, :class => "text-center"
+                      %td.p-2.text-center
+                        = f.datetime_select :pdt_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
                       %td.p-2.text-center
                         = f.label Setting.work_orders.order_time, :class => "text-center"
                       %td.p-2.text-center
                         = f.datetime_select :order_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
-                      %td.p-2.text-center
-                        = f.label Setting.work_orders.limit_time, :class => "text-center"
-                      %td.p-2.text-center
-                        = f.datetime_select :limit_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, :class => "form-control"
                       
                     
                     %tr

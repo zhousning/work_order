@@ -10,14 +10,15 @@ class OrderLog < ActiveRecord::Base
   has_many :attachments, :dependent => :destroy
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
-  STATESTR = %w(unaccept accept processed transfer)
-  STATE = [Setting.states.unaccept, Setting.states.accept, Setting.states.processed, Setting.states.transfer]
+  STATESTR = %w(unaccept accept processed transfer completed)
+  STATE = [Setting.states.unaccept, Setting.states.accept, Setting.states.processed, Setting.states.transfer, Setting.states.completed]
   validates_inclusion_of :state, :in => STATE
   state_hash = {
     STATESTR[0] => Setting.states.unaccept, 
     STATESTR[1] => Setting.states.accept, 
     STATESTR[2] => Setting.states.processed, 
-    STATESTR[3] => Setting.states.transfer
+    STATESTR[3] => Setting.states.transfer,
+    STATESTR[4] => Setting.states.completed,
   }
 
   STATESTR.each do |state|
@@ -40,6 +41,10 @@ class OrderLog < ActiveRecord::Base
 
   def transfer 
     update_attribute :state, Setting.states.transfer
+  end
+
+  def completed 
+    update_attribute :state, Setting.states.completed
   end
 
 end

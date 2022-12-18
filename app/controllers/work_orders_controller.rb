@@ -34,7 +34,7 @@ class WorkOrdersController < ApplicationController
     @work_order.factory = @factory
     
     if @work_order.save
-      redirect_to edit_factory_work_order_path(idencode(@factory.id), idencode(@work_order.id)) 
+      redirect_to factory_work_orders_path(idencode(@factory.id)) 
     else
       render :new
     end
@@ -45,6 +45,21 @@ class WorkOrdersController < ApplicationController
     @factory = my_factory
     @work_order = @factory.work_orders.find(iddecode(params[:id]))
    
+  end
+   
+  def finish 
+    @factory = my_factory
+    @work_order = @factory.work_orders.find(iddecode(params[:id]))
+
+    if @work_order.completed
+      respond_to do |f|
+        f.json{ render :json => {:state => 'success'}.to_json}
+      end
+    else
+      respond_to do |f|
+        f.json{ render :json => {:state => 'error'}.to_json}
+      end
+    end
   end
    
   def update
@@ -95,20 +110,26 @@ class WorkOrdersController < ApplicationController
       f.json{ render :json => {:obj => obj}.to_json}
     end
   end
+
+  def complete 
+    @factory = my_factory
+    @work_orders = @factory.work_orders.where(:state => Setting.states.completed).order('updated_at DESC').page( params[:page]).per( Setting.systems.per_page )
+  end
    
   def query_all 
     @factory = my_factory
-    items = @factory.work_orders
+    items = @factory.work_orders.where("state != ?", Setting.states.completed)
    
     obj = []
     items.each do |item|
       obj << {
-        #:factory => idencode(factory.id),
         :id => idencode(item.id),
        
-        :title => item.title,
+        #:title => item.title,
        
-        :pdt_time => item.pdt_time,
+        #:pdt_time => item.pdt_time.strftime('%Y-%m-%d %H:%M'),
+
+        :number => item.number,
        
         :content => item.content,
        
@@ -116,11 +137,11 @@ class WorkOrdersController < ApplicationController
        
         :urgent => item.urgent,
        
-        :state => item.state,
+        :state => order_state(item.task_logs.last.state),
        
-        :order_time => item.order_time,
+        #:order_time => item.order_time.strftime('%Y-%m-%d %H:%M'),
        
-        :limit_time => item.limit_time,
+        :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
        
         :person => item.person,
        

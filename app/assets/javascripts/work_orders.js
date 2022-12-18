@@ -38,7 +38,21 @@ function worker_order_bind_event() {
     var data_id = that.dataset['rpt'];
     $('#order-val').val(data_id);
 
-    get_wxworkers();
+    get_wxworkers(data_id);
+  });
+  $("#item-table").on('click', 'button.worker-complete-btn', function(e) {
+    var that = e.target
+    var data_id = that.dataset['rpt'];
+    var data_fct = $('#fct').val();
+
+    var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/finish";
+    $.get(url).done(function (data) {
+      if (data.state == 'success') {
+        get_work_orders('work_orders');
+      } else {
+        alert('任务处理失败');
+      }
+    });
   });
   $("#day-emq-ctn").on('click', 'button.assign-btn', function(e) {
     var that = e.target
@@ -48,7 +62,7 @@ function worker_order_bind_event() {
     var url = "/work_orders/" + data_order + "/assign?worker=" + data_worker;
     $.get(url).done(function (data) {
       if (data.state == 'success') {
-        get_wxworkers();
+        get_wxworkers(data_order);
       } else {
         alert('分配任务失败');
       }
@@ -68,9 +82,9 @@ function worker_order_bind_event() {
   });
 }
 
-function get_wxworkers() {
+function get_wxworkers(workorderid) {
   var data_fct = $('#fct').val();
-  var url = "/factories/" + data_fct + "/wxusers/" + "query_list";
+  var url = "/factories/" + data_fct + "/wxusers/" + "query_list?taskid=" + workorderid;
 
   $.get(url).done(function (data) {
     var emq = data.info;
@@ -79,7 +93,7 @@ function get_wxworkers() {
       emq_table += '<tr>'; 
       emq_table += "<td>" + emq[i]['name'] + "</td>"; 
       emq_table += "<td>" + emq[i]['phone'] + "</td>"; 
-      emq_table += "<td>" + "</td>"; 
+      emq_table += "<td>" + emq[i]['state'] + "</td>"; 
       emq_table += "<td>" + emq[i]['search'] + "</td>"; 
       emq_table += '</tr>'; 
     }
@@ -97,32 +111,22 @@ function get_work_orders(method) {
     $.each(objs, function(index, item) {
       var id = item.id;
 
-      var button = "<button id='info-btn' class = 'button button-primary button-small mr-1 worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<button id='info-btn' class = 'button button-primary button-small mr-1 log-show-btn' type = 'button' data-rpt ='" + id + "'>查看</button>" + "<a class='button button-royal button-small mr-1' href='/" + method + "/" + id + "/edit'>编辑</a><a data-confirm='确定删除吗?' class='button button-caution button-small worker-delete-btn' rel='nofollow' data-method='delete' href='/" + method + "/" + id + "'>删除</a>"
+      var number = "<button class = 'btn btn-link log-show-btn' type = 'button' data-rpt ='" + id + "'>" + item.number + "</button>";
+      var button = "<button class = 'btn btn-link  mr-3 worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  mr-3' href='/factories/" + data_fct + '/' + method + "/" + id + "/edit'>编辑</a>" + "<button data-confirm='确认已办结?'  class = 'btn btn-link  mr-3 worker-complete-btn' type = 'button' data-rpt ='" + id + "'>办结</button>"  + "<a data-confirm='确定删除吗?' class='btn btn-link worker-delete-btn' rel='nofollow' data-method='delete' href='/factories/" + data_fct + '/' + method + "/" + id + "'>删除</a>";
       data.push({
         'id' : index + 1,
-         
+        'number' : number,
         'title' : item.title,
-         
         'pdt_time' : item.pdt_time,
-         
         'content' : item.content,
-         
         'address' : item.address,
-         
         'urgent' : item.urgent,
-         
         'state' : item.state,
-         
         'order_time' : item.order_time,
-         
         'limit_time' : item.limit_time,
-         
         'person' : item.person,
-         
         'phone' : item.phone,
-         
         'img' : item.img,
-        
         'button' : button 
       });
     });
@@ -132,4 +136,4 @@ function get_work_orders(method) {
 
 //var button = "<button id='info-btn' class = 'button button-primary button-small' type = 'button' data-rpt ='" + item.id + "' data-fct = '" + item.fct_id +"'>查看</button>"; 
 //var factory = item.factory;
-//var search = "<a class='button button-royal button-small mr-1' href='/factories/" + factory + "/" + method + "/" + id + "/edit'>编辑</a><a data-confirm='确定删除吗?' class='button button-caution button-small' rel='nofollow' data-method='delete' href='/factories/" + factory + "/" + method + "/" + id + "'>删除</a>"
+//var search = "<a class='button button-royal button-small mr-3' href='/factories/" + factory + "/" + method + "/" + id + "/edit'>编辑</a><a data-confirm='确定删除吗?' class='button button-caution button-small' rel='nofollow' data-method='delete' href='/factories/" + factory + "/" + method + "/" + id + "'>删除</a>"

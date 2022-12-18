@@ -62,7 +62,7 @@ class WxTasksController < ApplicationController
     if wxuser.state == Setting.states.completed
       @workorder = wxuser.work_orders.find(params[:taskid])
       infos = [ 
-        Setting.work_orders.pdt_time + ': ' + @workorder.pdt_time.strftime("%Y-%m-%d %H:%M"),
+        Setting.work_orders.pdt_time + ': ' + @workorder.created_at.strftime("%Y-%m-%d %H:%M"),
         Setting.work_orders.person + ': ' + @workorder.person,
         Setting.work_orders.phone + ': ' + @workorder.phone,
         Setting.work_orders.content + ': ' + @workorder.content,
@@ -96,10 +96,11 @@ class WxTasksController < ApplicationController
       work_order_ids = OrderLog.where(:state => [Setting.states.unaccept, Setting.states.accept, Setting.states.processed],:wx_user => wxuser).pluck(:work_order_id)
       @workorders = WorkOrder.find(work_order_ids)
       @workorders.each do |workorder|
+        next if workorder.state == Setting.states.completed
         obj = {}
-        task_log = workorder.task_logs.last
+        order_log = OrderLog.where(:state => [Setting.states.unaccept, Setting.states.accept, Setting.states.processed], :work_order => workorder, :wx_user => wxuser).last
         infos = [ 
-          Setting.work_orders.pdt_time + ': ' + workorder.pdt_time.strftime("%Y-%m-%d %H:%M"),
+          Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M"),
           Setting.work_orders.person + ': ' + workorder.person,
           Setting.work_orders.phone + ': ' + workorder.phone,
           Setting.work_orders.content + ': ' + workorder.content,
@@ -109,7 +110,7 @@ class WxTasksController < ApplicationController
           :id => workorder.id,
           :number => workorder.number,
           :infos => infos,
-          :task_finish => task_log.state == Setting.states.processing || task_log.state == Setting.states.processed ? true : false
+          :task_finish => order_log.state != Setting.states.unaccept  ? true : false
         }
         arr << obj
       end
@@ -129,7 +130,7 @@ class WxTasksController < ApplicationController
       @workorders.each do |workorder|
         obj = {}
         infos = [ 
-          Setting.work_orders.pdt_time + ': ' + workorder.pdt_time.strftime("%Y-%m-%d %H:%M"),
+          Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M"),
           Setting.work_orders.person + ': ' + workorder.person,
           Setting.work_orders.phone + ': ' + workorder.phone,
           Setting.work_orders.content + ': ' + workorder.content,
@@ -157,7 +158,7 @@ class WxTasksController < ApplicationController
       task_logs.each do |task_log|
         wxuserid = task_log.wx_user_id
         name = wxuserid ? WxUser.find(wxuserid).name : ''
-        arr << {:state => order_state(task_log.state), :user => name + ' ' + task_log.created_at.strftime("%Y-%m-%d %H:%M")}
+        arr << {:state => order_state(task_log.state), :color => "order-" + task_log.state, :user => name + ' ' + task_log.created_at.strftime("%Y-%m-%d %H:%M")}
       end
     end
 
@@ -170,8 +171,7 @@ class WxTasksController < ApplicationController
     wxuser = WxUser.find_by(:openid => params[:id])
     arr = []
     if wxuser.state == Setting.states.completed
-      #order_logs = OrderLog.where(:wx_user => wxuser, :work_order_id => params[:taskid], :state => Setting.states.processed)
-      order_logs = OrderLog.where(:wx_user => wxuser, :work_order_id => params[:taskid])
+      order_logs = OrderLog.where(:wx_user => wxuser, :work_order_id => params[:taskid], :state => Setting.states.processed).order('created_at DESC')
       order_logs.each do |order_log|
         img = []
         if order_log.img
@@ -184,6 +184,7 @@ class WxTasksController < ApplicationController
           :user => order_log.wx_user.name,
           :time => order_log.created_at.strftime("%Y-%m-%d %H:%M"),
           :content => order_log.content,
+          :feedback => order_log.feedback,
           :imgs => img
         }
       end
@@ -194,91 +195,31 @@ class WxTasksController < ApplicationController
     end
   end
 
-  def query_all 
-    wxuser = WxUser.find_by(:openid => params[:id])
-    obj = []
-    if wxuser.state == Setting.states.completed
-      items = wxuser.devices
-   
-      items.each do |item|
-        inspectors = SignLog.where(:sign_date => Date.today, :wx_user_id => wxuser.id, :device_id => item.id)
-        
-        
-        #arr = []
-        #arr << ispt.worker.name
-        hash = Hash.new
-        inspectors.each do |ispt|
-          time = ispt.created_at.strftime('%H:%M')
-          if hash[ispt.worker.name].nil?
-            hash[ispt.worker.name] = ':' + time 
-          else
-            hash[ispt.worker.name] += "-" + time
-          end
-        end
-        obj << {
-          :task_id => item.id,
-          :task_date => Date.today.strftime('%Y-%m-%d'),
-          :desc => item.name,
-          :inspectors => hash
-        }
-      end
-    end
-
-    respond_to do |f|
-      f.json{ render :json => obj.to_json}
-    end
-  end
-
-  def query_plan
-    wxuser = WxUser.find_by(:openid => params[:id])
-    sign_logs = SignLog.where(:wx_user_id => wxuser.id, :sign_date => [Date.today-10..Date.today]).order('created_at DESC').limit(20)
-
-    obj = []
-    hash = Hash.new
-    sign_logs.each do |item|
-      device = Device.find(item.device_id) 
-      
-      arr = []
-      inspectors.each do |ispt|
-        arr << ispt.worker.name
-      end
-      obj << {
-        :task_id => item.id,
-        :task_date => Date.today.strftime('%Y-%m-%d'),
-        :desc => item.name,
-        :inspectors => arr
-      
-      }
-    end
-    respond_to do |f|
-      f.json{ render :json => obj.to_json}
-    end
-  end
 
   def query_finish
     wxuser = WxUser.find_by(:openid => params[:id])
-    #@factory = wxuser.factory
-
-    #items = @factory.tasks.where(['state = ?', Setting.states.completed])
-    items = wxuser.tasks.where(['task_date < ? ', Date.today])
-   
-    obj = []
-    items.each do |item|
-      inspectors = item.wx_users
-      arr = []
-      inspectors.each do |ispt|
-        arr << ispt.name + ispt.phone
+    arr = []
+    if wxuser.state == Setting.states.completed
+      @workorders = wxuser.work_orders.where(:state => Setting.states.completed).uniq.order('updated_at DESC').limit(10)
+      @workorders.each do |workorder|
+        infos = [ 
+          Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M"),
+          Setting.work_orders.person + ': ' + workorder.person,
+          Setting.work_orders.phone + ': ' + workorder.phone,
+          Setting.work_orders.content + ': ' + workorder.content,
+          Setting.work_orders.address + ': ' + workorder.address
+        ] 
+        obj = {
+          :id => workorder.id,
+          :number => workorder.number,
+          :infos => infos,
+        }
+        arr << obj
       end
-      obj << {
-        #:factory => idencode(factory.id),
-        :task_id => item.id,
-        :task_date => item.task_date,
-        :desc => item.des,
-        :inspectors => arr
-      }
     end
+
     respond_to do |f|
-      f.json{ render :json => obj.to_json}
+      f.json{ render :json => arr.to_json}
     end
   end
 

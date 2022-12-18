@@ -63,6 +63,9 @@ Rails.application.routes.draw do
       post :parse_excel, :on => :collection
       get :xls_download, :on => :collection
       get :query_all, :on => :collection
+      get :process, :on => :collection
+      get :complete, :on => :collection
+      get :finish, :on => :member
     end
     resources :devices, :only => [:index]  do
       get :query_all, :on => :collection

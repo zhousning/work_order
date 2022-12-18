@@ -1,0 +1,71 @@
+- provide(:title, t('.title'))
+
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-md-12
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
+                %thead
+                  %tr
+                    %th{:scope => "col", :'data-field' => "id"} #
+                  
+                    %th{:scope => "col", :'data-field' => "limit_time"}
+                      = Setting.work_orders.limit_time
+                  
+                    %th{:scope => "col", :'data-field' => "person"}
+                      = Setting.work_orders.person
+                  
+                    %th{:scope => "col", :'data-field' => "phone"}
+                      = Setting.work_orders.phone
+                  
+                    %th{:scope => "col", :'data-field' => "address"}
+                      = Setting.work_orders.address
+                  
+                    %th{:scope => "col", :'data-field' => "content"}
+                      = Setting.work_orders.content
+                  
+                    %th{:scope => "col", :'data-field' => "img"}
+                      = Setting.work_orders.img
+                  
+                    %th{:scope => "col", :'data-field' => "urgent"}
+                      = Setting.work_orders.urgent
+                  
+                    %th{:scope => "col", :'data-field' => "button"}
+
+                %tbody
+                  - @work_orders.each_with_index do |work_order, index|
+                    %tr
+                      %td{:scope => "row"}
+                        = index+1
+                    
+                      %td
+                        = work_order.limit_time
+                      %td
+                        = work_order.person
+                      %td
+                        = work_order.phone
+                      %td
+                        = work_order.address
+                      %td
+                        = work_order.content
+                      %td
+                        = work_order.img
+                      %td
+                        = work_order.urgent
+                      %td
+                        .container-fluid
+                          .row.justify-content-center
+                            -#
+                              = link_to "查看",  work_order_path(idencode(work_order.id)), :class => "button button-primary button-small mr-1" 
+            .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
+              = paginate @work_orders, window: 2, left: 1, right: 1 
+      = render "layouts/bootstrap/card"
+

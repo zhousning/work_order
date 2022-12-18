@@ -486,6 +486,7 @@ development:
     person: 联系人
     phone: 联系电话
     img: 图片
+    number: 工单编号
   order_logs:
     label: 工单记录
     feedback: 反馈
