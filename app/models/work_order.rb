@@ -38,6 +38,7 @@ class WorkOrder < ActiveRecord::Base
 
   def transfer(wx_user_id) 
     TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.transfer)
+    OrderLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.unaccept)
   end
 
   def awaiting(wx_user_id) 

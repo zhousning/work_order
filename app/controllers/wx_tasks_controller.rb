@@ -8,13 +8,56 @@ class WxTasksController < ApplicationController
     @tasks = @factory.tasks.all.page( params[:page]).per( Setting.systems.per_page )
   end
 
+  def task_member
+    wxuser = WxUser.find_by(:openid => params[:id])
+    factory = wxuser.factories.first
+    if wxuser.state == Setting.states.completed
+      @workorder = wxuser.work_orders.find(params[:taskid])
+      device = wxuser.devices.first
+      mdno = device.mdno
+      unit = device.unit
+      onlyself = device.onlyself
+      wxuser_arr = []
+      if onlyself
+        @devices = Device.where(:mdno => mdno, :unit => unit)
+      else
+        @devices = Device.where(:mdno => mdno)
+      end
+      @devices.each do |dvc|
+        dvc.wx_users.each do |wuser|
+          @order_logs = OrderLog.where(:wx_user => wuser, :work_order => @workorder)
+          wxuser_arr << {:dept => wuser.id.to_s, :name => dvc.unit + dvc.supplier + wuser.name} if @order_logs.blank?
+        end
+      end
+      respond_to do |f|
+        f.json{ render :json => {:data => wxuser_arr}.to_json}
+      end
+    end
+  end
+
+  def task_transfer
+    wxuser = WxUser.find_by(:openid => params[:id])
+    wxusers = WxUser.find(params[:sites])
+    if wxuser.state == Setting.states.completed
+      @workorder = wxuser.work_orders.find(params[:taskid])
+      wxusers.each do |wxu|
+        @order_logs = OrderLog.where(:wx_user => wxu, :work_order => @workorder)
+        @workorder.transfer(wxu.id) if @order_logs.blank?
+      end
+      respond_to do |f|
+        f.json{ render :json => {:state => 'success'}.to_json}
+      end
+    end
+  end
+
   def task_processed
     wxuser = WxUser.find_by(:openid => params[:id])
     if wxuser.state == Setting.states.completed
       @workorder = wxuser.work_orders.find(params[:taskid])
       @order_log = OrderLog.where(:state => Setting.states.accept, :wx_user => wxuser, :work_order => @workorder).last
+      img = params[:imgs].nil? ? '' : params[:imgs].join(',')
       if @order_log 
-        @order_log.update_attributes!(:feedback => params[:feedback], :content => params[:content], :img => params[:imgs].join(','), :state => Setting.states.processed)
+        @order_log.update_attributes!(:feedback => params[:feedback], :content => params[:content], :img => img, :state => Setting.states.processed)
         if @workorder.processed(wxuser.id)
           respond_to do |f|
             f.json{ render :json => {:state => 'success'}.to_json}
@@ -25,7 +68,7 @@ class WxTasksController < ApplicationController
           end
         end
       else
-        order_log = OrderLog.new(:state => Setting.states.processed, :wx_user => wxuser, :work_order => @workorder, :feedback => params[:feedback], :content => params[:content], :img => params[:imgs].join(','))
+        order_log = OrderLog.new(:state => Setting.states.processed, :wx_user => wxuser, :work_order => @workorder, :feedback => params[:feedback], :content => params[:content], :img => img)
         if order_log.save && @workorder.processed(wxuser.id)
           respond_to do |f|
             f.json{ render :json => {:state => 'success'}.to_json}
@@ -171,7 +214,7 @@ class WxTasksController < ApplicationController
     wxuser = WxUser.find_by(:openid => params[:id])
     arr = []
     if wxuser.state == Setting.states.completed
-      order_logs = OrderLog.where(:wx_user => wxuser, :work_order_id => params[:taskid], :state => Setting.states.processed).order('created_at DESC')
+      order_logs = OrderLog.where(:work_order_id => params[:taskid], :state => Setting.states.processed).order('created_at DESC')
       order_logs.each do |order_log|
         img = []
         if order_log.img

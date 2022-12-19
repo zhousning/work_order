@@ -30,6 +30,7 @@ class CreateDevices < ActiveRecord::Migration
     
       t.text :desc
     
+      t.boolean :onlyself,  null: false, default: Setting.systems.default_boolean
 
     
       t.string :avatar,  null: false, default: Setting.systems.default_str

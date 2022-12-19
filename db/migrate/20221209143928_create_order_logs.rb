@@ -23,7 +23,7 @@ class CreateOrderLogs < ActiveRecord::Migration
     
       t.string :state,  null: false, default: Setting.states.unaccept
     
-      t.text :img
+      t.string :img,  null: false, default: Setting.systems.default_str
     
       t.text :address
     

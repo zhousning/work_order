@@ -336,10 +336,10 @@ defaults:
     idno: 站点编号
     name: 站点名称
     mdno: 县区
-    unit: 街道
+    unit: 公司 
     out_date: 出厂日期
     mount_date: 安装日期
-    supplier: 村/社区
+    supplier: 部门 
     mfcture: 制造商
     pos: 经度
     pos_no: 纬度
@@ -350,6 +350,7 @@ defaults:
     state_normal: 施工中
     state_repair: 已完工
     state_stop: 停工
+    onlyself: 只允许查看本公司
   upholds: &31
     label: 巡检记录
     uphold_date: 日期
