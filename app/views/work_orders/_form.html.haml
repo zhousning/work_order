@@ -43,15 +43,15 @@
                     %tr
                       %td.p-2.text-center
                         = f.label Setting.work_orders.address, :class => "text-center"
-                      %td.p-2.text-center{:colspan => 3}
+                      %td.p-2.text-center
                         = f.text_field :address, :class => "form-control" 
                       
                       
-                    %tr
                       %td.p-2.text-center
                         = f.label Setting.work_orders.limit_time, :class => "text-center"
                       %td.p-2.text-center
                         = f.datetime_select :limit_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, default: 3.days.from_now, :class => "form-control"
+                    -#
                       %td.p-2.text-center
                         = f.label Setting.work_orders.urgent, :class => "text-center"
                       %td.p-2.text-center

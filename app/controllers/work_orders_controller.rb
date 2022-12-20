@@ -96,18 +96,60 @@ class WorkOrdersController < ApplicationController
     item = @factory.work_orders.find(iddecode(params[:id]))
    
     obj = {
-      Setting.work_orders.title => item.title,
-      Setting.work_orders.pdt_time => item.pdt_time,
-      Setting.work_orders.content => item.content,
-      Setting.work_orders.address => item.address,
-      Setting.work_orders.urgent => item.urgent,
-      Setting.work_orders.order_time => item.order_time,
-      Setting.work_orders.limit_time => item.limit_time,
       Setting.work_orders.person => item.person,
       Setting.work_orders.phone => item.phone,
+      Setting.work_orders.pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
+      Setting.work_orders.content => item.content,
+      Setting.work_orders.address => item.address,
+      Setting.work_orders.limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
     }
+
+    number = Setting.work_orders.number + item.number
     respond_to do |f|
-      f.json{ render :json => {:obj => obj}.to_json}
+      f.json{ render :json => {:obj => obj, :number => number}.to_json}
+    end
+  end
+
+  def query_record
+    @factory = my_factory
+    @workorder = @factory.work_orders.find(iddecode(params[:id]))
+    arr = []
+    order_logs = OrderLog.where(:work_order_id => @workorder.id, :state => Setting.states.processed).order('created_at DESC')
+    order_logs.each do |order_log|
+      img = []
+      if order_log.img
+        order_log.img.split(',').each do |image|
+          img << image
+        end
+      end
+      arr << {
+        :state => order_log_state(order_log.state), 
+        :user => order_log.wx_user.name,
+        :time => order_log.created_at.strftime("%Y-%m-%d %H:%M"),
+        :content => order_log.content,
+        :feedback => order_log.feedback,
+        :imgs => img
+      }
+    end
+
+    respond_to do |f|
+      f.json{ render :json => arr.to_json}
+    end
+  end
+
+  def query_rate
+    @factory = my_factory
+    @workorder = @factory.work_orders.find(iddecode(params[:id]))
+    task_logs = @workorder.task_logs.order('created_at DESC')
+    arr = []
+    task_logs.each do |task_log|
+      wxuserid = task_log.wx_user_id
+      name = wxuserid ? WxUser.find(wxuserid).name : ''
+      arr << {:state => order_state(task_log.state), :color => "order-" + task_log.state, :user => name + ' ' + task_log.created_at.strftime("%Y-%m-%d %H:%M")}
+    end
+
+    respond_to do |f|
+      f.json{ render :json => arr.to_json}
     end
   end
 

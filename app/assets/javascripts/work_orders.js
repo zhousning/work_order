@@ -5,6 +5,57 @@ $(".work_orders").ready(function() {
   }
 });
 
+function get_task_rate(data_fct, data_id) {
+  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_rate";
+  $.get(url).done(function (data) {
+    var emq = data;
+    var emq_table = '';
+    for (var i=0; i< emq.length; i++) {
+      var state = emq[i].state;
+      var color = emq[i].color;
+      var user = emq[i].user;
+      var feedstr = "<span class='badge text-white " + color + " mr-3'>" + state + "</span>";
+      emq_table += "<li><p>" + feedstr  + user + "</p></li>"
+    }
+    $("#task-rate").html(emq_table);
+  });
+}
+
+function get_task_record(data_fct, data_id) {
+  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_record";
+  $.get(url).done(function (data) {
+    var emq = data;
+    var emq_table = '';
+    for (var i=0; i< emq.length; i++) {
+      var feedback = emq[i].feedback;
+      var imgs = emq[i].imgs;
+      var img = "";
+      var feedstr = "<span class='badge badge-success ml-3'>已解决</span>";
+      if (!feedback) {
+        feedstr = "<span class='badge badge-danger ml-3'>未解决</span>";
+      }
+      for (var j=0; j<imgs.length; j++) {
+        img += "<div class='col-3'> <img src='" + imgs[j] + "' class='img-thumbnail'></div>";
+      }
+      emq_table += "<li class='media mb-2'><div class='media-body'><h5 class='mt-0 mb-1'>" + emq[i].user + ' ' + emq[i].time + feedstr + "</h5><p>" + emq[i].content + "</p><div class='row'>" + img + "</div></div></li>"
+    }
+    $("#task-record").html(emq_table);
+  });
+}
+
+function get_task_info(data_fct, data_id) {
+  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_info";
+  $.get(url).done(function (data) {
+    var emq = data.obj;
+    var emq_table = '';
+    $.each(emq, function(k, v) {
+      emq_table += '<p>' + k + ': ' + v + '</p>'; 
+    })
+    $("#log-day-emq-ctn").html(emq_table);
+    $("#log-day-pdt-rpt-header").html(data.number);
+  });
+}
+
 function worker_order_bind_event() {
   $("#item-table").on('click', 'button.send-msg-btn', function(e) {
     var that = e.target
@@ -21,15 +72,9 @@ function worker_order_bind_event() {
     var that = e.target
     var data_id = that.dataset['rpt'];
     var data_fct = $('#fct').val();
-    var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_info";
-    $.get(url).done(function (data) {
-      var emq = data.obj;
-      var emq_table = '';
-      $.each(emq, function(k, v) {
-        emq_table += '<p>' + k + ': ' + v + '</p>'; 
-      })
-      $("#log-day-emq-ctn").html(emq_table);
-    });
+    get_task_info(data_fct, data_id);
+    get_task_record(data_fct, data_id);
+    get_task_rate(data_fct, data_id);
   });
 
   $("#item-table").on('click', 'button.worker-show-btn', function(e) {

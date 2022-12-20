@@ -126,14 +126,31 @@
             %table#day-emq-ctn.table.text-center.table-bordered
 
 #logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
-  .modal-dialog.modal-xl.modal-dialog-centered.modal-dialog-scrollable
+  .modal-dialog.modal-dialog-centered.modal-dialog-scrollable
     .modal-content
       .modal-header
         %h3#log-day-pdt-rpt-header.modal-title.text-center
       .modal-body
         .row
-          .col-12
-            %table#log-day-emq-ctn.table.text-center.table-bordered
+          .col-12.mb-3
+            .card
+              .card-header.bg-primary.text-white
+                工单信息
+              .card-body
+                #log-day-emq-ctn.text-left
+          .col-12.mb-3
+            .card
+              .card-header.bg-success.text-white
+                工单处理进度
+              .card-body
+                %ul#task-rate.timeline
+          .col-12.mb-3
+            .card
+              .card-header.bg-info.text-white
+                工单处理记录
+              .card-body
+                %ul#task-record.list-unstyled
+
 
 -#
   %tbody

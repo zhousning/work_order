@@ -60,6 +60,8 @@ Rails.application.routes.draw do
       get :download_attachment, :on => :member
       get :download_append, :on => :member
       get :query_info, :on => :member
+      get :query_record, :on => :member
+      get :query_rate, :on => :member
       post :parse_excel, :on => :collection
       get :xls_download, :on => :collection
       get :query_all, :on => :collection

@@ -477,7 +477,7 @@ development:
   work_orders:
     label: 工单
     title: 标题
-    pdt_time: 时间
+    pdt_time: 创建时间
     content: 内容
     address: 地址
     urgent: 加急
