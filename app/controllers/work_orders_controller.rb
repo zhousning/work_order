@@ -1,4 +1,5 @@
 class WorkOrdersController < ApplicationController
+  include WxTool
   layout "application_control"
   before_filter :authenticate_user!
   #authorize_resource
@@ -8,6 +9,14 @@ class WorkOrdersController < ApplicationController
     @work_order = WorkOrder.find(iddecode(params[:id]))
     @wxuser = WxUser.find(iddecode(params[:worker]))
     if @work_order.assign(@wxuser.id)
+      openid = @wxuser.openid
+      number = @work_order.number
+      time = @work_order.created_at.strftime('%Y-%m-%d %H:%M')
+      dept = @wxuser.factories.first.name 
+      state = Setting.state_tags.unaccept
+      content = @work_order.content
+      send_msg(openid, number, time, dept, state, content)
+
       respond_to do |f|
         f.json{ render :json => {:state => 'success'}.to_json}
       end

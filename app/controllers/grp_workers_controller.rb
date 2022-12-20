@@ -1,53 +1,8 @@
-require 'restclient'
 
 class GrpWorkersController < ApplicationController
   layout "application_control"
   before_filter :authenticate_user!
   authorize_resource :except => [:send_msg]
-
-  def send_msg
-    token = wexin_token
-    url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=" + token 
-    @wxuser= WxUser.second
-    msg = {
-      touser: @wxuser.openid,
-      template_id: ENV['WX_TEMPLATE'],
-      page: "pages/index/index",
-      miniprogram_state: "developer",
-      lang: "zh_CN",
-      data: {
-          character_string2: {
-              value: "339208499"
-          },
-          time5: {
-              value: "2015年01月05日"
-          },
-          thing4: {
-              value: "TIT创意园"
-          } ,
-          thing3: {
-              value: "thing3"
-          } ,
-          thing1: {
-              value: "广州市新港中路397号"
-          }
-      }
-    } 
-    body = {}
-    RestClient.post(url, msg.to_json) do |response|
-      body = JSON.parse(response.body)
-    end
-
-    if body['errcode'] == 0
-      respond_to do |f|
-        f.json{ render :json => {:message => '消息发送成功'}.to_json}
-      end
-    else
-      respond_to do |f|
-        f.json{ render :json => {:message => '消息发送失败' + body['errmsg']}.to_json}
-      end
-    end
-  end
 
   def index
   end
