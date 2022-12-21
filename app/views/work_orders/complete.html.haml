@@ -12,11 +12,19 @@
         .container-fluid
           .row
             .col-md-12
+              = hidden_field_tag "fct", idencode(@factory.id), :class => "fct-val"
+            .col-md-12
               %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
                 %thead
                   %tr
                     %th{:scope => "col", :'data-field' => "id"} #
+
+                    %th{:scope => "col", :'data-field' => "ctg"}
+                      = Setting.workorder_ctgs.label
                   
+                    %th{:scope => "col", :'data-field' => "number"}
+                      = Setting.work_orders.number
+
                     %th{:scope => "col", :'data-field' => "limit_time"}
                       = Setting.work_orders.limit_time
                   
@@ -35,17 +43,17 @@
                     %th{:scope => "col", :'data-field' => "img"}
                       = Setting.work_orders.img
                   
-                    %th{:scope => "col", :'data-field' => "urgent"}
-                      = Setting.work_orders.urgent
-                  
-                    %th{:scope => "col", :'data-field' => "button"}
-
                 %tbody
                   - @work_orders.each_with_index do |work_order, index|
                     %tr
                       %td{:scope => "row"}
                         = index+1
                     
+                      %td
+                        = work_order.workorder_ctg.name
+                      %td
+                        %button{:class => 'btn btn-link log-show-btn', :type => 'button', :"data-rpt" => idencode(work_order.id)}
+                          = work_order.number
                       %td
                         = work_order.limit_time
                       %td
@@ -58,14 +66,35 @@
                         = work_order.content
                       %td
                         = work_order.img
-                      %td
-                        = work_order.urgent
-                      %td
-                        .container-fluid
-                          .row.justify-content-center
-                            -#
-                              = link_to "查看",  work_order_path(idencode(work_order.id)), :class => "button button-primary button-small mr-1" 
-            .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
-              = paginate @work_orders, window: 2, left: 1, right: 1 
+
+              .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
+                = paginate @work_orders, window: 2, left: 1, right: 1 
       = render "layouts/bootstrap/card"
+
+#logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+  .modal-dialog.modal-lg.modal-dialog-centered.modal-dialog-scrollable
+    .modal-content
+      .modal-header
+        %h3#log-day-pdt-rpt-header.modal-title.text-center
+      .modal-body
+        .row
+          .col-12.mb-3
+            .card
+              .card-header.bg-primary.text-white
+                工单信息
+              .card-body
+                #log-day-emq-ctn.text-left
+          .col-12.mb-3
+            .card
+              .card-header.bg-success.text-white
+                工单处理进度
+              .card-body
+                %ul#task-rate.timeline
+          .col-12.mb-3
+            .card
+              .card-header.bg-info.text-white
+                工单处理记录
+              .card-body
+                %ul#task-record.list-unstyled
+
 

@@ -1,0 +1,41 @@
+- provide(:title, t('.title'))
+
+.container-fluid
+  .row
+    = render "layouts/control_sidebar"
+    %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      - content_for :card_header do
+        %h5
+          = fa_icon "newspaper-o", text: t(controller_name + "." + action_name + '.title')
+          = link_to "/#{controller_name}", :class => "button button-small  pull-right button-primary" do
+            = fa_icon " chevron-left", text: Setting.systems.btn_back, right: false 
+      - content_for :card_body do
+        .container-fluid
+          .row
+            .col-sm-12
+              %h2.text-center
+                = image_tag "gykg.jpg"
+            .col-md-8.offset-2.p-5.border
+              .card.border-0.mb-3.rounded-0
+                .card-header.bg-transparent.border-dark
+                  %h5
+                    = Setting.workorder_ctgs.label
+                .card-body
+                  %table.table-bordered.day-pdt-table.w-100.mb-3
+                    %tbody
+                    
+                      %tr
+                        %td.p-2.text-center
+                          = Setting.workorder_ctgs.name
+                        %td.p-2.text-center
+                          = @workorder_ctg.name
+                    
+              .row
+              
+              .row
+              
+              .row
+              
+              
+              
+      = render "layouts/bootstrap/card"

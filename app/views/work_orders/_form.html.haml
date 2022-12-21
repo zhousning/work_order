@@ -43,9 +43,16 @@
                     %tr
                       %td.p-2.text-center
                         = f.label Setting.work_orders.address, :class => "text-center"
-                      %td.p-2.text-center
+                      %td.p-2.text-center{:colspan => 3}
                         = f.text_field :address, :class => "form-control" 
                       
+
+                    %tr        
+                      %td.p-2.text-center
+                        = f.label Setting.workorder_ctgs.label, :class => "text-center"
+                      %td.p-2.text-center
+                        = select_tag "workorder_ctg", options_for_workorder_ctg(@workorder_ctgs, @work_order), :include_blank=>false, :class=>"form-control"
+
                       
                       %td.p-2.text-center
                         = f.label Setting.work_orders.limit_time, :class => "text-center"

@@ -1,6 +1,7 @@
 class WorkOrder < ActiveRecord::Base
   belongs_to :order_ctg
   belongs_to :factory
+  belongs_to :workorder_ctg
 
   has_many :order_logs, :dependent => :destroy
   has_many :wx_users, :through => :order_logs

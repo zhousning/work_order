@@ -34,6 +34,9 @@
                 %thead
                   %tr
                     %th{:scope => "col", :'data-field' => "id"} #
+
+                    %th{:scope => "col", :'data-field' => "ctg"}
+                      = Setting.workorder_ctgs.label
                   
                     -#
                       %th{:scope => "col", :'data-field' => "title"}
@@ -62,7 +65,8 @@
                     %th{:scope => "col", :'data-field' => "img"}
                       = Setting.work_orders.img
                   
-                    %th{:scope => "col", :'data-field' => "urgent"}
+                    -#
+                      %th{:scope => "col", :'data-field' => "urgent"}
                       = Setting.work_orders.urgent
                   
                     %th{:scope => "col", :'data-field' => "state"}
@@ -126,7 +130,7 @@
             %table#day-emq-ctn.table.text-center.table-bordered
 
 #logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
-  .modal-dialog.modal-dialog-centered.modal-dialog-scrollable
+  .modal-dialog.modal-lg.modal-dialog-centered.modal-dialog-scrollable
     .modal-content
       .modal-header
         %h3#log-day-pdt-rpt-header.modal-title.text-center

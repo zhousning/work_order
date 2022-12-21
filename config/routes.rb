@@ -212,6 +212,10 @@ Rails.application.routes.draw do
     get :download_append, :on => :member
     get :query_all, :on => :collection
   end
+  resources :workorder_ctgs do
+    get :download_append, :on => :member
+    get :query_all, :on => :collection
+  end
   resources :flower
 
 end

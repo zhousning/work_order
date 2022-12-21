@@ -103,9 +103,18 @@ module DayPdtRptsHelper
     raw(str)
   end
 
-  def cms_sub_pref(title)
-    title = title.gsub(/在线-|化验-/, '')
-    title
+  def options_for_workorder_ctg(workorder_ctgs, qes)
+    str = ""
+    workorder_ctgs.each do |f|
+      selected = qes.id.nil? || qes.workorder_ctg.nil? ? '' : qes.workorder_ctg.id
+      if f.id == selected
+        str += "<option selected='selected' value='" + idencode(f.id).to_s + "'>" + f.name + "</option>"
+      else
+        str += "<option value='" + idencode(f.id).to_s + "'>" + f.name + "</option>"
+      end
+    end
+
+    raw(str)
   end
 
 end  

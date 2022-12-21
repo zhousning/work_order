@@ -3,56 +3,20 @@ $(".work_orders").ready(function() {
     get_work_orders('work_orders');
     worker_order_bind_event();
   }
+  if ($(".work_orders.complete").length > 0) {
+    worker_order_complete_event();
+  }
 });
 
-function get_task_rate(data_fct, data_id) {
-  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_rate";
-  $.get(url).done(function (data) {
-    var emq = data;
-    var emq_table = '';
-    for (var i=0; i< emq.length; i++) {
-      var state = emq[i].state;
-      var color = emq[i].color;
-      var user = emq[i].user;
-      var feedstr = "<span class='badge text-white " + color + " mr-3'>" + state + "</span>";
-      emq_table += "<li><p>" + feedstr  + user + "</p></li>"
-    }
-    $("#task-rate").html(emq_table);
-  });
-}
-
-function get_task_record(data_fct, data_id) {
-  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_record";
-  $.get(url).done(function (data) {
-    var emq = data;
-    var emq_table = '';
-    for (var i=0; i< emq.length; i++) {
-      var feedback = emq[i].feedback;
-      var imgs = emq[i].imgs;
-      var img = "";
-      var feedstr = "<span class='badge badge-success ml-3'>已解决</span>";
-      if (!feedback) {
-        feedstr = "<span class='badge badge-danger ml-3'>未解决</span>";
-      }
-      for (var j=0; j<imgs.length; j++) {
-        img += "<div class='col-3'> <img src='" + imgs[j] + "' class='img-thumbnail'></div>";
-      }
-      emq_table += "<li class='media mb-2'><div class='media-body'><h5 class='mt-0 mb-1'>" + emq[i].user + ' ' + emq[i].time + feedstr + "</h5><p>" + emq[i].content + "</p><div class='row'>" + img + "</div></div></li>"
-    }
-    $("#task-record").html(emq_table);
-  });
-}
-
-function get_task_info(data_fct, data_id) {
-  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_info";
-  $.get(url).done(function (data) {
-    var emq = data.obj;
-    var emq_table = '';
-    $.each(emq, function(k, v) {
-      emq_table += '<p>' + k + ': ' + v + '</p>'; 
-    })
-    $("#log-day-emq-ctn").html(emq_table);
-    $("#log-day-pdt-rpt-header").html(data.number);
+function worker_order_complete_event() {
+  $("#item-table").on('click', 'button.log-show-btn', function(e) {
+    $('#logModal').modal();
+    var that = e.target
+    var data_id = that.dataset['rpt'];
+    var data_fct = $('#fct').val();
+    get_task_info(data_fct, data_id);
+    get_task_record(data_fct, data_id);
+    get_task_rate(data_fct, data_id);
   });
 }
 
@@ -160,12 +124,13 @@ function get_work_orders(method) {
       var button = "<button class = 'btn btn-link  mr-3 worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  mr-3' href='/factories/" + data_fct + '/' + method + "/" + id + "/edit'>编辑</a>" + "<button data-confirm='确认已办结?'  class = 'btn btn-link  mr-3 worker-complete-btn' type = 'button' data-rpt ='" + id + "'>办结</button>"  + "<a data-confirm='确定删除吗?' class='btn btn-link worker-delete-btn' rel='nofollow' data-method='delete' href='/factories/" + data_fct + '/' + method + "/" + id + "'>删除</a>";
       data.push({
         'id' : index + 1,
+        'ctg' : item.ctg,
         'number' : number,
         'title' : item.title,
         'pdt_time' : item.pdt_time,
         'content' : item.content,
         'address' : item.address,
-        'urgent' : item.urgent,
+        //'urgent' : item.urgent,
         'state' : item.state,
         'order_time' : item.order_time,
         'limit_time' : item.limit_time,
@@ -179,6 +144,53 @@ function get_work_orders(method) {
   })
 }
 
-//var button = "<button id='info-btn' class = 'button button-primary button-small' type = 'button' data-rpt ='" + item.id + "' data-fct = '" + item.fct_id +"'>查看</button>"; 
-//var factory = item.factory;
-//var search = "<a class='button button-royal button-small mr-3' href='/factories/" + factory + "/" + method + "/" + id + "/edit'>编辑</a><a data-confirm='确定删除吗?' class='button button-caution button-small' rel='nofollow' data-method='delete' href='/factories/" + factory + "/" + method + "/" + id + "'>删除</a>"
+function get_task_rate(data_fct, data_id) {
+  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_rate";
+  $.get(url).done(function (data) {
+    var emq = data;
+    var emq_table = '';
+    for (var i=0; i< emq.length; i++) {
+      var state = emq[i].state;
+      var color = emq[i].color;
+      var user = emq[i].user;
+      var feedstr = "<span class='badge text-white " + color + " mr-3'>" + state + "</span>";
+      emq_table += "<li><p>" + feedstr  + user + "</p></li>"
+    }
+    $("#task-rate").html(emq_table);
+  });
+}
+
+function get_task_record(data_fct, data_id) {
+  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_record";
+  $.get(url).done(function (data) {
+    var emq = data;
+    var emq_table = '';
+    for (var i=0; i< emq.length; i++) {
+      var feedback = emq[i].feedback;
+      var imgs = emq[i].imgs;
+      var img = "";
+      var feedstr = "<span class='badge badge-success ml-3'>已解决</span>";
+      if (!feedback) {
+        feedstr = "<span class='badge badge-danger ml-3'>未解决</span>";
+      }
+      for (var j=0; j<imgs.length; j++) {
+        img += "<div class='col-3'> <img src='" + imgs[j] + "' class='img-thumbnail'></div>";
+      }
+      emq_table += "<li class='media mb-2'><div class='media-body'><h5 class='mt-0 mb-1'>" + emq[i].user + ' ' + emq[i].time + feedstr + "</h5><p>" + emq[i].content + "</p><div class='row'>" + img + "</div></div></li>"
+    }
+    $("#task-record").html(emq_table);
+  });
+}
+
+function get_task_info(data_fct, data_id) {
+  var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_info";
+  $.get(url).done(function (data) {
+    var emq = data.obj;
+    var emq_table = '';
+    $.each(emq, function(k, v) {
+      emq_table += '<p>' + k + ': ' + v + '</p>'; 
+    })
+    $("#log-day-emq-ctn").html(emq_table);
+    $("#log-day-pdt-rpt-header").html(data.number);
+  });
+}

@@ -29,6 +29,7 @@ class WorkOrdersController < ApplicationController
 
   def index
     @factory = my_factory
+    @workorder_ctgs = WorkorderCtg.all
     @work_order = WorkOrder.new
   end
 
@@ -40,6 +41,8 @@ class WorkOrdersController < ApplicationController
   def create
     @factory = my_factory
     @work_order = WorkOrder.new(work_order_params)
+    @ctg = WorkorderCtg.find(iddecode(params[:workorder_ctg]))
+    @work_order.workorder_ctg = @ctg
     @work_order.factory = @factory
     
     if @work_order.save
@@ -51,6 +54,7 @@ class WorkOrdersController < ApplicationController
    
   def edit
    
+    @workorder_ctgs = WorkorderCtg.all
     @factory = my_factory
     @work_order = @factory.work_orders.find(iddecode(params[:id]))
    
@@ -75,6 +79,8 @@ class WorkOrdersController < ApplicationController
    
     @factory = my_factory
     @work_order = @factory.work_orders.find(iddecode(params[:id]))
+    @ctg = WorkorderCtg.find(iddecode(params[:workorder_ctg]))
+    @work_order.workorder_ctg = @ctg
    
     if @work_order.update(work_order_params)
       redirect_to edit_factory_work_order_path(idencode(@factory.id), idencode(@work_order.id)) 
@@ -105,12 +111,12 @@ class WorkOrdersController < ApplicationController
     item = @factory.work_orders.find(iddecode(params[:id]))
    
     obj = {
+      Setting.work_orders.pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
+      Setting.work_orders.limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
       Setting.work_orders.person => item.person,
       Setting.work_orders.phone => item.phone,
-      Setting.work_orders.pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
-      Setting.work_orders.content => item.content,
       Setting.work_orders.address => item.address,
-      Setting.work_orders.limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
+      Setting.work_orders.content => item.content,
     }
 
     number = Setting.work_orders.number + item.number
@@ -179,6 +185,7 @@ class WorkOrdersController < ApplicationController
         #:title => item.title,
        
         #:pdt_time => item.pdt_time.strftime('%Y-%m-%d %H:%M'),
+        :ctg => item.workorder_ctg.name,
 
         :number => item.number,
        
@@ -186,7 +193,7 @@ class WorkOrdersController < ApplicationController
        
         :address => item.address,
        
-        :urgent => item.urgent,
+        #:urgent => item.urgent,
        
         :state => order_state(item.task_logs.last.state),
        

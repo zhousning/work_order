@@ -336,10 +336,10 @@ defaults:
     idno: 站点编号
     name: 站点名称
     mdno: 县区
-    unit: 公司 
+    unit: 公司
     out_date: 出厂日期
     mount_date: 安装日期
-    supplier: 部门 
+    supplier: 部门
     mfcture: 制造商
     pos: 经度
     pos_no: 纬度
@@ -508,12 +508,15 @@ development:
     canceled: 已取消
     awaiting: 待确认
     assign: 已分配
-    transfer: 已转单
+    transfer: 转单给
     unsettled: 未解决
     processing: 处理中
     processed: 已处理
     unaccept: 待接单
     accept: 已接单
+  workorder_ctgs:
+    label: 工单分类
+    name: 名称
 test: 
 production:
   notices: *1

@@ -30,6 +30,7 @@ class CreateWorkOrders < ActiveRecord::Migration
 
     
 
+      t.references :workorder_ctg
     
       t.references :order_ctg
     
