@@ -34,10 +34,14 @@ AdminUser.create!(:phone => Setting.admins.phone, :email => Setting.admins.email
 ##厂区管理者
 @fctmgn = [@role_fct, @role_worker, @role_device, @role_inspector, @role_sign_log]
 
+@pollute = Company.create(:name => Setting.companies.pollute)
+@water = Company.create(:name => Setting.companies.water)
 
-@lsswls  = Factory.create!(:name => Setting.admins.leader)
-User.create!(:phone => "053701013708", :password => "swr0101", :password_confirmation => "swr0101", :name => Setting.admins.leader, :roles => @fctmgn,    :factories => [@lsswls])
+@nwgc  = Factory.create!(:name => Setting.companies.pollute)
+User.create!(:phone => "053701013708", :password => "swr0101", :password_confirmation => "swr0101", :name => Setting.companies.pollute, :roles => @fctmgn,    :factories => [@nwgc])
 
+@swjt  = Factory.create!(:name => Setting.companies.water)
+User.create!(:phone => "053701011818", :password => "water18180101", :password_confirmation => "water18180101", :name => Setting.companies.pollute, :roles => @fctmgn,    :factories => [@swjt])
 #注释结束
 
 Deploy.create!(:name => 'weixin')

@@ -85,7 +85,6 @@ defaults:
     email: myzn@world.com
     phone: '15763703188'
     password: dagening@521
-    leader: '山东公用水污染治理有限公司'
   users: &11
     class_name: User
     opening: 0
@@ -270,6 +269,8 @@ defaults:
     info: 简介
     lnt: 经度
     lat: 维度
+    pollute: '山东公用水污染治理有限公司-工程'
+    water: '山东公用水务集团'
   factories: &25
     label: 工厂
     area: 地区

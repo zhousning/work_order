@@ -15,6 +15,10 @@ class FactoriesController < ApplicationController
   def index
     @factory = Factory.new
    
+    #@myfactory = my_factory
+    #@company = @myfactory.companies
+    #@factories = @company.factories.all
+
     @factories = Factory.all
    
   end
@@ -40,8 +44,11 @@ class FactoriesController < ApplicationController
    
   def create
     @factory = Factory.new(factory_params)
-    fct = Factory.find_by_name(Setting.admins.leader)
+    @company = Company.find(iddecode(params[:company]))
+
+    fct = Factory.find_by_name(@company.name)
     @factory.parent = fct if @factory.parent.nil?
+    @factory.company = @company
 
     if @factory.save
       redirect_to :action => :index
@@ -60,7 +67,12 @@ class FactoriesController < ApplicationController
    
   def update
     @factory = Factory.where(:id => params[:id]).first
-   
+    @company = Company.find(iddecode(params[:company]))
+
+    fct = Factory.find_by_name(@company.name)
+    @factory.parent = fct if @factory.parent.nil?
+    @factory.company = @company
+
     if @factory.update(factory_params)
       redirect_to edit_factory_path(@factory) 
     else

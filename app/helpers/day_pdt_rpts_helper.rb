@@ -61,29 +61,6 @@ module DayPdtRptsHelper
     hash
   end
 
-  def options_for_chemicals
-    hash = Hash.new
-    ctgs = ChemicalCtg.all
-    ctgs.each do |f|
-      hash[f.name] = f.code
-    end
-    hash
-  end
-
-  def chemicals_hash
-    hash = Hash.new
-    ctgs = ChemicalCtg.all
-    ctgs.each do |f|
-      hash[f.code] = f.name
-    end
-    hash
-  end
-
-  def options_for_emp_quotas
-    str = "<option value='" + Setting.quota.cod + "'>" + cms_sub_pref(Setting.inf_qlties.cod) + "</option>" + "<option value='" + Setting.quota.nhn + "'>" + cms_sub_pref(Setting.inf_qlties.nhn) + "</option>" + "<option value='" + Setting.quota.tn + "'>" + cms_sub_pref(Setting.inf_qlties.tn) + "</option>" + "<option value='" + Setting.quota.tp + "'>" + cms_sub_pref(Setting.inf_qlties.tp) + "</option>"
-    raw(str)
-  end
-
   def options_for_years
     year = Time.new.year
     str = ""
@@ -117,4 +94,18 @@ module DayPdtRptsHelper
     raw(str)
   end
 
+
+  def options_for_companies(factory)
+    str = ""
+    Company.all.each do |f|
+      selected = factory.id.nil? || factory.company.nil? ? '' : factory.company.id
+      if f.id == selected
+        str += "<option selected='selected' value='" + idencode(f.id).to_s + "'>" + f.name + "</option>"
+      else
+        str += "<option value='" + idencode(f.id).to_s + "'>" + f.name + "</option>"
+      end
+    end
+
+    raw(str)
+  end
 end  

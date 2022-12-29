@@ -24,6 +24,10 @@
                         %td.p-2.text-center
                           = f.text_field :area, :class => "form-control rounded-0" 
                       %td.p-2.text-center
+                        = f.label Setting.companies.label, :class => "text-center"
+                      %td.p-2.text-center
+                        = select_tag "company", options_for_companies(@factory), :include_blank=>false, :class=>"form-control"
+                      %td.p-2.text-center
                         = f.label Setting.factories.name, :class => "text-center"
                       %td.p-2.text-center
                         = f.text_field :name, :class => "form-control rounded-0" 

@@ -34,6 +34,9 @@
                   %tr
                     %th{:scope => "col"} #
                   
+                  
+                    %th{:scope => "col"}
+                      = Setting.companies.label
                     %th{:scope => "col"}
                       = Setting.factories.name
                     %th{:scope => "col"}
@@ -50,6 +53,8 @@
                       %td{:scope => "row"}
                         = index+1
                     
+                      %td
+                        = factory.company.nil? ? '' : factory.company.name
                       %td
                         = factory.name
                       %td
