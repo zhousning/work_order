@@ -21,6 +21,8 @@ class CreateFactories < ActiveRecord::Migration
     
 
     
+      t.integer :parent_id
+
 
     
       t.references :company

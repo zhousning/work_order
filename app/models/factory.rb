@@ -1,4 +1,7 @@
 class Factory < ActiveRecord::Base
+  belongs_to:parent, :class_name => 'Factory'
+  has_many :children, :class_name => 'Factory', :foreign_key => 'parent_id', :dependent => :destroy
+  accepts_nested_attributes_for :children, reject_if: :all_blank, allow_destroy: true
 
   mount_uploader :logo, EnclosureUploader
 
@@ -16,6 +19,20 @@ class Factory < ActiveRecord::Base
   has_many :departments, :dependent => :destroy
   accepts_nested_attributes_for :departments, reject_if: :all_blank, allow_destroy: true
 
+  after_create :create_account
+  def create_account 
+    if self.users.blank?
+      @role_fct = Role.where(:name => Setting.roles.role_fct).first
+      @role_device    = Role.where(:name => Setting.roles.role_device).first
+      @role_inspector = Role.where(:name => Setting.roles.role_inspector).first
+      @role_worker    = Role.where(:name => Setting.roles.role_worker).first
+      @role_sign_log  = Role.where(:name => Setting.roles.role_sign_log).first
+      @fctmgn = [@role_fct, @role_worker, @role_device, @role_inspector, @role_sign_log]
+
+      phone = Time.now.to_i.to_s + "%02d" % [rand(100)]
+      User.create!(:phone => phone, :password => phone, :password_confirmation => phone, :name => self.name, :roles => @fctmgn, :factories => [self])
+    end
+  end
 
 end
 

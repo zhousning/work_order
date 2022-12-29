@@ -40,9 +40,9 @@ class FactoriesController < ApplicationController
    
   def create
     @factory = Factory.new(factory_params)
-     
-    #@factory.user = current_user
-     
+    fct = Factory.find_by_name(Setting.admins.leader)
+    @factory.parent = fct if @factory.parent.nil?
+
     if @factory.save
       redirect_to :action => :index
     else
@@ -53,16 +53,16 @@ class FactoriesController < ApplicationController
 
    
   def edit
-    @factory = current_user.factories.find(iddecode(params[:id]))
+    @factory = Factory.where(:id => params[:id]).first
   end
    
 
    
   def update
-    @factory = current_user.factories.find(iddecode(params[:id]))
+    @factory = Factory.where(:id => params[:id]).first
    
     if @factory.update(factory_params)
-      redirect_to edit_factory_path(idencode(@factory.id)) 
+      redirect_to edit_factory_path(@factory) 
     else
       render :edit
     end
@@ -80,7 +80,7 @@ class FactoriesController < ApplicationController
    
   private
     def factory_params
-      params.require(:factory).permit( :area, :name, :info, :lnt, :lat , :logo, departments_attributes: department_params, mudfcts_attributes: mudfct_params)
+      params.require(:factory).permit( :area, :name, :info, :lnt, :lat , :logo, departments_attributes: department_params, children_attributes: children_params)
     end
   
   
@@ -89,8 +89,8 @@ class FactoriesController < ApplicationController
       [:id, :name, :info ,:_destroy]
     end
   
-    def mudfct_params
-      [:id, :name, :ability ,:_destroy]
+    def children_params
+      [:id, :name,:_destroy]
     end
 end
 

@@ -23,12 +23,13 @@
                     %th{:scope => "col", :'data-field' => "index"}
                     %th{:scope => "col", :'data-field' => "name"}
                       姓名 
-                    %th{:scope => "col", :'data-field' => "nickname"}
+                    -#
+                      %th{:scope => "col", :'data-field' => "nickname"}
                       昵称
                     %th{:scope => "col", :'data-field' => "phone"}
                       电话
                     %th{:scope => "col", :'data-field' => "sites"}
-                      负责站点
+                      部门
                     %th{:scope => "col", :'data-field' => "state"}
                       状态
                     %th{:scope => "col", :'data-field' => "button"}
@@ -47,7 +48,8 @@
                         = index+1
                       %td
                         = inspector.name
-                      %td
+                      -#
+                        %td
                         = inspector.nickname
                       %td
                         = inspector.phone

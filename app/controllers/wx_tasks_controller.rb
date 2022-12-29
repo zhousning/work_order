@@ -106,11 +106,11 @@ class WxTasksController < ApplicationController
       @workorder = wxuser.work_orders.find(params[:taskid])
       infos = [ 
         Setting.work_orders.pdt_time + ': ' + @workorder.created_at.strftime("%Y-%m-%d %H:%M"),
-        Setting.work_orders.limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
+        Setting.work_orders.limit_time + ': ' +  @workorder.limit_time.strftime('%Y-%m-%d %H:%M'),
         Setting.work_orders.person + ': ' + @workorder.person,
         Setting.work_orders.phone + ': ' + @workorder.phone,
-        Setting.work_orders.address + ': ' + @workorder.address
-        Setting.work_orders.content + ': ' + @workorder.content,
+        Setting.work_orders.address + ': ' + @workorder.address,
+        Setting.work_orders.content + ': ' + @workorder.content
       ] 
       img = [] 
       @workorder.enclosures.each do |enclosure|

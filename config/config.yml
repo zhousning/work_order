@@ -85,6 +85,7 @@ defaults:
     email: myzn@world.com
     phone: '15763703188'
     password: dagening@521
+    leader: '山东公用水污染治理有限公司'
   users: &11
     class_name: User
     opening: 0
@@ -113,16 +114,16 @@ defaults:
     role_wx: 微信用户
     role_grp: 集团用户
     role_cpy: 分公司用户
-    role_device: 厂区-施工站点
-    role_inspector: 厂区-签到负责人
+    role_device: 厂区-部门管理
+    role_inspector: 厂区-业务人员
     role_worker: 厂区-工人管理
     role_sign_log: 厂区-签到记录
-    role_wx_device: 微信-施工站点
-    role_wx_inspector: 微信-签到负责人
+    role_wx_device: 微信-部门管理
+    role_wx_inspector: 微信-业务人员
     role_wx_worker: 微信-工人管理
     role_wx_sign_log: 微信-签到记录
-    role_grp_device: 集团-施工站点
-    role_grp_inspector: 集团-签到负责人
+    role_grp_device: 集团-部门管理
+    role_grp_inspector: 集团-业务人员
     role_grp_worker: 集团-工人管理
     role_grp_sign_log: 集团-签到记录
   permissions: &13
@@ -160,7 +161,7 @@ defaults:
     btn_show: 详情
     btn_delete: 删除
     btn_save: 保存
-    company_name: 山东公用水务集团农污工程签到系统
+    company_name: 山东公用水务集团工单业务管理系统
     opening: 新用户
     pending: 待审核
     rejected: 不通过
@@ -278,6 +279,8 @@ defaults:
     lnt: 经度
     lat: 维度
     plan: 计划
+    parent: 父级
+    children: 子级
   departments: &26
     label: 部门
     name: 名称
@@ -332,7 +335,7 @@ defaults:
     enable: enable
     disable: disable
   devices: &30
-    label: 施工站点
+    label: 部门管理
     idno: 站点编号
     name: 站点名称
     mdno: 县区
@@ -359,7 +362,7 @@ defaults:
     cost: 费用
     state: 状态
   patrolers: &32
-    label: 签到负责人
+    label: 业务人员
     name: 姓名
     phone: 电话
     password: 密码
@@ -413,7 +416,7 @@ defaults:
   sign_logs: &39
     label: 签到记录
     sign_date: 签到日期
-    wx_user_id: 签到负责人
+    wx_user_id: 业务人员
     device_id: 站点
     longitude: 经度
     latitude: 纬度

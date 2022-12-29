@@ -19,17 +19,17 @@ zh-CN:
 
   layouts:
     application:
-      site_title: "山东公用水务集团农污工程签到系统"
+      site_title: "山东公用水务集团工单业务管理系统"
     application_control:
-      site_title: "山东公用水务集团农污工程签到系统"
+      site_title: "山东公用水务集团工单业务管理系统"
     application_control_map:
-      site_title: "山东公用水务集团农污工程签到系统"
+      site_title: "山东公用水务集团工单业务管理系统"
     application_mobile:
-      site_title: "山东公用水务集团农污工程签到系统"
+      site_title: "山东公用水务集团工单业务管理系统"
     application_home:
-      site_title: "山东公用水务集团农污工程签到系统"
+      site_title: "山东公用水务集团工单业务管理系统"
     application_no_header:
-      site_title: "山东公用水务集团农污工程签到系统"
+      site_title: "山东公用水务集团工单业务管理系统"
   views:
       pagination:
         first: "首页"
@@ -137,7 +137,7 @@ zh-CN:
   trees:
     index:
       title:
-        山东公用水务集团农污工程签到系统
+        山东公用水务集团工单业务管理系统
   authorities:
     roles:
       manage:
@@ -325,29 +325,29 @@ zh-CN:
       title: ajax查询站点档案
   inspectors:
     index:
-      title: 签到负责人列表  
+      title: 业务处理人员列表  
     new:
-      title: 新建签到负责人
+      title: 新建业务处理人员
     create:
-      title: 新建签到负责人
+      title: 新建业务处理人员
     edit:
-      title: 编辑签到负责人
+      title: 编辑业务处理人员
     update:
-      title: 编辑签到负责人
+      title: 编辑业务处理人员
     show:
-      title: 签到负责人详情 
+      title: 业务处理人员详情 
     destroy:
-      title: 删除签到负责人 
+      title: 删除业务处理人员 
     receive:
-      title: 签到负责人审核通过
+      title: 业务处理人员审核通过
     reject:
-      title: 签到负责人审核不通过
+      title: 业务处理人员审核不通过
     xls_download:
       title: 下载模板 
     parse_excel:
       title: 上传excel数据 
     query_all:
-      title: ajax查询签到负责人
+      title: ajax查询业务处理人员
     query_devices:
       title: ajax查询所有站点
   tasks:
@@ -462,29 +462,29 @@ zh-CN:
       title: 集团-签到记录ajax查询所有站点
   grp_inspectors:
     index:
-      title: 集团-签到负责人列表  
+      title: 集团-业务处理人员列表  
     new:
-      title: 集团-新建签到负责人
+      title: 集团-新建业务处理人员
     create:
-      title: 集团-新建签到负责人
+      title: 集团-新建业务处理人员
     edit:
-      title: 集团-编辑签到负责人
+      title: 集团-编辑业务处理人员
     update:
-      title: 集团-编辑签到负责人
+      title: 集团-编辑业务处理人员
     show:
-      title: 集团-签到负责人详情 
+      title: 集团-业务处理人员详情 
     destroy:
-      title: 集团-删除签到负责人 
+      title: 集团-删除业务处理人员 
     receive:
-      title: 集团-签到负责人审核通过
+      title: 集团-业务处理人员审核通过
     reject:
-      title: 集团-签到负责人审核不通过
+      title: 集团-业务处理人员审核不通过
     xls_download:
       title: 集团-下载模板 
     parse_excel:
       title: 集团-上传excel数据 
     query_all:
-      title: 集团-ajax查询签到负责人
+      title: 集团-ajax查询业务处理人员
     query_devices:
       title: 集团-ajax查询所有站点
   grp_devices:
@@ -574,29 +574,29 @@ zh-CN:
       title: 微信-签到记录ajax查询所有站点
   wx_inspectors:
     index:
-      title: 微信-签到负责人列表  
+      title: 微信-业务处理人员列表  
     new:
-      title: 微信-新建签到负责人
+      title: 微信-新建业务处理人员
     create:
-      title: 微信-新建签到负责人
+      title: 微信-新建业务处理人员
     edit:
-      title: 微信-编辑签到负责人
+      title: 微信-编辑业务处理人员
     update:
-      title: 微信-编辑签到负责人
+      title: 微信-编辑业务处理人员
     show:
-      title: 微信-签到负责人详情 
+      title: 微信-业务处理人员详情 
     destroy:
-      title: 微信-删除签到负责人 
+      title: 微信-删除业务处理人员 
     receive:
-      title: 微信-签到负责人审核通过
+      title: 微信-业务处理人员审核通过
     reject:
-      title: 微信-签到负责人审核不通过
+      title: 微信-业务处理人员审核不通过
     xls_download:
       title: 微信-下载模板 
     parse_excel:
       title: 微信-上传excel数据 
     query_all:
-      title: 微信-ajax查询签到负责人
+      title: 微信-ajax查询业务处理人员
     query_devices:
       title: 微信-ajax查询所有站点
   wx_devices:

@@ -54,14 +54,16 @@ function worker_order_bind_event() {
     var data_id = that.dataset['rpt'];
     var data_fct = $('#fct').val();
 
-    var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/finish";
-    $.get(url).done(function (data) {
-      if (data.state == 'success') {
-        get_work_orders('work_orders');
-      } else {
-        alert('任务处理失败');
-      }
-    });
+    if (confirm('确认已办结吗?') == true) {
+      var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/finish";
+      $.get(url).done(function (data) {
+        if (data.state == 'success') {
+          get_work_orders('work_orders');
+        } else {
+          alert('任务处理失败');
+        }
+      });
+    }
   });
   $("#day-emq-ctn").on('click', 'button.assign-btn', function(e) {
     var that = e.target
@@ -121,7 +123,7 @@ function get_work_orders(method) {
       var id = item.id;
 
       var number = "<button class = 'btn btn-link log-show-btn' type = 'button' data-rpt ='" + id + "'>" + item.number + "</button>";
-      var button = "<button class = 'btn btn-link  mr-3 worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  mr-3' href='/factories/" + data_fct + '/' + method + "/" + id + "/edit'>编辑</a>" + "<button data-confirm='确认已办结?'  class = 'btn btn-link  mr-3 worker-complete-btn' type = 'button' data-rpt ='" + id + "'>办结</button>"  + "<a data-confirm='确定删除吗?' class='btn btn-link worker-delete-btn' rel='nofollow' data-method='delete' href='/factories/" + data_fct + '/' + method + "/" + id + "'>删除</a>";
+      var button = "<button class = 'btn btn-link  mr-3 worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  mr-3' href='/factories/" + data_fct + '/' + method + "/" + id + "/edit'>编辑</a>" + "<button class = 'btn btn-link  mr-3 worker-complete-btn' type = 'button' data-rpt ='" + id + "'>办结</button>"  + "<a data-confirm='确定删除吗?' class='btn btn-link worker-delete-btn' rel='nofollow' data-method='delete' href='/factories/" + data_fct + '/' + method + "/" + id + "'>删除</a>";
       data.push({
         'id' : index + 1,
         'ctg' : item.ctg,

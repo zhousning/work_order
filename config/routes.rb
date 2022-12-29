@@ -52,7 +52,7 @@ Rails.application.routes.draw do
 
   #resources :selectors
 
-  resources :factories, :only => [] do
+  resources :factories do
     resources :wxusers, :only => []  do
       get :query_list, :on => :collection
     end

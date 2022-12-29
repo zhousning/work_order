@@ -30,14 +30,14 @@
       controller: controls_controller
       actions: [index]
 - 
-  role_name: 厂区-施工站点
+  role_name: 厂区-部门管理
   level: 1
   permissions: 
     -
       controller: devices_controller
       actions: [index, new, create, edit, update, show, uphold, destroy, xls_download, parse_excel, query_all]
 - 
-  role_name: 厂区-签到负责人
+  role_name: 厂区-业务人员
   level: 1
   permissions: 
     -
@@ -58,14 +58,14 @@
       controller: sign_logs_controller
       actions: [index, query_list, query_device]
 - 
-  role_name: 集团-施工站点
+  role_name: 集团-部门管理
   level: 1
   permissions: 
     -
       controller: grp_devices_controller
       actions: [index, edit, update, destroy, query_all, xls_download, parse_excel]
 - 
-  role_name: 集团-签到负责人
+  role_name: 集团-业务人员
   level: 1
   permissions: 
     -
@@ -86,7 +86,7 @@
       controller: grp_sign_logs_controller
       actions: [index, query_list, query_device]
 - 
-  role_name: 微信-施工站点
+  role_name: 微信-部门管理
   level: 1
   permissions: 
     -
