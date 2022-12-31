@@ -5,22 +5,23 @@ class WorkorderCtgsController < ApplicationController
 
    
   def index
+    @factory = my_factory
     @workorder_ctg = WorkorderCtg.new
-   
     @workorder_ctgs = WorkorderCtg.all.page( params[:page]).per( Setting.systems.per_page )
-   
   end
    
   def new
+    @factory = my_factory
     @workorder_ctg = WorkorderCtg.new
-    
   end
    
 
    
   def create
+    @factory = my_factory
     @workorder_ctg = WorkorderCtg.new(workorder_ctg_params)
-     
+    @workorder_ctg.company = @factory.company  
+
     if @workorder_ctg.save
       redirect_to :action => :index
     else
@@ -32,6 +33,7 @@ class WorkorderCtgsController < ApplicationController
    
   def edit
    
+    @factory = my_factory
     @workorder_ctg = WorkorderCtg.find(iddecode(params[:id]))
    
   end
@@ -40,10 +42,12 @@ class WorkorderCtgsController < ApplicationController
    
   def update
    
+    @factory = my_factory
     @workorder_ctg = WorkorderCtg.find(iddecode(params[:id]))
+    @workorder_ctg.company = @factory.company  
    
     if @workorder_ctg.update(workorder_ctg_params)
-      redirect_to workorder_ctg_path(idencode(@workorder_ctg.id)) 
+      redirect_to edit_factory_workorder_ctg_path(idencode(@factory.id), idencode(@workorder_ctg.id)) 
     else
       render :edit
     end

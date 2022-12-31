@@ -99,9 +99,10 @@ function get_wxworkers(workorderid) {
 
   $.get(url).done(function (data) {
     var emq = data.info;
-    var emq_table = '<tr><th>用户名</th><th>电话</th><th>状态</th><th>操作</th></tr>';
+    var emq_table = '<tr><th>部门</th><th>用户名</th><th>电话</th><th>状态</th><th>操作</th></tr>';
     for (var i=0; i<emq.length; i++) {
       emq_table += '<tr>'; 
+      emq_table += "<td>" + emq[i]['dept'] + "</td>"; 
       emq_table += "<td>" + emq[i]['name'] + "</td>"; 
       emq_table += "<td>" + emq[i]['phone'] + "</td>"; 
       emq_table += "<td>" + emq[i]['state'] + "</td>"; 

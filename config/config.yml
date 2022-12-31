@@ -511,7 +511,7 @@ development:
     completed: 已完成
     canceled: 已取消
     awaiting: 待确认
-    assign: 已分配
+    assign: 已分配,待接单
     transfer: 转单给
     unsettled: 未解决
     processing: 处理中

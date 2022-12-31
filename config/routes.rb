@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   #resources :selectors
 
   resources :factories do
+    resources :workorder_ctgs
     resources :wxusers, :only => []  do
       get :query_list, :on => :collection
     end
@@ -209,10 +210,6 @@ Rails.application.routes.draw do
     get :query_all, :on => :collection
   end
   resources :task_logs do
-    get :download_append, :on => :member
-    get :query_all, :on => :collection
-  end
-  resources :workorder_ctgs do
     get :download_append, :on => :member
     get :query_all, :on => :collection
   end

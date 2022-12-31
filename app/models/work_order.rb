@@ -1,5 +1,4 @@
 class WorkOrder < ActiveRecord::Base
-  belongs_to :order_ctg
   belongs_to :factory
   belongs_to :workorder_ctg
 

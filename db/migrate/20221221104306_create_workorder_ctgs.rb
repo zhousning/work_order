@@ -6,6 +6,7 @@ class CreateWorkorderCtgs < ActiveRecord::Migration
     
 
     
+      t.references :company
 
     
 

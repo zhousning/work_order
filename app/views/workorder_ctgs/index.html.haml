@@ -45,8 +45,8 @@
                       %td
                         .container-fluid
                           .row.justify-content-center
-                            = link_to "编辑", edit_workorder_ctg_path(idencode(workorder_ctg.id)), :class => "button button-royal button-small mr-1" 
-                            = link_to "删除",  workorder_ctg_path(idencode(workorder_ctg.id)), :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "button button-caution button-small" 
+                            = link_to "编辑", edit_factory_workorder_ctg_path(idencode(@factory.id), idencode(workorder_ctg.id)), :class => "button button-royal button-small mr-1" 
+                            = link_to "删除",  factory_workorder_ctg_path(idencode(@factory.id), idencode(workorder_ctg.id)), :method => :delete, :data => {:confirm => "确定删除吗?"}, :class => "button button-caution button-small" 
             -#
               .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
                 = paginate @workorder_ctgs, window: 2, left: 1, right: 1 

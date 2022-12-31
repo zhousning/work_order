@@ -1,43 +1,55 @@
 $(".sign_logs").ready(function() {
   if ($(".sign_logs.index").length > 0) {
-    var table = "#day-pdt-rpt-table";
-    var url = '/factories/' + gon.fct + '/sign_logs/query_list';
-
     loadSelectData('/factories/' + gon.fct + '/sign_logs/query_device')
-    fct_date_event(table, url)
     
+    $(".area-time-search").on('click', function(e) {
+      get_sign_logs();
+    })
+
+    $("#item-table").on('click', 'button.log-show-btn', function(e) {
+      $('#logModal').modal();
+      var that = e.target
+      var data_id = that.dataset['rpt'];
+      var data_fct = $('#fct').val();
+      get_task_info(data_fct, data_id);
+      get_task_record(data_fct, data_id);
+      get_task_rate(data_fct, data_id);
+    });
   }
 });
 
-function get_sign_logs(method) {
+function get_sign_logs() {
   var $table = $('#item-table');
+  var start = $("#start").val();
+  var end = $("#end").val();
+  var fct = $("#fct").val();
   var data = [];
-  //var data_fct = $('#fct').val();
-  //var url = "/factories/" + data_fct + "/" + method + "/query_all";
-  var url = "/" + method + "/query_all";
-  $.get(url).done(function (objs) {
+  
+  var url = '/factories/' + gon.fct + "/sign_logs/query_list";
+  var request_params = {start: start, end: end, fct: fct}
+
+  $.get(url, request_params).done(function (objs) {
     $.each(objs, function(index, item) {
       var id = item.id;
-      //var button = "<button id='info-btn' class = 'button button-primary button-small mr-1' type = 'button' data-rpt ='" + id + "'>查看</button>" + "<a class='button button-royal button-small mr-1' href='/" + method + "/" + id + "/edit'>编辑</a><a data-confirm='确定删除吗?' class='button button-caution button-small' rel='nofollow' data-method='delete' href='/" + method + "/" + id + "'>删除</a>"
-      var button = "<a class='button button-primary button-small mr-1' href='/" + method + "/" + id + "/'>查看</a>" + "<a class='button button-royal button-small mr-1' href='/" + method + "/" + id + "/edit'>编辑</a><a data-confirm='确定删除吗?' class='button button-caution button-small' rel='nofollow' data-method='delete' href='/" + method + "/" + id + "'>删除</a>"
+      var number = "<button class = 'btn btn-link log-show-btn' type = 'button' data-rpt ='" + id + "'>" + item.number + "</button>";
+
       data.push({
         'id' : index + 1,
-         
-        'sign_date' : item.sign_date,
-         
-        'wx_user_id' : item.wx_user_id,
-         
-        'device_id' : item.device_id,
-
-        'position' : position,
-        
-        'button' : button 
+        'ctg' : item.ctg,
+        'number' : number,
+        'title' : item.title,
+        'pdt_time' : item.pdt_time,
+        'content' : item.content,
+        'address' : item.address,
+        'state' : item.state,
+        'order_time' : item.order_time,
+        'limit_time' : item.limit_time,
+        'person' : item.person,
+        'phone' : item.phone,
+        'img' : item.img
       });
     });
     $table.bootstrapTable('load', data);
   })
 }
 
-//var button = "<button id='info-btn' class = 'button button-primary button-small' type = 'button' data-rpt ='" + item.id + "' data-fct = '" + item.fct_id +"'>查看</button>"; 
-//var factory = item.factory;
-//var search = "<a class='button button-royal button-small mr-1' href='/factories/" + factory + "/" + method + "/" + id + "/edit'>编辑</a><a data-confirm='确定删除吗?' class='button button-caution button-small' rel='nofollow' data-method='delete' href='/factories/" + factory + "/" + method + "/" + id + "'>删除</a>"

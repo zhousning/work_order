@@ -47,7 +47,7 @@ class FactoriesController < ApplicationController
     @company = Company.find(iddecode(params[:company]))
 
     fct = Factory.find_by_name(@company.name)
-    @factory.parent = fct if @factory.parent.nil?
+    @factory.parent = fct if @factory.parent.nil? && @factory.name != @company.name
     @factory.company = @company
 
     if @factory.save
@@ -70,7 +70,7 @@ class FactoriesController < ApplicationController
     @company = Company.find(iddecode(params[:company]))
 
     fct = Factory.find_by_name(@company.name)
-    @factory.parent = fct if @factory.parent.nil?
+    @factory.parent = fct if @factory.parent.nil? && @factory.name != @company.name
     @factory.company = @company
 
     if @factory.update(factory_params)

@@ -1,7 +1,7 @@
 .container-fluid
   .row.justify-content-sm-center
     .col-sm-12
-      = form_for @workorder_ctg, :url => "/workorder_ctgs/#{@workorder_ctg.id ? idencode(@workorder_ctg.id) : ''}", :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
+      = form_for @workorder_ctg, :url => "/factories/#{idencode(@factory.id)}/workorder_ctgs/#{@workorder_ctg.id ? idencode(@workorder_ctg.id) : ''}", :builder => WebsiteFormBuilder, :html => {:'data-parsley-validate' => true} do |f|
         - if @workorder_ctg.errors.any?
           #error_explanation.alert.alert-danger.alert-dismissible.fade.show
             %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}

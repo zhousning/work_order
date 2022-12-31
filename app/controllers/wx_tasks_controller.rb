@@ -2,7 +2,6 @@ class WxTasksController < ApplicationController
   #skip_before_action :verify_authenticity_token
   protect_from_forgery with: :null_session
   before_filter :wxuser_exist?
-
    
   def index
     @tasks = @factory.tasks.all.page( params[:page]).per( Setting.systems.per_page )
@@ -12,22 +11,15 @@ class WxTasksController < ApplicationController
     wxuser = WxUser.find_by(:openid => params[:id])
     factory = wxuser.factories.first
     if wxuser.state == Setting.states.completed
-      @workorder = wxuser.work_orders.find(params[:taskid])
-      device = wxuser.devices.first
-      mdno = device.mdno
-      unit = device.unit
-      onlyself = device.onlyself
+      @wxusers = []
       wxuser_arr = []
-      if onlyself
-        @devices = Device.where(:mdno => mdno, :unit => unit)
-      else
-        @devices = Device.where(:mdno => mdno)
-      end
-      @devices.each do |dvc|
-        dvc.wx_users.each do |wuser|
-          @order_logs = OrderLog.where(:wx_user => wuser, :work_order => @workorder)
-          wxuser_arr << {:dept => wuser.id.to_s, :name => dvc.unit + dvc.supplier + wuser.name} if @order_logs.blank?
-        end
+      fct_recurrence(factory, @wxusers)
+      @wxusers = @wxusers.flatten
+      @workorder = wxuser.work_orders.find(params[:taskid])
+
+      @wxusers.each do |wuser|
+        @order_logs = OrderLog.where(:wx_user => wuser, :work_order => @workorder)
+        wxuser_arr << {:dept => wuser.id.to_s, :name => wuser.factories.first.name + '-' + wuser.name} if @order_logs.blank?
       end
       respond_to do |f|
         f.json{ render :json => {:data => wxuser_arr}.to_json}
@@ -390,6 +382,17 @@ class WxTasksController < ApplicationController
       [:id, :file, :_destroy]
     end
   
+    def fct_recurrence(factory, inspectors)
+      wxusers = factory.wx_users.where(:state => Setting.states.completed)
+      inspectors << wxusers unless wxusers.blank?
+      
+      unless factory.children.blank?
+        factory.children.each do |fct|
+          fct_recurrence(fct, inspectors)
+        end
+      end
+    end
+
   
   
 end

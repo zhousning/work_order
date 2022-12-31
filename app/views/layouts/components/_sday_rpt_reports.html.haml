@@ -11,28 +11,39 @@
         .container-fluid
           .row
             .col-md-12
-              %table#day-pdt-rpt-table.text-center.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "600", :'data-virtual-scroll' => "true", :'data-show-columns' => "true", :'data-page-size' => "15"}
+              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :"data-pagination"=>"true", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "600", :'data-virtual-scroll' => "true", :'data-show-columns' => "true", :'data-page-size' => "15"}
                 %thead
                   %tr
                     %th{:scope => "col", :'data-field' => "id"} #
-                  
-                    %th{:scope => "col", :'data-field' => "sign_date"}
-                      = Setting.sign_logs.sign_date
-                  
-                    %th{:scope => "col", :'data-field' => "name"}
-                      签到人
 
-                    %th{:scope => "col", :'data-field' => "device_id"}
-                      = Setting.sign_logs.device_id
+                    %th{:scope => "col", :'data-field' => "ctg"}
+                      = Setting.workorder_ctgs.label
+                  
+                    %th{:scope => "col", :'data-field' => "number"}
+                      = Setting.work_orders.number
 
-                    %th{:scope => "col", :'data-field' => "wx_user_id"}
-                      = Setting.sign_logs.wx_user_id
+                    %th{:scope => "col", :'data-field' => "limit_time"}
+                      = Setting.work_orders.limit_time
                   
-                    %th{:scope => "col", :'data-field' => "position"}
-                      经纬度
+                    %th{:scope => "col", :'data-field' => "person"}
+                      = Setting.work_orders.person
                   
-                    %th{:scope => "col", :'data-field' => "avatar"}
-                      照片
+                    %th{:scope => "col", :'data-field' => "phone"}
+                      = Setting.work_orders.phone
+                  
+                    %th{:scope => "col", :'data-field' => "address"}
+                      = Setting.work_orders.address
+                  
+                    %th{:scope => "col", :'data-field' => "content"}
+                      = Setting.work_orders.content
+                  
+                    %th{:scope => "col", :'data-field' => "img"}
+                      = Setting.work_orders.img
+                  
+                  
+                    %th{:scope => "col", :'data-field' => "state"}
+                      = Setting.work_orders.state
+                  
       = render "layouts/bootstrap/card"
 
 -#

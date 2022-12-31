@@ -29,7 +29,8 @@ class WorkOrdersController < ApplicationController
 
   def index
     @factory = my_factory
-    @workorder_ctgs = WorkorderCtg.all
+    @company = @factory.company
+    @workorder_ctgs = @company.workorder_ctgs
     @work_order = WorkOrder.new
   end
 
@@ -54,9 +55,10 @@ class WorkOrdersController < ApplicationController
    
   def edit
    
-    @workorder_ctgs = WorkorderCtg.all
     @factory = my_factory
     @work_order = @factory.work_orders.find(iddecode(params[:id]))
+    @company = @factory.company
+    @workorder_ctgs = @company.workorder_ctgs
    
   end
    

@@ -1,4 +1,5 @@
 class Company < ActiveRecord::Base
+  has_many :workorder_ctgs
 
   mount_uploader :logo, EnclosureUploader
 

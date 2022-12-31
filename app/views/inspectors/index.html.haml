@@ -54,8 +54,7 @@
                       %td
                         = inspector.phone
                       %td
-                        - inspector.devices.each do |d|
-                          = d.name
+                        = inspector.factories.first.name
                       %td
                         - if inspector.state == Setting.states.ongoing
                           未使用

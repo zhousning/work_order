@@ -14,6 +14,8 @@
               = fa_icon "calendar-check-o", text: '处理中', class: "ml-4 mr-2"  
             = link_to complete_factory_work_orders_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/complete$/ =~ request.path).nil? ? '' : 'text-primary'} " do
               = fa_icon "calendar-check-o", text: '已办结', class: "ml-4 mr-2"  
+            = link_to factory_sign_logs_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/sign_log/ =~ request.path).nil? ? '' : 'text-primary'} " do
+              = fa_icon "tasks", text: '部门工单', class: "ml-4 mr-2"  
         .card.border-0.rounded-0
           .card-header.text-left.pl-2.pr-0.py-3.border.border-left-0.border-top-0.border-bottom-0.border-success{:id => "headingdevice"}
             系统管理
@@ -21,14 +23,12 @@
             -#
               = link_to factory_fct_statics_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/fct_static/ =~ request.path).nil? ? '' : 'text-primary'}   " do
               = fa_icon "diamond", text: '数据总览', class: "ml-4 mr-2"  
-              = link_to factory_sign_logs_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/sign_log/ =~ request.path).nil? ? '' : 'text-primary'} " do
-              = fa_icon "tasks", text: Setting.sign_logs.label, class: "ml-4 mr-2"  
             = link_to factory_inspectors_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/inspect/ =~ request.path).nil? ? '' : 'text-primary'} " do
               = fa_icon "edit", text: Setting.patrolers.label, class: "ml-4 mr-2"  
-            = link_to factory_devices_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/device/ =~ request.path).nil? ? '' : 'text-primary'} " do
-              = fa_icon "sitemap", text: Setting.devices.label, class: "ml-4 mr-2"  
-            = link_to workorder_ctgs_path, :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/workorder_ctg$/ =~ request.path).nil? ? '' : 'text-primary'} " do
+            = link_to factory_workorder_ctgs_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/workorder_ctg$/ =~ request.path).nil? ? '' : 'text-primary'} " do
               = fa_icon "sitemap", text: '工单分类', class: "ml-4 mr-2"  
+            = link_to factories_path, :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/workorder_ctg$/ =~ request.path).nil? ? '' : 'text-primary'} " do
+              = fa_icon "sitemap", text: '部门管理', class: "ml-4 mr-2"  
             -#
               = link_to controls_path, :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/control/ =~ request.path).nil? ? '' : 'text-primary'} " do
               = fa_icon "map-marker", text: '实时定位', class: "ml-4 mr-2"  

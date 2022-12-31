@@ -38,12 +38,6 @@
                     %th{:scope => "col", :'data-field' => "ctg"}
                       = Setting.workorder_ctgs.label
                   
-                    -#
-                      %th{:scope => "col", :'data-field' => "title"}
-                      = Setting.work_orders.title
-                  
-                      %th{:scope => "col", :'data-field' => "pdt_time"}
-                        = Setting.work_orders.pdt_time
                     %th{:scope => "col", :'data-field' => "number"}
                       = Setting.work_orders.number
 
@@ -65,20 +59,25 @@
                     %th{:scope => "col", :'data-field' => "img"}
                       = Setting.work_orders.img
                   
-                    -#
-                      %th{:scope => "col", :'data-field' => "urgent"}
-                      = Setting.work_orders.urgent
                   
                     %th{:scope => "col", :'data-field' => "state"}
                       = Setting.work_orders.state
                   
-                    -#
-                      %th{:scope => "col", :'data-field' => "order_time"}
-                      = Setting.work_orders.order_time
-                  
                     %th{:scope => "col", :'data-field' => "button"}
       = render "layouts/bootstrap/card"
 
+-#
+  %th{:scope => "col", :'data-field' => "urgent"}
+  = Setting.work_orders.urgent
+-#
+  %th{:scope => "col", :'data-field' => "title"}
+  = Setting.work_orders.title
+
+  %th{:scope => "col", :'data-field' => "pdt_time"}
+    = Setting.work_orders.pdt_time
+-#
+  %th{:scope => "col", :'data-field' => "order_time"}
+  = Setting.work_orders.order_time
 
 #exampleModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered

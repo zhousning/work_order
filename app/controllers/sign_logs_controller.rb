@@ -11,12 +11,15 @@ class SignLogsController < ApplicationController
 
   def query_device
     @factory = my_factory 
-    @devices = @factory.devices
+    @devices = []
+    fct_recurrence(@factory, @devices)
+    @devices = @devices.flatten
+
     result = []
     @devices.each do |device|
       result << {
         id: idencode(device.id),
-        text: device.mdno + ' - ' + device.unit + ' - ' + device.name
+        text: device.name
       }
     end
     obj = {
@@ -31,35 +34,42 @@ class SignLogsController < ApplicationController
     _start = params[:start].gsub(/\s/, '')
     _end = params[:end].gsub(/\s/, '')
     fct = params[:fct].gsub(/\s/, '')
+    _start = Date.parse(_start)
+    _end = Date.parse(_end) + 1
 
-    items = SignLog.where(:sign_date => [_start.._end], :device_id => iddecode(fct)) 
+    items = WorkOrder.where(:created_at => [_start.._end], :factory_id => iddecode(fct)) 
    
     obj = []
     items.each_with_index do |item, index|
-      wxuser = WxUser.where(:id => item.wx_user_id).first
       obj << {
-        #:factory => idencode(factory.id),
-        #:id => idencode(item.id),
-        :id => index + 1, 
-
-        :name => item.worker.name,
-
-        :sign_date => item.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-       
-        :wx_user_id => wxuser.nil? ? '-' : wxuser.name,
-       
-        :device_id => Device.find(item.device_id).name,
-
-        :position => item.longitude + ', ' + item.latitude,
-
-        :avatar => "<img class='h-100px' src='#{item.avatar_url}' />"
-      
+        :id => idencode(item.id),
+        :ctg => item.workorder_ctg.name,
+        :number => item.number,
+        :content => item.content,
+        :address => item.address,
+        :state => order_state(item.task_logs.last.state),
+        :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
+        :person => item.person,
+        :phone => item.phone,
+        :img => item.img
       }
     end
     respond_to do |f|
       f.json{ render :json => obj.to_json}
     end
   end
+
+  private
+    def fct_recurrence(factory, inspectors)
+      inspectors << factory
+      
+      unless factory.children.blank?
+        factory.children.each do |fct|
+          fct_recurrence(fct, inspectors)
+        end
+      end
+    end
+
 
 end
 
