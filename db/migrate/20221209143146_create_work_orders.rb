@@ -12,6 +12,8 @@ class CreateWorkOrders < ActiveRecord::Migration
       t.string :address,  null: false, default: Setting.systems.default_str
     
       t.boolean :urgent,  null: false, default: Setting.systems.default_boolean
+
+      t.boolean :reminder,  null: false, default: Setting.systems.default_boolean
     
       t.string :state,  null: false, default: Setting.states.opening
     
@@ -25,11 +27,6 @@ class CreateWorkOrders < ActiveRecord::Migration
     
       t.text :img
     
-
-    
-
-    
-
       t.references :workorder_ctg
     
       t.references :order_ctg

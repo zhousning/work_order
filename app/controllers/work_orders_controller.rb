@@ -284,7 +284,7 @@ class WorkOrdersController < ApplicationController
 
   private
     def work_order_params
-      params.require(:work_order).permit( :title, :pdt_time, :content, :address, :urgent, :order_time, :limit_time, :person, :phone, :img , attachments_attributes: attachment_params , enclosures_attributes: enclosure_params)
+      params.require(:work_order).permit( :title, :pdt_time, :content, :address, :urgent, :reminder, :order_time, :limit_time, :person, :phone, :img , attachments_attributes: attachment_params , enclosures_attributes: enclosure_params)
     end
   
     def enclosure_params

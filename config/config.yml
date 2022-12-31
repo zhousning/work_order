@@ -485,6 +485,7 @@ development:
     content: 内容
     address: 地址
     urgent: 加急
+    reminder: 催单
     state: 状态
     order_time: 预约时间
     limit_time: 最后期限

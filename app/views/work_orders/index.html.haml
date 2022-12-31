@@ -10,13 +10,12 @@
           = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
 
           
-          = link_to xls_download_factory_work_orders_path(idencode(@factory.id)), :class => "button button-royal pull-right button-small mr-1" do
-            下载表格模板
-          
-
-          
-          %button.button.button-caution.button-small.pull-right.mr-1{"data-target" => "#exampleModal", "data-toggle" => "modal", :type => "button"}
-            上传表格
+          -#
+            = link_to xls_download_factory_work_orders_path(idencode(@factory.id)), :class => "button button-royal pull-right button-small mr-1" do
+              下载表格模板
+            
+            %button.button.button-caution.button-small.pull-right.mr-1{"data-target" => "#exampleModal", "data-toggle" => "modal", :type => "button"}
+              上传表格
           
 
           -#
