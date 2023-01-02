@@ -109,22 +109,10 @@ defaults:
     name: 名称
     class_name: Role
     super_admin: 超级管理员
-    role_fct: 厂区用户
     role_wx: 微信用户
-    role_grp: 集团用户
-    role_cpy: 分公司用户
-    role_device: 厂区-部门管理
-    role_inspector: 厂区-业务人员
-    role_worker: 厂区-工人管理
-    role_sign_log: 厂区-签到记录
-    role_wx_device: 微信-部门管理
-    role_wx_inspector: 微信-业务人员
-    role_wx_worker: 微信-工人管理
-    role_wx_sign_log: 微信-签到记录
-    role_grp_device: 集团-部门管理
-    role_grp_inspector: 集团-业务人员
-    role_grp_worker: 集团-工人管理
-    role_grp_sign_log: 集团-签到记录
+    role_fct: 厂区-业务人员
+    role_fctmgn: 厂区-管理人员
+    role_grp: 集团-管理人员
   permissions: &13
     super_admin: 管理系统所有资源
     label: 权限管理

@@ -36,16 +36,7 @@ class WxUsersController < ApplicationController
       @wxuser = WxUser.find_by(:openid => openid)
       unless @wxuser
         @wxuser = WxUser.new(:openid => openid)
-        if @wxuser.save
-          number = @wxuser.number
-          @role_wx = Role.where(:name => Setting.roles.role_wx).first
-          @role_wx_device    = Role.where(:name => Setting.roles.role_wx_device).first
-          @role_wx_worker    = Role.where(:name => Setting.roles.role_wx_worker).first
-          @role_wx_sign_log  = Role.where(:name => Setting.roles.role_wx_sign_log).first
-          @wxmgn = [@role_wx, @role_wx_worker, @role_wx_device, @role_wx_sign_log]
-          
-          User.create!(:phone => number, :password => number, :password_confirmation => number, :name => "签到负责人", :roles => @wxmgn)
-        end
+        @wxuser.save
       end
 
       respond_to do |f|
@@ -140,17 +131,13 @@ class WxUsersController < ApplicationController
 
   def status
     wxuser = WxUser.find_by(:openid => params[:id])
-    devices = wxuser.devices
-    device_name = ""
-    devices.each do |d|
-      device_name += d.name + " "
-    end
     respond_to do |f|
       if wxuser.state == Setting.states.ongoing
         f.json { render :json => {:status => Setting.states.ongoing }.to_json}
       else
-        owner = wxuser.factories.first.name
-        f.json { render :json => {:status => Setting.states.completed, :name => wxuser.name, :phone => wxuser.phone, :fct => device_name, :owner => owner}.to_json}
+        owner = wxuser.factories.first
+        company = owner.company
+        f.json { render :json => {:status => Setting.states.completed, :name => wxuser.name, :phone => wxuser.phone, :owner => company.name, :fct => owner.name}.to_json}
       end
     end
   end

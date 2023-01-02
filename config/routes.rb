@@ -77,80 +77,11 @@ Rails.application.routes.draw do
       get :receive, :on => :member
       get :reject, :on => :member
     end
-    resources :workers, :only => [:index, :edit, :update]  do 
-      get :receive, :on => :member
-      get :reject, :on => :member
-      get :query_info, :on => :member
-      get :signlogs, :on => :member
-      get :query_all, :on => :collection
-      get :unvalidate, :on => :collection
-      get :query_unvalidate, :on => :collection
-    end
     resources :sign_logs, :only => [:index] do
       get :query_list, :on => :collection
       get :query_device, :on => :collection
     end
-    resources :fct_statics, :only => [:index] do
-      get :query_device, :on => :collection
-      get :xls_download, :on => :collection
-      get :log_detail, :on => :collection
-      get :query_by_area, :on => :collection
-    end
-
   end
-
-  resources :wx_sign_logs, :only => [:index] do
-    get :query_list, :on => :collection
-    get :query_device, :on => :collection
-  end
-
-  resources :wx_devices, :only => [:index] do
-    get :query_all, :on => :collection
-  end
-
-  resources :wx_workers, :only => [:index] do
-    get :query_all, :on => :collection
-    get :query_info, :on => :member
-    get :signlogs, :on => :member
-  end
-
-  resources :grp_sign_logs, :only => [:index] do
-    get :query_list, :on => :collection
-    get :query_device, :on => :collection
-  end
-
-  resources :grp_inspectors, :only => [:index] do
-    get :delete_inspector, :on => :member
-    get :query_unuse, :on => :collection
-  end
-
-  resources :grp_devices, :only => [:index, :edit, :update, :destroy] do
-    collection do
-      get 'query_all'
-      post 'parse_excel'
-      get 'xls_download'
-    end
-  end
-
-  resources :grp_workers, :only => [:index] do
-    get :query_all, :on => :collection
-    get :query_info, :on => :member
-    get :signlogs, :on => :member
-    get :destroy_worker, :on => :member
-    get :supervisor, :on => :collection
-    get :query_supervisor, :on => :collection
-    get :send_msg, :on => :member
-    post 'parse_excel', :on => :collection
-    get 'xls_download', :on => :collection
-  end
-
-  resources :grp_statics, :only => [:index] do
-    get :query_device, :on => :collection
-    get :xls_download, :on => :collection
-    get :log_detail, :on => :collection
-    get :query_by_area, :on => :collection
-  end
-
   resources :wx_users, only: [:update] do
     collection do
       post 'get_userid'
@@ -197,10 +128,7 @@ Rails.application.routes.draw do
   #  get :download_append, :on => :member
   #  get :query_all, :on => :collection
   #end
-  resources :deploys do
-    get :download_append, :on => :member
-    get :query_all, :on => :collection
-  end
+  resources :deploys
   resources :work_orders, :only => [] do
     get :assign, :on => :member
   end

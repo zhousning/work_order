@@ -7,7 +7,6 @@ class Factory < ActiveRecord::Base
 
   belongs_to :company
 
-  has_many :devices
   has_many :work_orders
 
   has_many :user_fcts, :dependent => :destroy
@@ -23,11 +22,7 @@ class Factory < ActiveRecord::Base
   def create_account 
     if self.users.blank?
       @role_fct = Role.where(:name => Setting.roles.role_fct).first
-      @role_device    = Role.where(:name => Setting.roles.role_device).first
-      @role_inspector = Role.where(:name => Setting.roles.role_inspector).first
-      @role_worker    = Role.where(:name => Setting.roles.role_worker).first
-      @role_sign_log  = Role.where(:name => Setting.roles.role_sign_log).first
-      @fctmgn = [@role_fct, @role_worker, @role_device, @role_inspector, @role_sign_log]
+      @fctmgn = [@role_fct]
 
       phone = Time.now.to_i.to_s + "%02d" % [rand(100)]
       User.create!(:phone => phone, :password => phone, :password_confirmation => phone, :name => self.name, :roles => @fctmgn, :factories => [self])

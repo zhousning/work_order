@@ -13,5 +13,11 @@
               = fa_icon "calendar-check-o", text: '已办结', class: "ml-4 mr-2"  
             = link_to factory_sign_logs_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/sign_log/ =~ request.path).nil? ? '' : 'text-primary'} " do
               = fa_icon "tasks", text: '部门工单', class: "ml-4 mr-2"  
+        .card.border-0.rounded-0
+          .card-header.text-left.pl-2.pr-0.py-3.border.border-left-0.border-top-0.border-bottom-0.border-success{:id => "headingdevice"}
+            系统管理
+          .card-body.py-0.pl-2.pr-0
             = link_to factory_inspectors_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/inspect/ =~ request.path).nil? ? '' : 'text-primary'} " do
               = fa_icon "edit", text: Setting.patrolers.label, class: "ml-4 mr-2"  
+            = link_to factory_workorder_ctgs_path(idencode(fct.id)), :class => "list-group-item list-group-item-action border-0 text-left sidebar-text-font px-0 #{(/workorder_ctg$/ =~ request.path).nil? ? '' : 'text-primary'} " do
+              = fa_icon "sitemap", text: '工单分类', class: "ml-4 mr-2"  

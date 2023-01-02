@@ -21,18 +21,11 @@ user.roles << role
 
 AdminUser.create!(:phone => Setting.admins.phone, :email => Setting.admins.email, :password => Setting.admins.password, :password_confirmation => Setting.admins.password)
 
-#@user = User.create!(:phone => "15763703188", :password => "15763703188", :password_confirmation => "15763703188")
-
 ###区分厂区和集团用户是为了sidebar显示
-@role_fct = Role.where(:name => Setting.roles.role_fct).first
-
-@role_device    = Role.where(:name => Setting.roles.role_device).first
-@role_inspector = Role.where(:name => Setting.roles.role_inspector).first
-@role_worker    = Role.where(:name => Setting.roles.role_worker).first
-@role_sign_log  = Role.where(:name => Setting.roles.role_sign_log).first
+@role_fctmgn = Role.where(:name => Setting.roles.role_fctmgn).first
 
 ##厂区管理者
-@fctmgn = [@role_fct, @role_worker, @role_device, @role_inspector, @role_sign_log]
+@fctmgn = [@role_fctmgn]
 
 @pollute = Company.create(:name => Setting.companies.pollute)
 @water = Company.create(:name => Setting.companies.water)

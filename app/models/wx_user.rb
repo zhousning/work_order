@@ -23,9 +23,6 @@ class WxUser < ActiveRecord::Base
   has_many :fct_wxusers, :dependent => :destroy
   has_many :factories, :through => :fct_wxusers
 
-  has_many :device_wxusers, :dependent => :destroy
-  has_many :devices, :through => :device_wxusers
-
  STATESTR = %w(ongoing completed)
   STATE = [Setting.states.ongoing, Setting.states.completed]
   validates_inclusion_of :state, :in => STATE

@@ -1,10 +1,6 @@
 class Enclosure < ActiveRecord::Base
   mount_uploader :file, EnclosureUploader
 
-  belongs_to :notice
-
-  belongs_to :task
-  belongs_to :task_report
   belongs_to :work_order
   belongs_to :order_log
 end

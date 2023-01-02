@@ -1,41 +1,7 @@
 ---
 - 
-  role_name: 厂区用户
-  level: 1
-  permissions: 
-    -
-      controller: fct_statics_controller
-      actions: [query_device, query_by_area, xls_download, log_detail, index]
-- 
   role_name: 微信用户
   level: 1
-- 
-  role_name: 集团用户
-  level: 1
-  permissions: 
-    -
-      controller: grp_statics_controller
-      actions: [query_device, query_by_area, xls_download, log_detail, index]
-    -
-      controller: controls_controller
-      actions: [index]
-- 
-  role_name: 分公司用户
-  level: 1
-  permissions: 
-    -
-      controller: grp_statics_controller
-      actions: [query_device, query_by_area, xls_download, log_detail, index]
-    -
-      controller: controls_controller
-      actions: [index]
-- 
-  role_name: 厂区-部门管理
-  level: 1
-  permissions: 
-    -
-      controller: devices_controller
-      actions: [index, new, create, edit, update, show, uphold, destroy, xls_download, parse_excel, query_all]
 - 
   role_name: 厂区-业务人员
   level: 1
@@ -43,66 +9,50 @@
     -
       controller: inspectors_controller
       actions: [index, receive, reject, delete_inspector]
-- 
-  role_name: 厂区-工人管理
-  level: 1
-  permissions: 
-    -
-      controller: workers_controller
-      actions: [index, edit, update,  destroy, receive, reject, query_info, signlogs, query_all, unvalidate, query_unvalidate]
-- 
-  role_name: 厂区-签到记录
-  level: 1
-  permissions: 
     -
       controller: sign_logs_controller
       actions: [index, query_list, query_device]
+    -
+      controller: work_orders_controller
+      actions: [assign, index, new, create, edit, update, finish, destroy, show, query_info, query_record, query_rate, complete, query_all, download_attachment, xls_download, parse_excel]
+    -
+      controller: wxusers_controller
+      actions: [query_list]
+    -
+      controller: controls_controller
+      actions: [index]
 - 
-  role_name: 集团-部门管理
+  role_name: 厂区-管理人员
   level: 1
   permissions: 
     -
-      controller: grp_devices_controller
-      actions: [index, edit, update, destroy, query_all, xls_download, parse_excel]
-- 
-  role_name: 集团-业务人员
-  level: 1
-  permissions: 
+      controller: inspectors_controller
+      actions: [index, receive, reject, delete_inspector]
     -
-      controller: grp_inspectors_controller
-      actions: [index, query_unuse, delete_inspector]
-- 
-  role_name: 集团-工人管理
-  level: 1
-  permissions: 
-    -
-      controller: grp_workers_controller
-      actions: [index, query_all, query_info, signlogs, destroy_worker, supervisor, query_supervisor, xls_download, parse_excel]
-- 
-  role_name: 集团-签到记录
-  level: 1
-  permissions: 
-    -
-      controller: grp_sign_logs_controller
+      controller: sign_logs_controller
       actions: [index, query_list, query_device]
+    -
+      controller: work_orders_controller
+      actions: [assign, index, new, create, edit, update, finish, destroy, show, query_info, query_record, query_rate, complete, query_all, download_attachment, xls_download, parse_excel]
+    -
+      controller: wxusers_controller
+      actions: [query_list]
+    -
+      controller: workorder_ctgs_controller
+      actions: [index, new, create, edit, update, destroy]
+    -
+      controller: controls_controller
+      actions: [index]
 - 
-  role_name: 微信-部门管理
+  role_name: 超级管理员
   level: 1
   permissions: 
     -
-      controller: wx_devices_controller
-      actions: [index, query_all]
-- 
-  role_name: 微信-工人管理
-  level: 1
-  permissions: 
+      controller: factories_controller
+      actions: [index, new, create, edit, update, destroy, show]
     -
-      controller: wx_workers_controller
-      actions: [index, query_all, query_info, signlogs]
-- 
-  role_name: 微信-签到记录
-  level: 1
-  permissions: 
+      controller: controls_controller
+      actions: [index]
     -
-      controller: wx_sign_logs_controller
-      actions: [index, query_list, query_device]
+      controller: deploys_controller
+      actions: [index, new, create, edit, update, destroy, show]

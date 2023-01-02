@@ -121,19 +121,6 @@ zh-CN:
     destroy:
       title: 删除模板
 
-  notices:
-    index:
-      title: "公告列表"
-    new:
-      title: "新建公告"
-    show:
-      title: "公告详情"
-    edit:
-      title: "编辑公告"
-    mobile_index:
-      title: "公告列表"
-    mobile_show:
-      title: "公告详情"
   trees:
     index:
       title:
@@ -145,130 +132,6 @@ zh-CN:
     templates:
       manage:
         title: 管理模板
-  statistics:
-    index:
-      title: 数据统计
-    new:
-      title: 新建数据
-    edit:
-      title: 编辑数据
-    show:
-      title: 图表
-  projects:
-    index:
-      title: 工程列表
-    new:
-      title: 新建工程
-    edit:
-      title: 编辑工程
-    show:
-      title: 工程详情
-    project_table:
-      title: 添加工程用表
-  ocrs:
-    index:
-      title: 人工智能工具箱 
-  day_pdts:
-    index:
-      title: 生产运营数据 
-    new:
-      title: 添加生产运营数据
-    create:
-      title: 创建生产运营数据
-    edit:
-      title: 编辑生产运营数据
-    update:
-      title: 编辑生产运营数据
-    show:
-      title: 查看生产运营数据信息
-    verifying:
-      title: 运营数据提交审核
-    verify_index:
-      title: 运营数据审核-列表
-    verify_show:
-      title: 运营数据审核-查看
-    rejected:
-      title: 运营数据审核-驳回
-    cmp_verifying:
-      title: 运营数据提交管理者审核
-    cmp_verify_index:
-      title: 管理者运营数据审核-列表
-    cmp_verify_show:
-      title: 管理者运营数据审核-查看
-    cmp_rejected:
-      title: 管理者运营数据审核-驳回
-    upreport:
-      title: 运营数据审核-上报
-  day_pdt_rpts:
-    index:
-      title: 生产运营日报表
-    edit:
-      title: 编辑日报表
-    show:
-      title: 查看日报表
-    static_pool:
-      title: 汇总统计数据-表格展示用
-    produce_report:
-      title: 日报表 modal展示图表 
-    sglfct_statistic:
-      title: 数据立方
-    sglfct_stc_cau:
-      title: 数据立方-时间区间内单厂多指标
-    emq_cau:
-      title: 数据立方-削减量
-    emr_cau:
-      title: 数据立方-削减率
-    bom_cau:
-      title: 数据立方-削减电单耗
-    power_cau:
-      title: 数据立方-耗电量、电单耗
-    radar_chart:
-      title: 首页-雷达图
-    new_quota_chart:
-      title: 首页-仪表数据
-    produce_report:
-      title: 日报表图表查看 
-    xls_day_download:
-      title: 日报表-下载excel 
-  mth_pdt_rpts:
-    mth_rpt_create:
-      title: 月报表填报
-    index:
-      title: 月报表填报-列表
-    edit:
-      title: 月报表填报-编辑
-    update:        
-      title: 月报表填报-编辑
-    show:          
-      title: 月报表填报-查看
-    verifying:
-      title: 月报表填报-提交审核
-    verify_index:
-      title: 月报表审核-列表
-    verify_show:
-      title: 月报表审核-查看
-    rejected:
-      title: 月报表审核-驳回
-    cmp_verifying:
-      title: 月报表提交管理者审核
-    cmp_verify_index:
-      title: 管理者月报表审核-列表
-    cmp_verify_show:
-      title: 管理者月报表审核-查看
-    cmp_rejected:
-      title: 管理者月报表审核-驳回
-    upreport:
-      title: 月报表审核-上报
-    mth_report_finish_index:
-      title: 月报表-列表
-    mth_report_finish_show:
-      title: 月报表-明细
-    xls_mth_download:
-      title: 月报表-下载excel
-    download_report:
-      title: 月报表-下载word
-    mth_rpt_sync:
-      title: 更新月报表
   analyses:
     compare:
       title: 指标对比
@@ -279,10 +142,20 @@ zh-CN:
     area_time_compare:
       title: 厂间分析曲线
   factories:
+    index:
+      title: 部门管理列表  
+    new:
+      title: 新建部门管理
+    create:
+      title: 新建部门管理
     edit:
-      title: 厂区-编辑厂区信息
+      title: 编辑部门管理
     update:
-      title: 厂区-编辑厂区信息
+      title: 编辑部门管理
+    show:
+      title: 部门管理详情 
+    destroy:
+      title: 删除部门管理 
   reports:
     index:
       title: 报表
@@ -296,33 +169,6 @@ zh-CN:
       title: 下载excel日报表
     xls_mth_download:
       title: 下载excel月报表
-  devices:
-    index:
-      title: 站点档案列表  
-    new:
-      title: 新建站点档案
-    create:
-      title: 新建站点档案
-    edit:
-      title: 编辑站点档案
-    update:
-      title: 编辑站点档案
-    show:
-      title: 站点档案详情 
-    info:
-      title: 站点档案详情 
-    uphold:
-      title: 站点档案巡检记录
-    destroy:
-      title: 删除站点档案 
-    update_count:
-      title: 更改数量 
-    xls_download:
-      title: 下载模板 
-    parse_excel:
-      title: 上传excel数据 
-    query_all:
-      title: ajax查询站点档案
   inspectors:
     index:
       title: 业务处理人员列表  
@@ -350,83 +196,21 @@ zh-CN:
       title: ajax查询业务处理人员
     query_devices:
       title: ajax查询所有站点
-  tasks:
-    index:
-      title: 巡检任务列表  
-    new:
-      title: 新建巡检任务
-    create:
-      title: 新建巡检任务
-    edit:
-      title: 编辑巡检任务
-    update:
-      title: 编辑巡检任务
-    show:
-      title: 巡检任务详情 
-    destroy:
-      title: 删除巡检任务 
-    update_count:
-      title: 更改数量 
-    xls_download:
-      title: 下载模板 
-    parse_excel:
-      title: 上传excel数据 
-    query_all:
-      title: ajax查询巡检任务
-    query_devices:
-      title: ajax查询所有站点
-  workers:
-    unvalidate:
-      title: 工人-待审核
-    query_unvalidate:
-      title: 工人待审核查询
-    index:
-      title: 工人-已审核  
-    new:
-      title: 新建工人
-    create:
-      title: 新建工人
-    edit:
-      title: 编辑工人
-    update:
-      title: 编辑工人
-    show:
-      title: 工人详情 
-    destroy:
-      title: 删除工人 
-    signlogs:
-      title: 签到记录 
-    update_count:
-      title: 更改数量 
-    xls_download:
-      title: 下载模板 
-    parse_excel:
-      title: 上传excel数据 
-    query_all:
-      title: ajax查询工人
-    query_info:
-      title: 查询工人信息
-    receive:
-      title: 工人审核通过
-    reject:
-      title: 工人审核不通过
-    signlogs:
-      title: 工人签到记录
   sign_logs:
     index:
-      title: 签到记录列表  
+      title: 部门工单列表  
     new:
-      title: 新建签到记录
+      title: 新建部门工单
     create:
-      title: 新建签到记录
+      title: 新建部门工单
     edit:
-      title: 编辑签到记录
+      title: 编辑部门工单
     update:
-      title: 编辑签到记录
+      title: 编辑部门工单
     show:
-      title: 签到记录详情 
+      title: 部门工单详情 
     destroy:
-      title: 删除签到记录 
+      title: 删除部门工单 
     update_count:
       title: 更改数量 
     xls_download:
@@ -434,236 +218,58 @@ zh-CN:
     parse_excel:
       title: 上传excel数据 
     query_list:
-      title: 签到记录ajax查询签到记录
+      title: 部门工单ajax查询部门工单
     query_device:
-      title: 签到记录ajax查询所有站点
-  grp_sign_logs:
+      title: 部门工单ajax查询所有站点
+  workorder_ctgs:
     index:
-      title: 集团-签到记录列表  
+      title: 工单分类列表  
     new:
-      title: 集团-新建签到记录
+      title: 新建工单分类
     create:
-      title: 集团-新建签到记录
+      title: 新建工单分类
     edit:
-      title: 集团-编辑签到记录
+      title: 编辑工单分类
     update:
-      title: 集团-编辑签到记录
+      title: 编辑工单分类
     show:
-      title: 集团-签到记录详情 
+      title: 工单分类详情 
     destroy:
-      title: 集团-删除签到记录 
-    xls_download:
-      title: 集团-下载模板 
-    parse_excel:
-      title: 集团-上传excel数据 
-    query_list:
-      title: 集团-签到记录ajax查询签到记录
-    query_device:
-      title: 集团-签到记录ajax查询所有站点
-  grp_inspectors:
-    index:
-      title: 集团-业务处理人员列表  
-    new:
-      title: 集团-新建业务处理人员
-    create:
-      title: 集团-新建业务处理人员
-    edit:
-      title: 集团-编辑业务处理人员
-    update:
-      title: 集团-编辑业务处理人员
-    show:
-      title: 集团-业务处理人员详情 
-    destroy:
-      title: 集团-删除业务处理人员 
-    receive:
-      title: 集团-业务处理人员审核通过
-    reject:
-      title: 集团-业务处理人员审核不通过
-    xls_download:
-      title: 集团-下载模板 
-    parse_excel:
-      title: 集团-上传excel数据 
-    query_all:
-      title: 集团-ajax查询业务处理人员
-    query_devices:
-      title: 集团-ajax查询所有站点
-  grp_devices:
-    index:
-      title: 集团-站点档案列表  
-    new:
-      title: 集团-新建站点档案
-    create:
-      title: 集团-新建站点档案
-    edit:
-      title: 集团-编辑站点档案
-    update:
-      title: 集团-编辑站点档案
-    show:
-      title: 集团-站点档案详情 
-    info:
-      title: 集团-站点档案详情 
-    uphold:
-      title: 集团-站点档案巡检记录
-    destroy:
-      title: 集团-删除站点档案 
+      title: 删除工单分类 
     update_count:
-      title: 集团-更改数量 
+      title: 更改数量 
     xls_download:
-      title: 集团-下载模板 
+      title: 下载模板 
     parse_excel:
-      title: 集团-上传excel数据 
-    query_all:
-      title: 集团-ajax查询站点档案
-  grp_workers:
-    index:
-      title: 集团-工人列表  
-    new:
-      title: 集团-新建工人
-    create:
-      title: 集团-新建工人
-    edit:
-      title: 集团-编辑工人
-    update:
-      title: 集团-编辑工人
-    show:
-      title: 集团-工人详情 
-    destroy:
-      title: 集团-删除工人 
-    destroy_worker:
-      title: 集团-删除工人信息 
-    signlogs:
-      title: 集团-签到记录 
-    xls_download:
-      title: 集团-下载模板 
-    parse_excel:
-      title: 集团-上传excel数据 
-    query_all:
-      title: 集团-ajax查询工人
-    query_info:
-      title: 集团-查询工人信息
-    receive:
-      title: 集团-工人审核通过
-    reject:
-      title: 集团-工人审核不通过
-    signlogs:
-      title: 集团-工人签到记录
-    supervisor:
-      title: 集团-监理/总包
-  wx_sign_logs:
-    index:
-      title: 微信-签到记录列表  
-    new:
-      title: 微信-新建签到记录
-    create:
-      title: 微信-新建签到记录
-    edit:
-      title: 微信-编辑签到记录
-    update:
-      title: 微信-编辑签到记录
-    show:
-      title: 微信-签到记录详情 
-    destroy:
-      title: 微信-删除签到记录 
-    xls_download:
-      title: 微信-下载模板 
-    parse_excel:
-      title: 微信-上传excel数据 
+      title: 上传excel数据 
     query_list:
-      title: 微信-签到记录ajax查询签到记录
+      title: 工单分类ajax查询工单分类
     query_device:
-      title: 微信-签到记录ajax查询所有站点
-  wx_inspectors:
+      title: 工单分类ajax查询所有站点
+  work_orders:
+    complete:
+      title: 已办结工单 
     index:
-      title: 微信-业务处理人员列表  
+      title: 工单列表  
     new:
-      title: 微信-新建业务处理人员
+      title: 新建工单
     create:
-      title: 微信-新建业务处理人员
+      title: 新建工单
     edit:
-      title: 微信-编辑业务处理人员
+      title: 编辑工单
     update:
-      title: 微信-编辑业务处理人员
+      title: 编辑工单
     show:
-      title: 微信-业务处理人员详情 
+      title: 工单详情 
     destroy:
-      title: 微信-删除业务处理人员 
-    receive:
-      title: 微信-业务处理人员审核通过
-    reject:
-      title: 微信-业务处理人员审核不通过
-    xls_download:
-      title: 微信-下载模板 
-    parse_excel:
-      title: 微信-上传excel数据 
-    query_all:
-      title: 微信-ajax查询业务处理人员
-    query_devices:
-      title: 微信-ajax查询所有站点
-  wx_devices:
-    index:
-      title: 微信-站点档案列表  
-    new:
-      title: 微信-新建站点档案
-    create:
-      title: 微信-新建站点档案
-    edit:
-      title: 微信-编辑站点档案
-    update:
-      title: 微信-编辑站点档案
-    show:
-      title: 微信-站点档案详情 
-    info:
-      title: 微信-站点档案详情 
-    uphold:
-      title: 微信-站点档案巡检记录
-    destroy:
-      title: 微信-删除站点档案 
+      title: 删除工单 
     update_count:
-      title: 微信-更改数量 
+      title: 更改数量 
     xls_download:
-      title: 微信-下载模板 
+      title: 下载模板 
     parse_excel:
-      title: 微信-上传excel数据 
-    query_all:
-      title: 微信-ajax查询站点档案
-  wx_workers:
-    index:
-      title: 微信-工人列表  
-    new:
-      title: 微信-新建工人
-    create:
-      title: 微信-新建工人
-    edit:
-      title: 微信-编辑工人
-    update:
-      title: 微信-编辑工人
-    show:
-      title: 微信-工人详情 
-    destroy:
-      title: 微信-删除工人 
-    signlogs:
-      title: 微信-签到记录 
-    xls_download:
-      title: 微信-下载模板 
-    parse_excel:
-      title: 微信-上传excel数据 
-    query_all:
-      title: 微信-ajax查询工人
-    query_info:
-      title: 微信-查询工人信息
-    receive:
-      title: 微信-工人审核通过
-    reject:
-      title: 微信-工人审核不通过
-    signlogs:
-      title: 微信-工人签到记录
-  fct_statics:
-    index:
-      title: 数据总览
-  grp_statics:
-    index:
-      title: 集团统计-数据总览
+      title: 上传excel数据 
+    query_list:
+      title: 工单ajax查询工单
     query_device:
-      title: 集团统计-区查询
-    query_by_area:
-      title: 集团统计-按区统计人数
+      title: 工单ajax查询所有站点

@@ -1,8 +1,6 @@
 - if current_user.has_role?(Setting.roles.role_fct)
   = render 'layouts/system_sidebar/fct_sidebar'
-- elsif current_user.has_role?(Setting.roles.role_wx)
-  = render 'layouts/system_sidebar/wx_sidebar'
-- elsif current_user.has_role?(Setting.roles.role_grp) || current_user.has_role?(Setting.roles.role_cpy)
-  = render 'layouts/system_sidebar/grp_sidebar'
+- elsif current_user.has_role?(Setting.roles.role_fctmgn)
+  = render 'layouts/system_sidebar/fctmgn_sidebar'
 - elsif current_user.has_role?(Setting.roles.super_admin)
   = render 'layouts/system_sidebar/admin_sidebar'
