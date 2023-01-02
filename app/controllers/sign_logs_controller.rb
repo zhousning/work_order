@@ -49,9 +49,10 @@ class SignLogsController < ApplicationController
         :address => item.address,
         :state => order_state(item.task_logs.last.state),
         :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
+        :pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
         :person => item.person,
         :phone => item.phone,
-        :img => item.img
+        :reminder => item.reminder ? '是' : '否',
       }
     end
     respond_to do |f|

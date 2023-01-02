@@ -129,18 +129,19 @@ function get_work_orders(method) {
         'id' : index + 1,
         'ctg' : item.ctg,
         'number' : number,
-        'title' : item.title,
-        'pdt_time' : item.pdt_time,
+        'reminder' : item.reminder,
         'content' : item.content,
         'address' : item.address,
-        //'urgent' : item.urgent,
         'state' : item.state,
-        'order_time' : item.order_time,
+        'pdt_time' : item.pdt_time,
         'limit_time' : item.limit_time,
         'person' : item.person,
         'phone' : item.phone,
-        'img' : item.img,
         'button' : button 
+        //'title' : item.title,
+        //'urgent' : item.urgent,
+        //'order_time' : item.order_time,
+        //'img' : item.img,
       });
     });
     $table.bootstrapTable('load', data);
@@ -189,10 +190,14 @@ function get_task_info(data_fct, data_id) {
   var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/query_info";
   $.get(url).done(function (data) {
     var emq = data.obj;
+    var imgs = data.imgs;
     var emq_table = '';
     $.each(emq, function(k, v) {
       emq_table += '<p>' + k + ': ' + v + '</p>'; 
     })
+    for(var i=0; i<imgs.length; i++) {
+      emq_table += "<img class='img-fluid' src='" + imgs[i] + "'/>"
+    }
     $("#log-day-emq-ctn").html(emq_table);
     $("#log-day-pdt-rpt-header").html(data.number);
   });

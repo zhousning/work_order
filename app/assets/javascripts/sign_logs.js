@@ -42,11 +42,10 @@ function get_sign_logs() {
         'content' : item.content,
         'address' : item.address,
         'state' : item.state,
-        'order_time' : item.order_time,
         'limit_time' : item.limit_time,
         'person' : item.person,
         'phone' : item.phone,
-        'img' : item.img
+        'reminder' : item.reminder
       });
     });
     $table.bootstrapTable('load', data);

@@ -110,20 +110,29 @@ class WorkOrdersController < ApplicationController
 
   def query_info 
     @factory = my_factory
-    item = @factory.work_orders.find(iddecode(params[:id]))
+    @workorder = @factory.work_orders.find(iddecode(params[:id]))
    
     obj = {
-      Setting.work_orders.pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
-      Setting.work_orders.limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
-      Setting.work_orders.person => item.person,
-      Setting.work_orders.phone => item.phone,
-      Setting.work_orders.address => item.address,
-      Setting.work_orders.content => item.content,
+      Setting.work_orders.pdt_time => @workorder.created_at.strftime('%Y-%m-%d %H:%M'),
+      Setting.work_orders.limit_time => @workorder.limit_time.strftime('%Y-%m-%d %H:%M'),
+      Setting.work_orders.person => @workorder.person,
+      Setting.work_orders.phone => @workorder.phone,
+      Setting.work_orders.address => @workorder.address,
+      Setting.work_orders.content => @workorder.content,
     }
+    img = [] 
+    @workorder.enclosures.each do |enclosure|
+      img << enclosure.file_url
+    end
+    if @workorder.img
+      @workorder.img.split(',').each do |image|
+        img << image
+      end
+    end
 
-    number = Setting.work_orders.number + item.number
+    number = Setting.work_orders.number + @workorder.number
     respond_to do |f|
-      f.json{ render :json => {:obj => obj, :number => number}.to_json}
+      f.json{ render :json => {:obj => obj, :number => number, :imgs => img}.to_json}
     end
   end
 
@@ -186,7 +195,7 @@ class WorkOrdersController < ApplicationController
        
         #:title => item.title,
        
-        #:pdt_time => item.pdt_time.strftime('%Y-%m-%d %H:%M'),
+        :pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
         :ctg => item.workorder_ctg.name,
 
         :number => item.number,
@@ -195,6 +204,7 @@ class WorkOrdersController < ApplicationController
        
         :address => item.address,
        
+        :reminder => item.reminder ? '是' : '否',
         #:urgent => item.urgent,
        
         :state => order_state(item.task_logs.last.state),
@@ -207,7 +217,7 @@ class WorkOrdersController < ApplicationController
        
         :phone => item.phone,
        
-        :img => item.img
+        #:img => item.img
       
       }
     end
