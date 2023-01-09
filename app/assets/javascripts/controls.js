@@ -1,22 +1,31 @@
 $(".controls.index").ready(function() {
   if ($(".controls.index").length > 0) {
     loadSelectData('/factories/' + gon.fct + '/sign_logs/query_device')
-    
+    var start = $("#start").val();
+    var end = $("#end").val();
+    initControlChart(start, end, gon.fct);
+
     $(".area-time-search").on('click', function(e) {
       var start = $("#start").val();
       var end = $("#end").val();
       var fct = $("#fct").val();
-      var request_params = {start: start, end: end, fct: fct}
-
-      $.get('/factories/' + gon.fct + '/statics/static_by_progress', request_params).done(function (data) {
-        createPie('order-static-pie', '工单统计', '', data.data)
-      });
-      $.get('/factories/' + gon.fct + '/statics/static_count_perday', request_params).done(function (data) {
-        createSingleLine('order-count-perday-line', '工单日统计数据', '', data.xaxis, data.data)
-      });
+      initControlChart(start, end, fct);
     })
   }
 });
+
+function initControlChart(start, end, fct) {
+  var request_params = {start: start, end: end, fct: fct}
+  $.get('/factories/' + gon.fct + '/statics/static_by_progress', request_params).done(function (data) {
+    createPie('order-static-pie', '工单进度统计', '', data.data)
+  });
+  $.get('/factories/' + gon.fct + '/statics/static_count_perday', request_params).done(function (data) {
+    createSingleLine('order-count-perday-line', '工单日统计数据', '', data.xaxis, data.data)
+  });
+  $.get('/factories/' + gon.fct + '/statics/static_by_category', request_params).done(function (data) {
+    createCirclePie('order-static-circlepie', '工单分类统计', '', data.data)
+  });
+}
 
 function createPie(chartId, text, subtext, data) { 
   var chartDom = document.getElementById(chartId);
@@ -102,6 +111,57 @@ function createSingleLine(chartId, text, subtext, xaxis, data) {
         data: data,
         type: 'line',
         smooth: true
+      }
+    ]
+  };
+  
+  option && myChart.setOption(option);
+}
+
+function createCirclePie(chartId, text, subtext, data) { 
+  var chartDom = document.getElementById(chartId);
+  var myChart = echarts.init(chartDom);
+  var option;
+  
+  option = {
+    title: {
+      text: text,
+      subtext: subtext,
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      top: '5%',
+      left: 'center'
+    },
+    series: [
+      {
+        name: '',
+        type: 'pie',
+        radius: ['30%', '50%'],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: '#fff',
+          borderWidth: 2
+        },
+        label: {
+          show: false,
+          position: 'center'
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 40,
+            fontWeight: 'bold'
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        data: data 
       }
     ]
   };

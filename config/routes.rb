@@ -59,7 +59,7 @@ Rails.application.routes.draw do
     end
     resources :statics, :only => []  do
       get :static_by_progress, :on => :collection
-      get :static_by_method, :on => :collection
+      get :static_by_category, :on => :collection
       get :static_count_perday, :on => :collection
     end
     resources :work_orders do
