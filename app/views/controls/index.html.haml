@@ -4,6 +4,50 @@
   .row
     = render "layouts/control_sidebar"
     %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
+      .container-fluid.mb-3.px-0
+        .row
+          .col-md-2
+            .card.shadow
+              .card-body
+                %h5.card-title
+                  今日工单数
+                %h4.font-weight-bold.text-primary
+                  = @worker_orders['count']
+          .col-md-2
+            .card.shadow
+              .card-body
+                %h5.card-title
+                  今日待分配
+                %h4.font-weight-bold.text-primary
+                  = @worker_orders['opening']
+          .col-md-2
+            .card.shadow
+              .card-body
+                %h5.card-title
+                  今日未接单
+                %h4.font-weight-bold.text-primary
+                  = @worker_orders['assign']
+          .col-md-2
+            .card.shadow
+              .card-body
+                %h5.card-title
+                  今日处理中
+                %h4.font-weight-bold.text-primary
+                  = @worker_orders['processing']
+          .col-md-2
+            .card.shadow
+              .card-body
+                %h5.card-title
+                  今日已完成
+                %h4.font-weight-bold.text-primary
+                  = @worker_orders['completed']
+          .col-md-2
+            .card.shadow
+              .card-body
+                %h5.card-title
+                  业务人员总数
+                %h4.font-weight-bold.text-primary
+                  = @wxusers
       = render 'layouts/components/fct_lists_selector2s'
       - content_for :card_body do
         .container-fluid
