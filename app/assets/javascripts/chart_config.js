@@ -348,65 +348,6 @@ function periodChartConfig(url, that_chart, factory_id, start, end, qcodes){
   return chart;
 }
 
-function emqChartConfig(url, that_chart, factory_id, start, end, qcodes) {
-  var chart = echarts.init(that_chart);
-  chart.showLoading();
-  var chart_type = that_chart.dataset['chart'];
-  var search_type = that_chart.dataset['type'];
-  var obj = {factory_id: factory_id, start: start, end: end, qcodes: qcodes, search_type: search_type, chart_type: chart_type}
-  $.get(url, obj).done(function (data) {
-    chart.hideLoading();
-    
-    var new_Option = newOption(data.title, data.series, data.dimensions, data.datasets)
-    chart.setOption(new_Option, true);
-  });
-  return chart;
-}
-
-function emrChartConfig(url, that_chart, factory_id, start, end, qcodes) {
-  var chart = echarts.init(that_chart);
-  chart.showLoading();
-  var chart_type = that_chart.dataset['chart'];
-  var search_type = that_chart.dataset['type'];
-  var obj = {factory_id: factory_id, start: start, end: end, qcodes: qcodes, search_type: search_type, chart_type: chart_type}
-  $.get(url, obj).done(function (data) {
-    chart.hideLoading();
-    
-    var new_Option = newOption(data.title, data.series, data.dimensions, data.datasets)
-    chart.setOption(new_Option, true);
-  });
-  return chart;
-}
-
-function powerChartConfig(url, that_chart, factory_id, start, end, qcodes) {
-  var chart = echarts.init(that_chart);
-  chart.showLoading();
-  var chart_type = that_chart.dataset['chart'];
-  var search_type = that_chart.dataset['type'];
-  var obj = {factory_id: factory_id, start: start, end: end, qcodes: qcodes, search_type: search_type, chart_type: chart_type}
-  $.get(url, obj).done(function (data) {
-    chart.hideLoading();
-    
-    var mul_Option =  multYaxisOption(data.title, data.colors, data.legend, data.xaxis, data.yaxis, data.series)
-    chart.setOption(mul_Option, true);
-  });
-  return chart;
-}
-
-function bomChartConfig(url, that_chart, factory_id, start, end, qcodes) {
-  var chart = echarts.init(that_chart);
-  chart.showLoading();
-  var chart_type = that_chart.dataset['chart'];
-  var search_type = that_chart.dataset['type'];
-  var obj = {factory_id: factory_id, start: start, end: end, qcodes: qcodes, search_type: search_type, chart_type: chart_type}
-  $.get(url, obj).done(function (data) {
-    chart.hideLoading();
-    
-    var new_Option = newOption(data.title, data.series, data.dimensions, data.datasets)
-    chart.setOption(new_Option, true);
-  });
-  return chart;
-}
 //search_type 当前页面的checkbox
 function chartTable(ctnid, factory_id, start, end, qcodes, search_type){
   var obj = {factory_id: factory_id, start: start, end: end, qcodes: qcodes, search_type: search_type}

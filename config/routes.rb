@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   #root :to => 'controls#index'
-  root :to => 'home#index'
+  root :to => 'controls#index'
 
   resources :controls, :only => [:index]
   #mount Ckeditor::Engine => '/ckeditor'
@@ -56,6 +56,11 @@ Rails.application.routes.draw do
     resources :workorder_ctgs
     resources :wxusers, :only => []  do
       get :query_list, :on => :collection
+    end
+    resources :statics, :only => []  do
+      get :static_by_progress, :on => :collection
+      get :static_by_method, :on => :collection
+      get :static_count_perday, :on => :collection
     end
     resources :work_orders do
       get :download_attachment, :on => :member

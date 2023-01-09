@@ -4,20 +4,10 @@ class ControlsController < ApplicationController
   authorize_resource
 
   def index
-    #gon.center = [116.605763, 35.444226] 
-    #@factorie = current_user.factories.first
-    #arr = [@factorie.lnt, @factorie.lat]
-    #gon.center = arr
-    #wx_users = @factorie.wx_users
-    #@works = []
-    #@pends = []
-    #wx_users.each do |user|
-    #  if user.task_state == Setting.states.working
-    #    @works << user 
-    #  else
-    #    @pends << user
-    #  end
-    #end
+    if current_user.has_role?(Setting.roles.role_fct) || current_user.has_role?(Setting.roles.role_fctmgn)
+      @factory = current_user.factories.first
+      gon.fct = idencode(@factory.id)
+    end
   end
 
   def search

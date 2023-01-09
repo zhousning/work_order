@@ -5,7 +5,7 @@ class CreateWorkOrders < ActiveRecord::Migration
     
       t.string :title,  null: false, default: Setting.systems.default_str
     
-      t.datetime :pdt_time
+      t.date :pdt_date
     
       t.text :content
     

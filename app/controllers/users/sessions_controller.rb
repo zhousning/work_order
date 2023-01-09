@@ -14,13 +14,9 @@ class Users::SessionsController < Devise::SessionsController
     end
   end
 
-  #def after_sign_in_path_for(resource)
-  #  #if current_user.has_role?(Setting.roles.role_fct)
-  #  #  root_path 
-  #  #elsif current_user.has_role?(Setting.roles.super_admin)
-  #  #  controls_path
-  #  #end
-  #end
+  def after_sign_in_path_for(resource)
+    controls_path
+  end
 
   # GET /resource/sign_in
   # def new

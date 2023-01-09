@@ -45,6 +45,7 @@ class WorkOrdersController < ApplicationController
     @ctg = WorkorderCtg.find(iddecode(params[:workorder_ctg]))
     @work_order.workorder_ctg = @ctg
     @work_order.factory = @factory
+    @work_order.pdt_date = Date.today
     
     if @work_order.save
       redirect_to factory_work_orders_path(idencode(@factory.id)) 
