@@ -58,16 +58,16 @@
                       %td.p-2.text-center
                         = f.label Setting.work_orders.limit_time, :class => "text-center"
                       %td.p-2.text-center
-                        = f.datetime_select :limit_time, :start_year => 2021, :order => [:year, :month, :day ], use_month_numbers: true, default: 3.days.from_now, :class => "form-control"
+                        = f.datetime_select :limit_time, :start_year => 2023, :order => [:month, :day ], use_month_numbers: true, default: 3.days.from_now, :class => "form-control"
                       %td.p-2.text-center
                         = f.label Setting.work_orders.reminder, :class => "text-center"
                       %td.p-2.text-center
                         .form-check.form-check-inline
-                          = f.radio_button :reminder, Setting.systems.status_en_yes, :class => "form-check-input"
-                          = f.label Setting.systems.status_yes, :class => "form-check-label"
-                        .form-check.form-check-inline
                           = f.radio_button :reminder, Setting.systems.status_en_no, :class => "form-check-input", :checked => "checked"
                           = f.label Setting.systems.status_no, :class => "form-check-label"
+                        .form-check.form-check-inline
+                          = f.radio_button :reminder, Setting.systems.status_en_yes, :class => "form-check-input"
+                          = f.label Setting.systems.status_yes, :class => "form-check-label"
 
                     -#
                       %tr

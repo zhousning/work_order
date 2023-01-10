@@ -95,26 +95,25 @@ class WxTasksController < ApplicationController
     wxuser = WxUser.find_by(:openid => params[:id])
     obj = {}
     if wxuser.state == Setting.states.completed
-      @workorder = wxuser.work_orders.find(params[:taskid])
-      infos = [ 
-        Setting.work_orders.pdt_time + ': ' + @workorder.created_at.strftime("%Y-%m-%d %H:%M"),
-        Setting.work_orders.limit_time + ': ' +  @workorder.limit_time.strftime('%Y-%m-%d %H:%M'),
-        Setting.work_orders.person + ': ' + @workorder.person,
-        Setting.work_orders.phone + ': ' + @workorder.phone,
-        Setting.work_orders.address + ': ' + @workorder.address,
-        Setting.work_orders.content + ': ' + @workorder.content
-      ] 
+      workorder = wxuser.work_orders.find(params[:taskid])
+      infos = [Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M")]
+      infos << Setting.work_orders.limit_time + ': ' + workorder.limit_time.strftime("%Y-%m-%d %H:%M") if workorder.reminder
+      infos << Setting.workorder_ctgs.label + ': ' + workorder.workorder_ctg.name
+      infos << Setting.work_orders.person + ': ' + workorder.person
+      infos << Setting.work_orders.phone + ': ' + workorder.phone
+      infos << Setting.work_orders.address + ': ' + workorder.address
+      infos << Setting.work_orders.content + ': ' + workorder.content
       img = [] 
-      @workorder.enclosures.each do |enclosure|
+      workorder.enclosures.each do |enclosure|
         img << enclosure.file_url
       end
-      if @workorder.img
-        @workorder.img.split(',').each do |image|
+      if workorder.img
+        workorder.img.split(',').each do |image|
           img << image
         end
       end
       obj = {
-        :number => @workorder.number,
+        :number => workorder.number,
         :infos => infos,
         :imgs => img
       }
@@ -135,13 +134,14 @@ class WxTasksController < ApplicationController
         next if workorder.state == Setting.states.completed
         obj = {}
         order_log = OrderLog.where(:state => [Setting.states.unaccept, Setting.states.accept, Setting.states.processed], :work_order => workorder, :wx_user => wxuser).last
-        infos = [ 
-          Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M"),
-          Setting.work_orders.person + ': ' + workorder.person,
-          Setting.work_orders.phone + ': ' + workorder.phone,
-          Setting.work_orders.content + ': ' + workorder.content,
-          Setting.work_orders.address + ': ' + workorder.address
-        ] 
+        infos = [Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M")]
+        infos << Setting.work_orders.limit_time + ': ' + workorder.limit_time.strftime("%Y-%m-%d %H:%M") if workorder.reminder
+        infos << Setting.workorder_ctgs.label + ': ' + workorder.workorder_ctg.name
+        infos << Setting.work_orders.person + ': ' + workorder.person
+        infos << Setting.work_orders.phone + ': ' + workorder.phone
+        infos << Setting.work_orders.address + ': ' + workorder.address
+        infos << Setting.work_orders.content + ': ' + workorder.content
+        
         obj = {
           :id => workorder.id,
           :number => workorder.number,
@@ -165,13 +165,13 @@ class WxTasksController < ApplicationController
       @workorders = WorkOrder.find(work_order_ids)
       @workorders.each do |workorder|
         obj = {}
-        infos = [ 
-          Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M"),
-          Setting.work_orders.person + ': ' + workorder.person,
-          Setting.work_orders.phone + ': ' + workorder.phone,
-          Setting.work_orders.content + ': ' + workorder.content,
-          Setting.work_orders.address + ': ' + workorder.address
-        ] 
+        infos = [Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M")]
+        infos << Setting.work_orders.limit_time + ': ' + workorder.limit_time.strftime("%Y-%m-%d %H:%M") if workorder.reminder
+        infos << Setting.workorder_ctgs.label + ': ' + workorder.workorder_ctg.name
+        infos << Setting.work_orders.person + ': ' + workorder.person
+        infos << Setting.work_orders.phone + ': ' + workorder.phone
+        infos << Setting.work_orders.address + ': ' + workorder.address
+        infos << Setting.work_orders.content + ': ' + workorder.content
         obj = {
           :number => workorder.number,
           :infos => infos
@@ -238,13 +238,13 @@ class WxTasksController < ApplicationController
     if wxuser.state == Setting.states.completed
       @workorders = wxuser.work_orders.where(:state => Setting.states.completed).uniq.order('updated_at DESC').limit(10)
       @workorders.each do |workorder|
-        infos = [ 
-          Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M"),
-          Setting.work_orders.person + ': ' + workorder.person,
-          Setting.work_orders.phone + ': ' + workorder.phone,
-          Setting.work_orders.content + ': ' + workorder.content,
-          Setting.work_orders.address + ': ' + workorder.address
-        ] 
+        infos = [Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M")]
+        infos << Setting.work_orders.limit_time + ': ' + workorder.limit_time.strftime("%Y-%m-%d %H:%M") if workorder.reminder
+        infos << Setting.workorder_ctgs.label + ': ' + workorder.workorder_ctg.name
+        infos << Setting.work_orders.person + ': ' + workorder.person
+        infos << Setting.work_orders.phone + ': ' + workorder.phone
+        infos << Setting.work_orders.address + ': ' + workorder.address
+        infos << Setting.work_orders.content + ': ' + workorder.content
         obj = {
           :id => workorder.id,
           :number => workorder.number,

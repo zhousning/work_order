@@ -21,6 +21,9 @@
     -
       controller: controls_controller
       actions: [index]
+    -
+      controller: statics_controller
+      actions: [static_by_progress, static_by_category, static_count_perday]
 - 
   role_name: 厂区-管理人员
   level: 1
@@ -43,6 +46,9 @@
     -
       controller: controls_controller
       actions: [index]
+    -
+      controller: statics_controller
+      actions: [static_by_progress, static_by_category, static_count_perday]
 - 
   role_name: 超级管理员
   level: 1

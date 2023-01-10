@@ -273,3 +273,10 @@ zh-CN:
       title: 工单ajax查询工单
     query_device:
       title: 工单ajax查询所有站点
+  statics:
+    static_by_progress:
+      title: 按进度统计
+    static_by_category:
+      title: 分类统计
+    static_count_perday:
+      title: 按天统计 

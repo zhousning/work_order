@@ -7,7 +7,7 @@ class WorkorderCtgsController < ApplicationController
   def index
     @factory = my_factory
     @workorder_ctg = WorkorderCtg.new
-    @workorder_ctgs = WorkorderCtg.all.page( params[:page]).per( Setting.systems.per_page )
+    @workorder_ctgs = @factory.company.workorder_ctgs.page( params[:page]).per( Setting.systems.per_page )
   end
    
   def new

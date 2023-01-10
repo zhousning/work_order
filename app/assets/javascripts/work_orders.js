@@ -32,7 +32,7 @@ function worker_order_bind_event() {
     })
   })
   $("#item-table").on('click', 'button.log-show-btn', function(e) {
-    $('#logModal').modal();
+    //$('#logModal').modal();
     var that = e.target
     var data_id = that.dataset['rpt'];
     var data_fct = $('#fct').val();
@@ -124,15 +124,17 @@ function get_work_orders(method) {
       var id = item.id;
 
       var number = "<button class = 'btn btn-link log-show-btn' type = 'button' data-rpt ='" + id + "'>" + item.number + "</button>";
-      var button = "<button class = 'btn btn-link  mr-3 worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  mr-3' href='/factories/" + data_fct + '/' + method + "/" + id + "/edit'>编辑</a>" + "<button class = 'btn btn-link  mr-3 worker-complete-btn' type = 'button' data-rpt ='" + id + "'>办结</button>"  + "<a data-confirm='确定删除吗?' class='btn btn-link worker-delete-btn' rel='nofollow' data-method='delete' href='/factories/" + data_fct + '/' + method + "/" + id + "'>删除</a>";
+      var button = "<button class = 'btn btn-link   worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  ' href='/factories/" + data_fct + '/' + method + "/" + id + "/edit'>编辑</a>" + "<button class = 'btn btn-link   worker-complete-btn' type = 'button' data-rpt ='" + id + "'>办结</button>"  + "<a data-confirm='确定删除吗?' class='btn btn-link worker-delete-btn' rel='nofollow' data-method='delete' href='/factories/" + data_fct + '/' + method + "/" + id + "'>删除</a>";
+
+      var feedstr = "<span class='badge text-white " + item.color + " mr-3'>" + item.state + "</span>";
       data.push({
-        'id' : index + 1,
-        'ctg' : item.ctg,
+        //'id' : index + 1,
         'number' : number,
+        'ctg' : item.ctg,
         'reminder' : item.reminder,
         'content' : item.content,
         'address' : item.address,
-        'state' : item.state,
+        'state' : feedstr,
         'pdt_time' : item.pdt_time,
         'limit_time' : item.limit_time,
         'person' : item.person,
@@ -192,9 +194,9 @@ function get_task_info(data_fct, data_id) {
     var emq = data.obj;
     var imgs = data.imgs;
     var emq_table = '';
-    $.each(emq, function(k, v) {
-      emq_table += '<p>' + k + ': ' + v + '</p>'; 
-    })
+    for (var i=0; i<emq.length; i++) {
+      emq_table += '<p>' + emq[i] + '</p>'; 
+    }
     for(var i=0; i<imgs.length; i++) {
       emq_table += "<img class='img-fluid' src='" + imgs[i] + "'/>"
     }

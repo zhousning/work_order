@@ -111,29 +111,27 @@ class WorkOrdersController < ApplicationController
 
   def query_info 
     @factory = my_factory
-    @workorder = @factory.work_orders.find(iddecode(params[:id]))
+    workorder = @factory.work_orders.find(iddecode(params[:id]))
    
-    obj = {
-      Setting.work_orders.pdt_time => @workorder.created_at.strftime('%Y-%m-%d %H:%M'),
-      Setting.work_orders.limit_time => @workorder.limit_time.strftime('%Y-%m-%d %H:%M'),
-      Setting.work_orders.person => @workorder.person,
-      Setting.work_orders.phone => @workorder.phone,
-      Setting.work_orders.address => @workorder.address,
-      Setting.work_orders.content => @workorder.content,
-    }
+    infos = [Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M")]
+    infos << Setting.work_orders.limit_time + ': ' + workorder.limit_time.strftime("%Y-%m-%d %H:%M") if workorder.reminder
+    infos << Setting.work_orders.person + ': ' + workorder.person
+    infos << Setting.work_orders.phone + ': ' + workorder.phone
+    infos << Setting.work_orders.address + ': ' + workorder.address
+    infos << Setting.work_orders.content + ': ' + workorder.content
     img = [] 
-    @workorder.enclosures.each do |enclosure|
+    workorder.enclosures.each do |enclosure|
       img << enclosure.file_url
     end
-    if @workorder.img
-      @workorder.img.split(',').each do |image|
+    if workorder.img
+      workorder.img.split(',').each do |image|
         img << image
       end
     end
 
-    number = Setting.work_orders.number + @workorder.number
+    number = workorder.number + '  (' + workorder.workorder_ctg.name + ')' 
     respond_to do |f|
-      f.json{ render :json => {:obj => obj, :number => number, :imgs => img}.to_json}
+      f.json{ render :json => {:obj => infos, :number => number, :imgs => img}.to_json}
     end
   end
 
@@ -191,35 +189,20 @@ class WorkOrdersController < ApplicationController
    
     obj = []
     items.each do |item|
+      state = item.task_logs.last.state
       obj << {
         :id => idencode(item.id),
-       
-        #:title => item.title,
-       
         :pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
         :ctg => item.workorder_ctg.name,
-
         :number => item.number,
-       
-        :content => item.content,
-       
+        :content => item.content[0..20] + '...',
         :address => item.address,
-       
         :reminder => item.reminder ? '是' : '否',
-        #:urgent => item.urgent,
-       
-        :state => order_state(item.task_logs.last.state),
-       
-        #:order_time => item.order_time.strftime('%Y-%m-%d %H:%M'),
-       
+        :state => order_state(state),
+        :color => "order-" + state,
         :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
-       
         :person => item.person,
-       
         :phone => item.phone,
-       
-        #:img => item.img
-      
       }
     end
     respond_to do |f|

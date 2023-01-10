@@ -1,4 +1,8 @@
 class StaticsController < ApplicationController
+  layout "application_control"
+  before_filter :authenticate_user!
+  authorize_resource
+
   include StateModule
 
   def static_by_progress

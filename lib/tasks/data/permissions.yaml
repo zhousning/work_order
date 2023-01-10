@@ -24,3 +24,6 @@
 -
   controller: deploys_controller
   actions: [index, new, create, edit, update, destroy, show]
+-
+  controller: statics_controller
+  actions: [static_by_progress, static_by_category, static_count_perday]

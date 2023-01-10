@@ -15,7 +15,11 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource)
-    controls_path
+    if resource.has_role?(Setting.roles.super_admin)
+      factories_path
+    else
+      controls_path
+    end
   end
 
   # GET /resource/sign_in

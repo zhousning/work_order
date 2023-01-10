@@ -45,7 +45,7 @@ class SignLogsController < ApplicationController
         :id => idencode(item.id),
         :ctg => item.workorder_ctg.name,
         :number => item.number,
-        :content => item.content,
+        :content => item.content[0..20] + '...',
         :address => item.address,
         :state => order_state(item.task_logs.last.state),
         :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),

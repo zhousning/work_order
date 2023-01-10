@@ -5,71 +5,80 @@
   .row
     = render "layouts/control_sidebar"
     %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
-      - content_for :card_header do
+      -#
+        - content_for :card_header do
         %h5
           = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
+        - content_for :card_body do
+      .card
+        .card-body.p-0
+          .container-fluid
+            .row
+              .col-md-12
+                = hidden_field_tag "fct", idencode(@factory.id), :class => "fct-val"
+              .col-md-12
+                #toolbar.toolbar
+                  %button.button.button-primary.button-small.pull-right.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
+                    = fa_icon "plus", text: '创建工单', right: false 
+                -#, :"data-pagination"=>"true", :'data-page-size' => "15"
+                %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-toolbar' => "#toolbar", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "400", :'data-virtual-scroll' => "true"}
+                  %thead
+                    %tr
+                      -#
+                        %th{:scope => "col", :'data-field' => "id"} #
 
-          
-          -#
-            = link_to xls_download_factory_work_orders_path(idencode(@factory.id)), :class => "button button-royal pull-right button-small mr-1" do
-              下载表格模板
-            
-            %button.button.button-caution.button-small.pull-right.mr-1{"data-target" => "#exampleModal", "data-toggle" => "modal", :type => "button"}
-              上传表格
-          
+                      %th{:scope => "col", :'data-field' => "number"}
+                        = Setting.work_orders.number
 
-          -#
-            = link_to "/#{controller_name}/new", :class => "button  button-small pull-right button-primary mr-1" do
-              = fa_icon "plus", text: Setting.systems.btn_new, right: false 
-          %button.button.button-primary.button-small.pull-right.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
-            = fa_icon "plus", text: Setting.systems.btn_new, right: false 
-      - content_for :card_body do
-        .container-fluid
-          .row
-            .col-md-12
-              = hidden_field_tag "fct", idencode(@factory.id), :class => "fct-val"
-            .col-md-12
-              %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-id-table'=>"advancedTable", :"data-pagination"=>"true", :'data-page-size' => "25", :"data-search" => "true", :'data-advanced-search'=>"true", :'data-virtual-scroll' => false }
-                %thead
-                  %tr
-                    %th{:scope => "col", :'data-field' => "id"} #
+                      %th{:scope => "col", :'data-field' => "ctg"}
+                        = Setting.workorder_ctgs.label
+                    
+                      %th{:scope => "col", :'data-field' => "person"}
+                        = Setting.work_orders.person
+                    
+                      %th{:scope => "col", :'data-field' => "phone"}
+                        = Setting.work_orders.phone
+                    
+                      %th{:scope => "col", :'data-field' => "address"}
+                        = Setting.work_orders.address
+                    
+                      %th{:scope => "col", :'data-field' => "content"}
+                        = Setting.work_orders.content
 
-                    %th{:scope => "col", :'data-field' => "number"}
-                      = Setting.work_orders.number
+                      %th{:scope => "col", :'data-field' => "pdt_time"}
+                        = Setting.work_orders.pdt_time
 
-                    %th{:scope => "col", :'data-field' => "ctg"}
-                      = Setting.workorder_ctgs.label
-                  
-                    %th{:scope => "col", :'data-field' => "person"}
-                      = Setting.work_orders.person
-                  
-                    %th{:scope => "col", :'data-field' => "phone"}
-                      = Setting.work_orders.phone
-                  
-                    %th{:scope => "col", :'data-field' => "address"}
-                      = Setting.work_orders.address
-                  
-                    %th{:scope => "col", :'data-field' => "content"}
-                      = Setting.work_orders.content
-
-                    %th{:scope => "col", :'data-field' => "pdt_time"}
-                      = Setting.work_orders.pdt_time
-
-                    %th{:scope => "col", :'data-field' => "limit_time"}
-                      = Setting.work_orders.limit_time
-                  
-                    %th{:scope => "col", :'data-field' => "reminder"}
-                      = Setting.work_orders.reminder
-                  
-                    -#
-                      %th{:scope => "col", :'data-field' => "img"}
-                      = Setting.work_orders.img
-                  
-                  
-                    %th{:scope => "col", :'data-field' => "state"}
-                      = Setting.work_orders.state
-                  
-                    %th{:scope => "col", :'data-field' => "button"}
+                      %th{:scope => "col", :'data-field' => "limit_time"}
+                        = Setting.work_orders.limit_time
+                    
+                      %th{:scope => "col", :'data-field' => "reminder"}
+                        = Setting.work_orders.reminder
+                    
+                      %th{:scope => "col", :'data-field' => "state"}
+                        = Setting.work_orders.state
+                    
+                      %th{:scope => "col", :'data-field' => "button"}
+            .row.mt-3
+              .col-4.pr-0
+                .card
+                  .card-header.bg-white.text-dark
+                    工单:
+                    %span#log-day-pdt-rpt-header
+                  .card-body.p-0
+                    #log-day-emq-ctn.p-3.order-info-ctn.text-left
+              .col-4.pr-0
+                .card
+                  .card-header.bg-white.text-dark
+                    工单处理进度
+                  .card-body.p-0
+                    %ul#task-rate.p-4.order-info-ctn.timeline
+              .col-4
+                .card
+                  .card-header.bg-white.text-dark
+                    工单处理记录
+                  .card-body.p-0
+                    %ul#task-record.p-3.order-info-ctn.list-unstyled
+    -#
       = render "layouts/bootstrap/card"
 
 -#
@@ -134,7 +143,8 @@
           .col-12
             %table#day-emq-ctn.table.text-center.table-bordered
 
-#logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
+-#
+  #logModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "newModalLabel", :tabindex => "-1"}
   .modal-dialog.modal-lg.modal-dialog-centered.modal-dialog-scrollable
     .modal-content
       .modal-header
@@ -199,3 +209,16 @@
 
   .col-md-12.site-theme-paginate-wrapper.d-flex.justify-content-center.mt-3
   = paginate @work_orders, window: 2, left: 1, right: 1 
+
+          
+-#
+  = link_to xls_download_factory_work_orders_path(idencode(@factory.id)), :class => "button button-royal pull-right button-small mr-1" do
+    下载表格模板
+  
+  %button.button.button-caution.button-small.pull-right.mr-1{"data-target" => "#exampleModal", "data-toggle" => "modal", :type => "button"}
+    上传表格
+
+
+-#
+  = link_to "/#{controller_name}/new", :class => "button  button-small pull-right button-primary mr-1" do
+    = fa_icon "plus", text: Setting.systems.btn_new, right: false 

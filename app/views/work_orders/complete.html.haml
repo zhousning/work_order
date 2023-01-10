@@ -64,7 +64,7 @@
                       %td
                         = work_order.address
                       %td
-                        = work_order.content
+                        = truncate(work_order.content, :length => 30)
                       %td
                         = work_order.created_at.strftime('%Y-%m-%d %H:%M')
                       %td

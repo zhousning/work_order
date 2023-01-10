@@ -34,8 +34,17 @@ AdminUser.create!(:phone => Setting.admins.phone, :email => Setting.admins.email
 User.create!(:phone => "053701013708", :password => "swr0101", :password_confirmation => "swr0101", :name => Setting.companies.pollute, :roles => @fctmgn,    :factories => [@nwgc])
 
 @swjt  = Factory.create!(:name => Setting.companies.water)
-User.create!(:phone => "053701011818", :password => "water18180101", :password_confirmation => "water18180101", :name => Setting.companies.pollute, :roles => @fctmgn,    :factories => [@swjt])
+User.create!(:phone => "053701011818", :password => "water18180101", :password_confirmation => "water18180101", :name => Setting.companies.water, :roles => @fctmgn,    :factories => [@swjt])
 #注释结束
+
+WorkorderCtg.create!(:name => '热线', :company => @water)
+WorkorderCtg.create!(:name => '户表开户', :company => @water)
+WorkorderCtg.create!(:name => '大表开户', :company => @water)
+WorkorderCtg.create!(:name => '报停', :company => @water)
+WorkorderCtg.create!(:name => '销户', :company => @water)
+WorkorderCtg.create!(:name => '投诉举报', :company => @water)
+WorkorderCtg.create!(:name => '用户名变更', :company => @water)
+WorkorderCtg.create!(:name => '用水分类申请', :company => @water)
 
 Deploy.create!(:name => 'weixin')
 

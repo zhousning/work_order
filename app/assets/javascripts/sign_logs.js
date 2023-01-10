@@ -6,6 +6,15 @@ $(".sign_logs").ready(function() {
       get_sign_logs();
     })
 
+    $("#report-download-excel").click(function() {
+      var start = $("#start").val();
+      var end = $("#end").val();
+      var fct = $("#fct").val();
+
+      var url = "/reports/xls_day_download?fcts=" + fct + "&start=" + start + "&end=" + end;
+      location.href = url;
+    });
+
     $("#item-table").on('click', 'button.log-show-btn', function(e) {
       $('#logModal').modal();
       var that = e.target

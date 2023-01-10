@@ -87,6 +87,9 @@ Rails.application.routes.draw do
       get :query_device, :on => :collection
     end
   end
+  resources :reports, :only => [] do
+    get :xls_day_download, :on => :collection
+  end
   resources :wx_users, only: [:update] do
     collection do
       post 'get_userid'
