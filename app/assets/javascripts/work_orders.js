@@ -12,6 +12,20 @@ $(".work_orders").ready(function() {
     $("#goed-btn").click(function() {
       get_goed_orders()
     })
+    $("#item-table").on('click', 'input[type=checkbox]', function(e) {
+      e.stopPropagation();
+      var that = e.currentTarget;
+      var checked = that.checked;
+      var data_fct = $('#fct').val();
+      var data_id = $(that).attr('id');
+      var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/order_reminder";
+      $.get(url, {feedback: checked}).done(function (obj) {
+        if (obj.state == 'error') {
+          return false;
+          alert('设置失败');
+        }
+      })
+    })
 
     var selectedRow = {}
     $('#item-table').on('click-row.bs.table', function (e, row, $element) {
@@ -162,13 +176,19 @@ function get_work_orders() {
 
       //var number = "<button class = 'btn btn-link log-show-btn' type = 'button' data-rpt ='" + id + "'>" + item.number + "</button>";
       var button = "<button class = 'btn btn-link   worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  ' href='/factories/" + data_fct + '/work_orders/' + id + "/edit'>编辑</a>" + "<button class='btn btn-link worker-delete-btn' type='button' data-rpt='" + id + "'>删除</button>";
+      var reminder = '';
+      if (item.reminder) {
+        reminder = "<span class='switch switch-sm'><input type='checkbox' id='" + id + "' class='switch' checked><label for='" + id + "'></label> </span>"
+      } else {
+        reminder = "<span class='switch switch-sm'><input type='checkbox' id='" + id + "' class='switch'><label for='" + id + "'></label> </span>"
+      }
 
       var feedstr = "<span class='badge text-white " + item.color + " mr-3'>" + item.state + "</span>";
       data.push({
         'id' : id,
         'number' : item.number,
         'ctg' : item.ctg,
-        'reminder' : item.reminder,
+        'reminder' : reminder,
         'content' : item.content,
         'address' : item.address,
         'state' : feedstr,

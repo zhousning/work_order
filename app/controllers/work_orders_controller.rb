@@ -127,12 +127,14 @@ class WorkOrdersController < ApplicationController
     @factory = my_factory
     workorder = @factory.work_orders.find(iddecode(params[:id]))
    
-    infos = [Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M")]
-    infos << Setting.work_orders.limit_time + ': ' + workorder.limit_time.strftime("%Y-%m-%d %H:%M") if workorder.reminder
-    infos << Setting.work_orders.person + ': ' + workorder.person
-    infos << Setting.work_orders.phone + ': ' + workorder.phone
-    infos << Setting.work_orders.address + ': ' + workorder.address
-    infos << Setting.work_orders.content + ': ' + workorder.content
+    infos = [
+      Setting.work_orders.pdt_time + ': ' + workorder.created_at.strftime("%Y-%m-%d %H:%M"),
+      Setting.work_orders.limit_time + ': ' + workorder.limit_time.strftime("%Y-%m-%d %H:%M"),
+      Setting.work_orders.person + ': ' + workorder.person,
+      Setting.work_orders.phone + ': ' + workorder.phone,
+      Setting.work_orders.address + ': ' + workorder.address,
+      Setting.work_orders.content + ': ' + workorder.content
+    ]
     img = [] 
     workorder.enclosures.each do |enclosure|
       img << enclosure.file_url
@@ -142,8 +144,10 @@ class WorkOrdersController < ApplicationController
         img << image
       end
     end
-
-    number = workorder.number + '  (' + workorder.workorder_ctg.name + ')' 
+    number = workorder.number + "<span class='text-success ml-2'>(" + workorder.workorder_ctg.name + ')</span> ' 
+    if workorder.reminder
+      number += "<span class='text-danger ml-2'>超时催单</span>"
+    end
     respond_to do |f|
       f.json{ render :json => {:obj => infos, :number => number, :imgs => img}.to_json}
     end
@@ -211,7 +215,8 @@ class WorkOrdersController < ApplicationController
         :number => item.number,
         :content => item.content[0..20] + '...',
         :address => item.address,
-        :reminder => item.reminder ? '是' : '否',
+        #:reminder => item.reminder ? '是' : '否',
+        :reminder => item.reminder,
         :state => order_state(state),
         :color => "order-" + state,
         :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
@@ -276,6 +281,21 @@ class WorkOrdersController < ApplicationController
     end
     respond_to do |f|
       f.json{ render :json => obj.to_json}
+    end
+  end
+
+  def order_reminder
+    @factory = my_factory
+    @workorder = @factory.work_orders.find(iddecode(params[:id]))
+    reminder = params[:feedback]
+    if @workorder.update_attributes!(:reminder => reminder)
+      respond_to do |f|
+        f.json{ render :json => {:state => 'success'}.to_json}
+      end
+    else
+      respond_to do |f|
+        f.json{ render :json => {:state => 'error'}.to_json}
+      end
     end
   end
 

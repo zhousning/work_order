@@ -11,7 +11,7 @@
   actions: [index, query_list, query_device]
 -
   controller: work_orders_controller
-  actions: [assign, index, new, create, edit, update, finish, destroy, show, query_info, query_record, query_rate, complete, query_all, download_attachment, xls_download, parse_excel, delete_order, query_going, query_goed]
+  actions: [assign, index, new, create, edit, update, finish, destroy, show, query_info, query_record, query_rate, complete, query_all, download_attachment, xls_download, parse_excel, delete_order, query_going, query_goed, order_reminder]
 -
   controller: wxusers_controller
   actions: [query_list]

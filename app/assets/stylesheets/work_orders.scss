@@ -29,3 +29,12 @@
 .order-index-active {
   background: bisque;
 }
+#toolbar .order-opening:focus, #toolbar .order-opening:hover  {
+  background-color: #ff5722;
+}
+#toolbar .order-assign:focus, #toolbar .order-assign:hover {
+  background-color: #2F4056;
+}
+#toolbar .order-processed:focus, #toolbar .order-processed:hover {
+  background-color: #009688;
+}
