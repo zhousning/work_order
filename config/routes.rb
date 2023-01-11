@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       get :finish, :on => :member
       get :query_going, :on => :collection
       get :query_goed, :on => :collection
+      get :query_assigned, :on => :collection
       get :order_reminder, :on => :member
     end
     resources :devices, :only => [:index]  do

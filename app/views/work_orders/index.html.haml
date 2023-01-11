@@ -15,7 +15,14 @@
                 #toolbar.toolbar
                   %button.button.button-primary.button-small.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
                     = fa_icon "file-text-o", text: '创建工单', right: false 
+                  %button.button.button-caution.button-small.mr-1{"data-target" => "#exampleModal", "data-toggle" => "modal", :type => "button"}
+                    上传表格
+                  = link_to xls_download_factory_work_orders_path(idencode(@factory.id)), :class => "button button-royal button-small mr-1" do
+                    下载表格模板
                   %button#start-btn.button.order-opening.text-white.button-small.mr-1{:type => "button"}
+                    = fa_icon "code-fork", text: Setting.state_tags.opening + '/待接单', right: false  
+                  -#
+                    %button#assigned-btn.button.order-opening.text-white.button-small.mr-1{:type => "button"}
                     = fa_icon "code-fork", text: Setting.state_tags.opening, right: false  
                   %button#going-btn.button.order-assign.text-white.button-small.mr-1{:type => "button"}
                     = fa_icon "clock-o", text: Setting.state_tags.processing, right: false 
@@ -211,11 +218,6 @@
 
           
 -#
-  = link_to xls_download_factory_work_orders_path(idencode(@factory.id)), :class => "button button-royal pull-right button-small mr-1" do
-    下载表格模板
-  
-  %button.button.button-caution.button-small.pull-right.mr-1{"data-target" => "#exampleModal", "data-toggle" => "modal", :type => "button"}
-    上传表格
 
 
 -#

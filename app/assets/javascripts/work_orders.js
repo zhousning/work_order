@@ -6,6 +6,9 @@ $(".work_orders").ready(function() {
     $("#start-btn").click(function() {
       get_work_orders()
     })
+    $("#assign-btn").click(function() {
+      get_assigned_orders()
+    })
     $("#going-btn").click(function() {
       get_going_orders()
     })
@@ -13,7 +16,6 @@ $(".work_orders").ready(function() {
       get_goed_orders()
     })
     $("#item-table").on('click', 'input[type=checkbox]', function(e) {
-      e.stopPropagation();
       var that = e.currentTarget;
       var checked = that.checked;
       var data_fct = $('#fct').val();
@@ -256,6 +258,37 @@ function get_task_info(data_fct, data_id) {
     $("#log-day-emq-ctn").html(emq_table);
     $("#log-day-pdt-rpt-header").html(data.number);
   });
+}
+
+function get_assigned_orders() {
+  var $table = $('#item-table');
+  var data = [];
+  var data_fct = $('#fct').val();
+  var url = "/factories/" + data_fct + "/work_orders/query_assigned";
+  $.get(url).done(function (objs) {
+    $.each(objs, function(index, item) {
+      var id = item.id;
+
+      var button = "<button class = 'btn btn-link   worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  ' href='/factories/" + data_fct + '/work_orders/' + id + "/edit'>编辑</a>" + "<button class='btn btn-link worker-delete-btn' type='button' data-rpt='" + id + "'>删除</button>";
+
+      var feedstr = "<span class='badge text-white " + item.color + " mr-3'>" + item.state + "</span>";
+      data.push({
+        'id' : id,
+        'number' : item.number,
+        'ctg' : item.ctg,
+        'reminder' : item.reminder,
+        'content' : item.content,
+        'address' : item.address,
+        'state' : feedstr,
+        'pdt_time' : item.pdt_time,
+        'limit_time' : item.limit_time,
+        'person' : item.person,
+        'phone' : item.phone,
+        'button' : button 
+      });
+    });
+    $table.bootstrapTable('load', data);
+  })
 }
 
 function get_going_orders() {

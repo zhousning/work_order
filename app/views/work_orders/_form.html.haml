@@ -58,7 +58,7 @@
                       %td.p-2.text-center
                         = f.label Setting.work_orders.limit_time, :class => "text-center"
                       %td.p-2.text-center
-                        = f.datetime_select :limit_time, :start_year => 2023, :order => [:month, :day ], use_month_numbers: true, default: 3.days.from_now, :class => "form-control"
+                        = f.datetime_select :limit_time, :order => [:month, :day ], use_month_numbers: true, default: 3.days.from_now, :class => "form-control"
                       %td.p-2.text-center
                         = f.label Setting.work_orders.reminder, :class => "text-center"
                       %td.p-2.text-center

@@ -203,7 +203,7 @@ class WorkOrdersController < ApplicationController
    
   def query_all 
     @factory = my_factory
-    items = @factory.work_orders.where(:state => Setting.states.opening)
+    items = @factory.work_orders.where(:state => Setting.states.opening).order('created_at DESC')
    
     obj = []
     items.each do |item|
@@ -228,6 +228,34 @@ class WorkOrdersController < ApplicationController
       f.json{ render :json => obj.to_json}
     end
   end
+
+  def query_assigned
+    @factory = my_factory
+    items = @factory.work_orders.where("state = ?", Setting.states.processed)
+   
+    obj = []
+    items.each do |item|
+      state = item.task_logs.last.state
+      obj << {
+        :id => idencode(item.id),
+        :pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
+        :ctg => item.workorder_ctg.name,
+        :number => item.number,
+        :content => item.content[0..20] + '...',
+        :address => item.address,
+        :reminder => item.reminder ? '是' : '否',
+        :state => order_state(state),
+        :color => "order-" + state,
+        :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
+        :person => item.person,
+        :phone => item.phone,
+      }
+    end
+    respond_to do |f|
+      f.json{ render :json => obj.to_json}
+    end
+  end
+
 
   def query_going
     @factory = my_factory
@@ -322,6 +350,7 @@ class WorkOrdersController < ApplicationController
   
   
   def parse_excel
+    @factory = my_factory
     excel = params["excel_file"]
     tool = ExcelTool.new
     results = tool.parseExcel(excel.path)
@@ -331,8 +360,6 @@ class WorkOrdersController < ApplicationController
     c_str = "" 
     d_str = ""
     e_str = ""
-    f_str = ""
-    g_str = ""
 
     results["Sheet1"][1..-1].each do |items|
       items.each do |k, v|
@@ -346,13 +373,11 @@ class WorkOrdersController < ApplicationController
           d_str = v.nil? ? "" : v 
         elsif !(/E/ =~ k).nil?
           e_str = v.nil? ? "" : v 
-        elsif !(/F/ =~ k).nil?
-          f_str = v.nil? ? "" : v 
-        elsif !(/G/ =~ k).nil?
-          g_str = v.nil? ? "" : v 
           break
         end
       end
+      ctg = WorkorderCtg.find_by_name(a_str)
+      WorkOrder.create!(:factory => @factory, :pdt_date => Date.today, :limit_time => 3.days.from_now, :person => b_str, :phone => c_str, :address => d_str, :content => e_str, :workorder_ctg => ctg) if ctg
     end
 
     redirect_to :action => :index
