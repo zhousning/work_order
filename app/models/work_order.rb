@@ -33,6 +33,7 @@ class WorkOrder < ActiveRecord::Base
   end
 
   def processing(wx_user_id) 
+    self.update_attributes!(:state => Setting.states.processing)
     TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.processing)
   end
 
@@ -55,6 +56,7 @@ class WorkOrder < ActiveRecord::Base
   end
 
   def processed(wx_user_id)
+    self.update_attributes!(:state => Setting.states.processed)
     TaskLog.create!(:work_order => self, :wx_user_id => wx_user_id, :state => Setting.states.processed)
   end
 

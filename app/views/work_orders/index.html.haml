@@ -5,11 +5,6 @@
   .row
     = render "layouts/control_sidebar"
     %main.col-md-11.ml-sm-auto.col-lg-11.p-3{:role => "main"}
-      -#
-        - content_for :card_header do
-        %h5
-          = fa_icon "list", text: t(controller_name + "." + action_name + '.title')
-        - content_for :card_body do
       .card
         .card-body.p-0
           .container-fluid
@@ -18,14 +13,18 @@
                 = hidden_field_tag "fct", idencode(@factory.id), :class => "fct-val"
               .col-md-12
                 #toolbar.toolbar
-                  %button.button.button-primary.button-small.pull-right.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
-                    = fa_icon "plus", text: '创建工单', right: false 
-                -#, :"data-pagination"=>"true", :'data-page-size' => "15"
-                %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-toolbar' => "#toolbar", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "400", :'data-virtual-scroll' => "true"}
+                  %button.button.button-primary.button-small.mr-1{"data-target" => "#newModal", "data-toggle" => "modal", :type => "button"}
+                    = fa_icon "file-text-o", text: '创建工单', right: false 
+                  %button#start-btn.button.order-opening.text-white.button-small.mr-1{:type => "button"}
+                    = fa_icon "code-fork", text: Setting.state_tags.opening, right: false  
+                  %button#going-btn.button.order-assign.text-white.button-small.mr-1{:type => "button"}
+                    = fa_icon "clock-o", text: Setting.state_tags.processing, right: false 
+                  %button#goed-btn.button.order-processed.text-white.button-small.mr-1{:type => "button"}
+                    = fa_icon "check-square-o", text: Setting.state_tags.processed, right: false 
+                %table#item-table.text-center.table-sm{:'data-toggle' => "table", :'data-toolbar' => "#toolbar", :'data-id-table'=>"advancedTable", :"data-search" => "true",:'data-advanced-search'=>"true", :'data-height' => "400", :'data-virtual-scroll' => "true", :'data-row-style' => "rowStyle"}
                   %thead
                     %tr
-                      -#
-                        %th{:scope => "col", :'data-field' => "id"} #
+                      %th{:scope => "col", :'data-field' => "id", :'data-visible' => "false"}
 
                       %th{:scope => "col", :'data-field' => "number"}
                         = Setting.work_orders.number

@@ -66,6 +66,7 @@ Rails.application.routes.draw do
       get :download_attachment, :on => :member
       get :download_append, :on => :member
       get :query_info, :on => :member
+      get :delete_order, :on => :member
       get :query_record, :on => :member
       get :query_rate, :on => :member
       post :parse_excel, :on => :collection
@@ -74,6 +75,8 @@ Rails.application.routes.draw do
       get :process, :on => :collection
       get :complete, :on => :collection
       get :finish, :on => :member
+      get :query_going, :on => :collection
+      get :query_goed, :on => :collection
     end
     resources :devices, :only => [:index]  do
       get :query_all, :on => :collection

@@ -49,19 +49,24 @@ class WxTasksController < ApplicationController
       @order_log = OrderLog.where(:state => Setting.states.accept, :wx_user => wxuser, :work_order => @workorder).last
       img = params[:imgs].nil? ? '' : params[:imgs].join(',')
       if @order_log 
-        @order_log.update_attributes!(:feedback => params[:feedback], :content => params[:content], :img => img, :state => Setting.states.processed)
-        if @workorder.processed(wxuser.id)
-          respond_to do |f|
-            f.json{ render :json => {:state => 'success'}.to_json}
-          end
+        feedback = params[:feedback]
+        @order_log.update_attributes!(:feedback => feedback, :content => params[:content], :img => img, :state => Setting.states.processed)
+        if feedback
+          @workorder.processed(wxuser.id)
         else
-          respond_to do |f|
-            f.json{ render :json => {:state => 'error'}.to_json}
-          end
+          @workorder.unsettled(wxuser.id)
+        end
+        respond_to do |f|
+          f.json{ render :json => {:state => 'success'}.to_json}
         end
       else
         order_log = OrderLog.new(:state => Setting.states.processed, :wx_user => wxuser, :work_order => @workorder, :feedback => params[:feedback], :content => params[:content], :img => img)
-        if order_log.save && @workorder.processed(wxuser.id)
+        if order_log.save
+          if feedback
+            @workorder.processed(wxuser.id)
+          else
+            @workorder.unsettled(wxuser.id)
+          end
           respond_to do |f|
             f.json{ render :json => {:state => 'success'}.to_json}
           end
@@ -72,7 +77,6 @@ class WxTasksController < ApplicationController
         end
       end
     end
-
   end
 
 

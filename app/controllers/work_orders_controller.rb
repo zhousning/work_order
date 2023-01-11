@@ -102,6 +102,20 @@ class WorkOrdersController < ApplicationController
     redirect_to :action => :index
   end
    
+  def delete_order
+    @factory = my_factory
+    @work_order = @factory.work_orders.find(iddecode(params[:id]))
+    if @work_order.destroy
+      respond_to do |f|
+        f.json{ render :json => {:state => 'success'}.to_json}
+      end
+    else
+      respond_to do |f|
+        f.json{ render :json => {:state => 'error'}.to_json}
+      end
+    end
+  end
+
   def show
    
     @factory = my_factory
@@ -185,7 +199,34 @@ class WorkOrdersController < ApplicationController
    
   def query_all 
     @factory = my_factory
-    items = @factory.work_orders.where("state != ?", Setting.states.completed)
+    items = @factory.work_orders.where(:state => Setting.states.opening)
+   
+    obj = []
+    items.each do |item|
+      state = item.task_logs.last.state
+      obj << {
+        :id => idencode(item.id),
+        :pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
+        :ctg => item.workorder_ctg.name,
+        :number => item.number,
+        :content => item.content[0..20] + '...',
+        :address => item.address,
+        :reminder => item.reminder ? '是' : '否',
+        :state => order_state(state),
+        :color => "order-" + state,
+        :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
+        :person => item.person,
+        :phone => item.phone,
+      }
+    end
+    respond_to do |f|
+      f.json{ render :json => obj.to_json}
+    end
+  end
+
+  def query_going
+    @factory = my_factory
+    items = @factory.work_orders.where("state = ?", Setting.states.processing)
    
     obj = []
     items.each do |item|
@@ -211,11 +252,33 @@ class WorkOrdersController < ApplicationController
   end
 
 
-
+  def query_goed
+    @factory = my_factory
+    items = @factory.work_orders.where("state = ?", Setting.states.processed)
    
-   
+    obj = []
+    items.each do |item|
+      state = item.task_logs.last.state
+      obj << {
+        :id => idencode(item.id),
+        :pdt_time => item.created_at.strftime('%Y-%m-%d %H:%M'),
+        :ctg => item.workorder_ctg.name,
+        :number => item.number,
+        :content => item.content[0..20] + '...',
+        :address => item.address,
+        :reminder => item.reminder ? '是' : '否',
+        :state => order_state(state),
+        :color => "order-" + state,
+        :limit_time => item.limit_time.strftime('%Y-%m-%d %H:%M'),
+        :person => item.person,
+        :phone => item.phone,
+      }
+    end
+    respond_to do |f|
+      f.json{ render :json => obj.to_json}
+    end
+  end
 
-  
     def download_attachment 
      
       @work_order = WorkOrder.where(:user => current_user, :id => iddecode(params[:id])).first

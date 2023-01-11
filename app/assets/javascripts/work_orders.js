@@ -1,12 +1,45 @@
 $(".work_orders").ready(function() {
   if ($(".work_orders.index").length > 0) {
-    get_work_orders('work_orders');
+    get_work_orders();
     worker_order_bind_event();
+
+    $("#start-btn").click(function() {
+      get_work_orders()
+    })
+    $("#going-btn").click(function() {
+      get_going_orders()
+    })
+    $("#goed-btn").click(function() {
+      get_goed_orders()
+    })
+
+    var selectedRow = {}
+    $('#item-table').on('click-row.bs.table', function (e, row, $element) {
+      selectedRow = row
+      $('.order-index-active').removeClass('order-index-active')
+      $($element).addClass('order-index-active')
+
+      var data_id = row.id;
+      var data_fct = $('#fct').val();
+      get_task_info(data_fct, data_id);
+      get_task_record(data_fct, data_id);
+      get_task_rate(data_fct, data_id);
+    })
+    function rowStyle(row) {
+      if (row.id === selectedRow.id) {
+        return {
+          classes: 'order-index-active'
+        }
+      }
+      return {}
+    }
+
   }
   if ($(".work_orders.complete").length > 0) {
     worker_order_complete_event();
   }
 });
+
 
 function worker_order_complete_event() {
   $("#item-table").on('click', 'button.log-show-btn', function(e) {
@@ -31,15 +64,15 @@ function worker_order_bind_event() {
       alert(data.message);
     })
   })
-  $("#item-table").on('click', 'button.log-show-btn', function(e) {
-    //$('#logModal').modal();
-    var that = e.target
-    var data_id = that.dataset['rpt'];
-    var data_fct = $('#fct').val();
-    get_task_info(data_fct, data_id);
-    get_task_record(data_fct, data_id);
-    get_task_rate(data_fct, data_id);
-  });
+  //$("#item-table").on('click', 'button.log-show-btn', function(e) {
+  //  //$('#logModal').modal();
+  //  var that = e.target
+  //  var data_id = that.dataset['rpt'];
+  //  var data_fct = $('#fct').val();
+  //  get_task_info(data_fct, data_id);
+  //  get_task_record(data_fct, data_id);
+  //  get_task_rate(data_fct, data_id);
+  //});
 
   $("#item-table").on('click', 'button.worker-show-btn', function(e) {
     $('#assignModal').modal();
@@ -58,7 +91,7 @@ function worker_order_bind_event() {
       var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/finish";
       $.get(url).done(function (data) {
         if (data.state == 'success') {
-          get_work_orders('work_orders');
+          get_work_orders();
         } else {
           alert('任务处理失败');
         }
@@ -81,15 +114,19 @@ function worker_order_bind_event() {
   });
   $("#item-table").on('click', 'button.worker-delete-btn', function(e) {
     var that = e.target
-    var data_id = that.dataset['id'];
-    var url = "/grp_workers/" + data_id + "/destroy_worker";
-    $.get(url).done(function (data) {
-      if (data.state == '0') {
-        get_grp_workers('grp_workers', 'link')
-      } else {
-        alert('正在删除中');
-      }
-    });
+    var data_id = that.dataset['rpt'];
+    var data_fct = $('#fct').val();
+
+    if (confirm('确认删除吗?') == true) {
+      var url = "/factories/" + data_fct + "/work_orders/" + data_id + "/delete_order";
+      $.get(url).done(function (data) {
+        if (data.state == 'success') {
+          get_work_orders();
+        } else {
+          alert('正在删除中');
+        }
+      });
+    }
   });
 }
 
@@ -114,22 +151,22 @@ function get_wxworkers(workorderid) {
 }
 
 
-function get_work_orders(method) {
+function get_work_orders() {
   var $table = $('#item-table');
   var data = [];
   var data_fct = $('#fct').val();
-  var url = "/factories/" + data_fct + "/" + method + "/query_all";
+  var url = "/factories/" + data_fct + "/work_orders/query_all";
   $.get(url).done(function (objs) {
     $.each(objs, function(index, item) {
       var id = item.id;
 
-      var number = "<button class = 'btn btn-link log-show-btn' type = 'button' data-rpt ='" + id + "'>" + item.number + "</button>";
-      var button = "<button class = 'btn btn-link   worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  ' href='/factories/" + data_fct + '/' + method + "/" + id + "/edit'>编辑</a>" + "<button class = 'btn btn-link   worker-complete-btn' type = 'button' data-rpt ='" + id + "'>办结</button>"  + "<a data-confirm='确定删除吗?' class='btn btn-link worker-delete-btn' rel='nofollow' data-method='delete' href='/factories/" + data_fct + '/' + method + "/" + id + "'>删除</a>";
+      //var number = "<button class = 'btn btn-link log-show-btn' type = 'button' data-rpt ='" + id + "'>" + item.number + "</button>";
+      var button = "<button class = 'btn btn-link   worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  ' href='/factories/" + data_fct + '/work_orders/' + id + "/edit'>编辑</a>" + "<button class='btn btn-link worker-delete-btn' type='button' data-rpt='" + id + "'>删除</button>";
 
       var feedstr = "<span class='badge text-white " + item.color + " mr-3'>" + item.state + "</span>";
       data.push({
-        //'id' : index + 1,
-        'number' : number,
+        'id' : id,
+        'number' : item.number,
         'ctg' : item.ctg,
         'reminder' : item.reminder,
         'content' : item.content,
@@ -140,10 +177,6 @@ function get_work_orders(method) {
         'person' : item.person,
         'phone' : item.phone,
         'button' : button 
-        //'title' : item.title,
-        //'urgent' : item.urgent,
-        //'order_time' : item.order_time,
-        //'img' : item.img,
       });
     });
     $table.bootstrapTable('load', data);
@@ -203,4 +236,66 @@ function get_task_info(data_fct, data_id) {
     $("#log-day-emq-ctn").html(emq_table);
     $("#log-day-pdt-rpt-header").html(data.number);
   });
+}
+
+function get_going_orders() {
+  var $table = $('#item-table');
+  var data = [];
+  var data_fct = $('#fct').val();
+  var url = "/factories/" + data_fct + "/work_orders/query_going";
+  $.get(url).done(function (objs) {
+    $.each(objs, function(index, item) {
+      var id = item.id;
+
+      var button = "<button class = 'btn btn-link worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  ' href='/factories/" + data_fct + '/work_orders/' + id + "/edit'>编辑</a>";
+
+      var feedstr = "<span class='badge text-white " + item.color + " mr-3'>" + item.state + "</span>";
+      data.push({
+        'id' : id,
+        'number' : item.number,
+        'ctg' : item.ctg,
+        'reminder' : item.reminder,
+        'content' : item.content,
+        'address' : item.address,
+        'state' : feedstr,
+        'pdt_time' : item.pdt_time,
+        'limit_time' : item.limit_time,
+        'person' : item.person,
+        'phone' : item.phone,
+        'button' : button 
+      });
+    });
+    $table.bootstrapTable('load', data);
+  })
+}
+
+function get_goed_orders() {
+  var $table = $('#item-table');
+  var data = [];
+  var data_fct = $('#fct').val();
+  var url = "/factories/" + data_fct + "/work_orders/query_goed";
+  $.get(url).done(function (objs) {
+    $.each(objs, function(index, item) {
+      var id = item.id;
+
+      var button = "<button class = 'btn btn-link   worker-show-btn' type = 'button' data-rpt ='" + id + "'>分配工单</button>" + "<a class=' btn btn-link  ' href='/factories/" + data_fct + '/work_orders/' + id + "/edit'>编辑</a>" + "<button class = 'btn btn-link   worker-complete-btn' type = 'button' data-rpt ='" + id + "'>办结</button>";
+
+      var feedstr = "<span class='badge text-white " + item.color + " mr-3'>" + item.state + "</span>";
+      data.push({
+        'id' : id,
+        'number' : item.number,
+        'ctg' : item.ctg,
+        'reminder' : item.reminder,
+        'content' : item.content,
+        'address' : item.address,
+        'state' : feedstr,
+        'pdt_time' : item.pdt_time,
+        'limit_time' : item.limit_time,
+        'person' : item.person,
+        'phone' : item.phone,
+        'button' : button 
+      });
+    });
+    $table.bootstrapTable('load', data);
+  })
 }
